@@ -5,6 +5,7 @@
   "scripts": {
     "dev:start": "nodemon server.js"
   },
+  "type": "module",
   "repository": "github:johnnygerard/FlashX",
   "author": "Johnny Gérard",
   "license": "MIT",
