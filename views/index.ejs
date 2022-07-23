@@ -3,13 +3,21 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-  <title>FlashX | <%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlashX | <%= title %>
+  </title>
 </head>
 
 <body>
-  <p>hello world</p>
+  <form action="/register" method="post">
+    <label>Username
+      <input name="username" autocomplete="username" required autofocus>
+    </label>
+    <label>Password
+      <input name="password" autocomplete="password" required>
+    </label>
+    <button>Sign up</button>
+  </form>
 </body>
 
 </html>
