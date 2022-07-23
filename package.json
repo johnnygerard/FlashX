@@ -10,8 +10,9 @@
   "author": "Johnny Gérard",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/johnnygerard/FlashX/issues"
-  },
+    "url": "https://github.com/johnnygerard/FlashX/issues",
+    "email": "johnnygerard_id@protonmail.com"
+},
   "homepage": "https://github.com/johnnygerard/FlashX#readme",
   "dependencies": {
     "express": "^4.18.1",
