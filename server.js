@@ -8,8 +8,10 @@ const app = express();
 const port = env.PORT || 3000;
 const host = 'localhost';
 
+app.set('view engine', 'ejs');
+
 app.get('/', (req, res, next) => {
-    res.send('hello world');
+    res.render('index', { title: 'Homepage' });
 });
 
 app.listen(port, host, () => {
