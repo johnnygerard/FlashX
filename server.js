@@ -36,43 +36,42 @@ const KDF = 'sha3-256'; // key derivation function
 const KEY_BYTE_LENGTH = 14;
 const SALT_BYTE_LENGTH = 16;
 
-app.post('/register', (req, res, next) => {
-    async function run() {
-        try {
-            const users = client.db('user').collection('users');
+app.post('/register', async (req, res, next) => {
+    try {
+        const users = client.db('user').collection('users');
 
-            if (await users.findOne({ _id: req.body.username })) {
-                console.log(`${req.body.username} not available`)
-                res.redirect('/');
-                return;
-            }
-
-            const salt = await new Promise((resolve, reject) => {
-                crypto.randomBytes(SALT_BYTE_LENGTH, (err, salt) => {
-                    if (err) reject(err);
-                    else resolve(salt);
-                });
-            });
-
-            const derivedKey = await new Promise((resolve, reject) => {
-                crypto.pbkdf2(req.body.password, salt, ITERATIONS, KEY_BYTE_LENGTH,
-                    KDF, (err, derivedKey) => {
-                        if (err) reject(err);
-                        else resolve(derivedKey);
-                    });
-            });
-
-            await users.insertOne({
-                _id: req.body.username,
-                salt,
-                derivedKey
-            });
+        if (await users.findOne({ _id: req.body.username })) {
+            console.log(`${req.body.username} not available`)
             res.redirect('/');
-        } finally {
-            await client.close();
+            return;
         }
+
+        const salt = await new Promise((resolve, reject) => {
+            crypto.randomBytes(SALT_BYTE_LENGTH, (err, salt) => {
+                if (err) reject(err);
+                else resolve(salt);
+            });
+        });
+
+        const derivedKey = await new Promise((resolve, reject) => {
+            crypto.pbkdf2(req.body.password, salt, ITERATIONS, KEY_BYTE_LENGTH,
+                KDF, (err, derivedKey) => {
+                    if (err) reject(err);
+                    else resolve(derivedKey);
+                });
+        });
+
+        await users.insertOne({
+            _id: req.body.username,
+            salt,
+            derivedKey
+        });
+        res.redirect('/');
+    } catch (err) {
+        next(err);
+    } finally {
+        await client.close();
     }
-    run().catch(next);
 });
 
 app.listen(PORT, HOST, () => {
