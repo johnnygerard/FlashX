@@ -1,0 +1,53 @@
+### Account management
+
+create user account
+    strong password
+    unique id
+    limit: 1000
+
+login
+logout
+
+modify password
+
+delete user account
+
+### flashcard management
+
+create/delete a fset
+    limit: 32
+
+name/rename a fset (unique name)
+
+create/delete a flashcard into/from a fset
+    set question
+    set answer
+    size limit: 256B
+    limit: 64
+
+modify flashcard question/answer
+
+### flashcards usage
+
+select fset
+press play
+repeat n times (n is the size of fset):
+    read question
+    give answer
+    check answer (if wrong show answer)
+    get next question (random or predefined order)
+get score report (stats)
+
+### Pages
+
+Home
+    Login -> Flashcard Manager
+    Register -> Flashcard Manager
+    About
+
+Flashcard Manager
+NotFound
+NotAuthorized
+User account settings
+About
+
