@@ -38,6 +38,7 @@ const SALT_BYTE_LENGTH = 16;
 
 app.post('/register', async (req, res, next) => {
     try {
+        await client.connect();
         const users = client.db('user').collection('users');
 
         if (await users.findOne({ _id: req.body.username })) {
