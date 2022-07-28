@@ -36,7 +36,26 @@ const KDF = 'sha3-256'; // key derivation function
 const KEY_BYTE_LENGTH = 14;
 const SALT_BYTE_LENGTH = 16;
 
+const validateUsername = username => typeof username === 'string' &&
+    /^[!-~]{1,128}$/.test(username);
+
+const validatePassword = password => typeof password === 'string' &&
+    /^(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]{11,128}$/
+        .test(password);
+
 app.post('/register', async (req, res, next) => {
+    if (!validateUsername(req.body.username)) {
+        console.log('invalid username');
+        res.redirect('/');
+        return;
+    }
+
+    if (!validatePassword(req.body.password)) {
+        console.log('invalid password');
+        res.redirect('/');
+        return;
+    }
+    
     try {
         await client.connect();
         const users = client.db('user').collection('users');
