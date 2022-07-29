@@ -25,9 +25,14 @@ const client = new MongoClient(URI, {
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
+app.locals = { validationMessage: undefined };
 
 app.get('/', (req, res, next) => {
-    res.render('index', { title: 'Homepage' });
+    res.render('index');
+});
+
+app.get('/register', (req, res, next) => {
+    res.render('register');
 });
 
 // values based on NIST recommendations
@@ -45,24 +50,24 @@ const validatePassword = password => typeof password === 'string' &&
 
 app.post('/register', async (req, res, next) => {
     if (!validateUsername(req.body.username)) {
-        console.log('invalid username');
-        res.redirect('/');
+        res.render('register', { validationMessage: 'Invalid username' });
         return;
     }
 
     if (!validatePassword(req.body.password)) {
-        console.log('invalid password');
-        res.redirect('/');
+        res.render('register', { validationMessage: 'Invalid password' });
         return;
     }
-    
+
     try {
         await client.connect();
         const users = client.db('user').collection('users');
 
         if (await users.findOne({ _id: req.body.username })) {
-            console.log(`${req.body.username} not available`)
-            res.redirect('/');
+            res.render('register', {
+                validationMessage: `Sorry, the username "${req.body.username}"\
+ is not available.`
+            });
             return;
         }
 
