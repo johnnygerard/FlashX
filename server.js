@@ -35,6 +35,10 @@ app.get('/register', (req, res, next) => {
     res.render('register');
 });
 
+app.get('/login', (req, res, next) => {
+    res.render('login');
+});
+
 // values based on NIST recommendations
 const ITERATIONS = 1000;
 const KDF = 'sha3-256'; // key derivation function
