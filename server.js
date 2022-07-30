@@ -1,31 +1,15 @@
 import express from 'express';
 import crypto from 'crypto';
 import { env } from 'process';
-import { MongoClient, ServerApiVersion } from 'mongodb';
-
-if (env.NODE_ENV !== 'production')
-    await import('dotenv/config');
+import client from './MongoClient.js';
 
 const app = express();
 const PORT = env.PORT || 3000;
 const HOST = 'localhost';
 
-const DB_USER = encodeURIComponent(env.DB_USER);
-const DB_PASSWORD = encodeURIComponent(env.DB_PASSWORD);
-
-// defaults: admin database, port 27017
-const AUTHORITY = `${DB_USER}:${DB_PASSWORD}@${env.DB_HOST}`;
-const URI = `mongodb+srv://${AUTHORITY}/?retryWrites=true&w=majority`;
-
-const client = new MongoClient(URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverApi: ServerApiVersion.v1
-});
-
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: false }));
 app.locals = { validationMessage: undefined };
+app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (req, res, next) => {
     res.render('index');
