@@ -110,7 +110,8 @@ app.post('/register', async (req, res, next) => {
         await users.insertOne({
             _id: req.body.username,
             salt,
-            derivedKey
+            derivedKey,
+            creationDate: new Date
         });
         res.redirect('/');
     } catch (err) {
