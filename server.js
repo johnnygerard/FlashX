@@ -96,16 +96,14 @@ app.post('/register', async (req, res, next) => {
 
         const salt = await new Promise((resolve, reject) => {
             crypto.randomBytes(SALT_BYTE_LENGTH, (err, salt) => {
-                if (err) reject(err);
-                else resolve(salt);
+                if (err) reject(err); else resolve(salt);
             });
         });
 
         const derivedKey = await new Promise((resolve, reject) => {
             crypto.pbkdf2(req.body.password, salt, ITERATIONS, KEY_BYTE_LENGTH,
                 KDF, (err, derivedKey) => {
-                    if (err) reject(err);
-                    else resolve(derivedKey);
+                    if (err) reject(err); else resolve(derivedKey);
                 });
         });
 
