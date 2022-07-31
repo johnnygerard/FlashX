@@ -111,7 +111,7 @@ app.post('/register', async (req, res, next) => {
             _id: req.body.username,
             salt,
             derivedKey,
-            creationDate: new Date
+            registrationDate: new Date
         });
         res.redirect('/');
     } catch (err) {
