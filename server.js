@@ -1,13 +1,18 @@
 import express from 'express';
+import session from 'express-session';
 import crypto from 'crypto';
 import { env } from 'process';
 import client from './MongoClient.js';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 
+if (env.NODE_ENV !== 'production')
+    await import('dotenv/config');
+
 const app = express();
 const PORT = env.PORT || 3000;
 const HOST = 'localhost';
+const loginRedirect = '/account';
 
 // values based on NIST recommendations
 const ITERATIONS = 1000;
@@ -49,8 +54,33 @@ passport.use(new LocalStrategy(async (username, password, done) => {
 }));
 
 app.set('view engine', 'ejs');
-app.locals = { validationMessage: undefined };
+app.locals = {
+    validationMessage: undefined
+};
 app.use(express.urlencoded({ extended: false }));
+app.use(session({
+    cookie: {
+        // using default domain
+        path: '/',
+        maxAge: 1000 * 60 * 60 * 24 * 10,
+        httpOnly: true,
+        secure: env.NODE_ENV === 'production' ? true : false,
+        sameSite: 'lax'
+    },
+    resave: false,
+    saveUninitialized: false,
+    secret: env.SESSION_SECRET
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, done) => {
+    done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+    done(null, id);
+});
 
 app.get('/', (req, res, next) => {
     res.render('index');
@@ -62,6 +92,14 @@ app.get('/register', (req, res, next) => {
 
 app.get('/login', (req, res, next) => {
     res.render('login');
+});
+
+const isAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) next(); else res.redirect('/login');
+};
+
+app.get('/account', isAuthenticated, (req, res, next) => {
+    res.render('account', { user: req.user });
 });
 
 const validateUsername = username => typeof username === 'string' &&
@@ -107,19 +145,30 @@ app.post('/register', async (req, res, next) => {
                 });
         });
 
-        await users.insertOne({
+        const user = {
             _id: req.body.username,
             salt,
             derivedKey,
             registrationDate: new Date
+        };
+
+        await users.insertOne(user);
+        req.login(user, err => {
+            if (err) next(err); else res.redirect(loginRedirect);
         });
-        res.redirect('/');
     } catch (err) {
         next(err);
     } finally {
         await client.close();
     }
 });
+
+app.post('/login', passport.authenticate('local', {
+    successRedirect: loginRedirect,
+    successMessage: true,
+    failureRedirect: '/login',
+    failureMessage: true
+}));
 
 app.listen(PORT, HOST, () => {
     console.log(`Server listening at: http://${HOST}:${PORT}`);
