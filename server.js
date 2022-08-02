@@ -33,13 +33,13 @@ passport.use(new LocalStrategy(async (username, password, done) => {
         }
 
         const derivedKey = await new Promise((resolve, reject) => {
-            crypto.pbkdf2(password, user.salt, ITERATIONS, KEY_BYTE_LENGTH,
+            crypto.pbkdf2(password, user.salt.buffer, ITERATIONS, KEY_BYTE_LENGTH,
                 KDF, (err, derivedKey) => {
                     if (err) reject(err); else resolve(derivedKey);
                 });
         });
 
-        if (derivedKey.equals(user.derivedKey)) {
+        if (derivedKey.equals(user.derivedKey.buffer)) {
             console.log('good password');
             done(null, user);
         } else {
