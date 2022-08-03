@@ -20,6 +20,17 @@ const KDF = 'sha3-256'; // key derivation function
 const KEY_BYTE_LENGTH = 14;
 const SALT_BYTE_LENGTH = 16;
 
+const isAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) next(); else res.redirect('/login');
+};
+
+const validateUsername = username => typeof username === 'string' &&
+    /^[!-~]{1,128}$/.test(username);
+
+const validatePassword = password => typeof password === 'string' &&
+    /^(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]{11,128}$/
+        .test(password);
+
 passport.use(new LocalStrategy(async (username, password, done) => {
     try {
         await client.connect();
@@ -90,25 +101,6 @@ app.get('/register', (req, res, next) => {
     res.render('register');
 });
 
-app.get('/login', (req, res, next) => {
-    res.render('login');
-});
-
-const isAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) next(); else res.redirect('/login');
-};
-
-app.get('/account', isAuthenticated, (req, res, next) => {
-    res.render('account', { user: req.user });
-});
-
-const validateUsername = username => typeof username === 'string' &&
-    /^[!-~]{1,128}$/.test(username);
-
-const validatePassword = password => typeof password === 'string' &&
-    /^(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]{11,128}$/
-        .test(password);
-
 app.post('/register', async (req, res, next) => {
     if (!validateUsername(req.body.username)) {
         res.render('register', { validationMessage: 'Invalid username' });
@@ -163,12 +155,20 @@ app.post('/register', async (req, res, next) => {
     }
 });
 
+app.get('/login', (req, res, next) => {
+    res.render('login');
+});
+
 app.post('/login', passport.authenticate('local', {
     successRedirect: loginRedirect,
     successMessage: true,
     failureRedirect: '/login',
     failureMessage: true
 }));
+
+app.get('/account', isAuthenticated, (req, res, next) => {
+    res.render('account', { user: req.user });
+});
 
 app.listen(PORT, HOST, () => {
     console.log(`Server listening at: http://${HOST}:${PORT}`);
