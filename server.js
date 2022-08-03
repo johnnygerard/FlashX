@@ -2,7 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
 import { env } from 'process';
-import client from './MongoClient.js';
+import client, { sessionStore, SESSION_LIFETIME } from './MongoClient.js';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 
@@ -73,13 +73,14 @@ app.use(session({
     cookie: {
         // using default domain
         path: '/',
-        maxAge: 1000 * 60 * 60 * 24 * 10,
+        maxAge: SESSION_LIFETIME,
         httpOnly: true,
         secure: env.NODE_ENV === 'production' ? true : false,
         sameSite: 'lax'
     },
     resave: false,
     saveUninitialized: false,
+    store: sessionStore,
     secret: env.SESSION_SECRET
 }));
 app.use(passport.initialize());
