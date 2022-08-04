@@ -167,6 +167,13 @@ app.post('/login', passport.authenticate('local', {
     failureMessage: true
 }));
 
+app.delete('/logOut', (req, res, next) => {
+    if (req.isAuthenticated())
+        req.logOut(err => { if (err) next(err); else redirect('/'); });
+    else
+        redirect('/');
+});
+
 app.get('/account', isAuthenticated, (req, res, next) => {
     res.render('account', { user: req.user });
 });
