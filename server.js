@@ -66,7 +66,7 @@ passport.use(new LocalStrategy(async (username, password, done) => {
 }));
 
 app.set('view engine', 'ejs');
-const viewOptions = { root: 'views' };
+const viewOptions = { root: 'views/included' };
 app.engine('ejs', (path, data, cb) => {
     ejs.renderFile(path, data, viewOptions, cb);
 });
