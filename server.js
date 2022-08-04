@@ -22,7 +22,7 @@ const KEY_BYTE_LENGTH = 14;
 const SALT_BYTE_LENGTH = 16;
 
 const isAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) next(); else res.redirect('/login');
+    if (req.isAuthenticated()) next(); else res.redirect('/logIn');
 };
 
 const validateUsername = username => typeof username === 'string' &&
@@ -146,7 +146,7 @@ app.post('/register', async (req, res, next) => {
         };
 
         await users.insertOne(user);
-        req.login(user, err => {
+        req.logIn(user, err => {
             if (err) next(err); else res.redirect(loginRedirect);
         });
     } catch (err) {
@@ -156,14 +156,14 @@ app.post('/register', async (req, res, next) => {
     }
 });
 
-app.get('/login', (req, res, next) => {
-    res.render('login');
+app.get('/logIn', (req, res, next) => {
+    res.render('logIn');
 });
 
-app.post('/login', passport.authenticate('local', {
+app.post('/logIn', passport.authenticate('local', {
     successRedirect: loginRedirect,
     successMessage: true,
-    failureRedirect: '/login',
+    failureRedirect: '/logIn',
     failureMessage: true
 }));
 
