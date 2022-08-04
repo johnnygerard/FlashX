@@ -5,6 +5,7 @@ import { env } from 'process';
 import client, { sessionStore, SESSION_LIFETIME } from './MongoClient.js';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
+import ejs from 'ejs';
 
 if (env.NODE_ENV !== 'production')
     await import('dotenv/config');
@@ -65,6 +66,11 @@ passport.use(new LocalStrategy(async (username, password, done) => {
 }));
 
 app.set('view engine', 'ejs');
+const viewOptions = { root: 'views' };
+app.engine('ejs', (path, data, cb) => {
+    ejs.renderFile(path, data, viewOptions, cb);
+});
+
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
     cookie: {
