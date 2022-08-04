@@ -65,9 +65,6 @@ passport.use(new LocalStrategy(async (username, password, done) => {
 }));
 
 app.set('view engine', 'ejs');
-app.locals = {
-    validationMessage: undefined
-};
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
     cookie: {
@@ -103,13 +100,10 @@ app.get('/register', (req, res, next) => {
 });
 
 app.post('/register', async (req, res, next) => {
-    if (!validateUsername(req.body.username)) {
-        res.render('register', { validationMessage: 'Invalid username' });
-        return;
-    }
-
-    if (!validatePassword(req.body.password)) {
-        res.render('register', { validationMessage: 'Invalid password' });
+    if (!validateUsername(req.body.username) || !validatePassword(req.body.password)) {
+        console.error('Server side validation failure');
+        console.error(req.body);
+        res.sendStatus(400);
         return;
     }
 
