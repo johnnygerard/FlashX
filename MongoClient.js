@@ -24,7 +24,6 @@ const SESSION_LIFETIME = 1000 * 60 * 60 * 24 * 10; // 10 days in ms
 const sessionStore = new MongoDBStore({
     uri: URI,
     databaseName: 'user',
-    collection: 'sessions',
     expires: SESSION_LIFETIME
 }, err => {
     if (err) {
