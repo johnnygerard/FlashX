@@ -169,9 +169,9 @@ app.post('/logIn', passport.authenticate('local', {
 
 app.delete('/logOut', (req, res, next) => {
     if (req.isAuthenticated())
-        req.logOut(err => { if (err) next(err); else redirect('/'); });
+        req.logOut(err => { if (err) next(err); else res.redirect('/'); });
     else
-        redirect('/');
+        res.redirect('/');
 });
 
 app.get('/account', isAuthenticated, (req, res, next) => {
