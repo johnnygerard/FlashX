@@ -98,11 +98,11 @@ passport.deserializeUser((id, done) => {
 });
 
 app.get('/', (req, res, next) => {
-    res.render('index');
+    res.render('index', { authenticated: req.isAuthenticated() });
 });
 
 app.get('/register', (req, res, next) => {
-    res.render('register');
+    res.render('register', { authenticated: req.isAuthenticated() });
 });
 
 app.post('/register', async (req, res, next) => {
@@ -118,10 +118,7 @@ app.post('/register', async (req, res, next) => {
         const users = client.db('user').collection('users');
 
         if (await users.findOne({ _id: req.body.username })) {
-            res.render('register', {
-                validationMessage: `Sorry, the username "${req.body.username}"\
- is not available.`
-            });
+            res.redirect(303, '/register');
             return;
         }
 
@@ -147,7 +144,7 @@ app.post('/register', async (req, res, next) => {
 
         await users.insertOne(user);
         req.logIn(user, err => {
-            if (err) next(err); else res.redirect(loginRedirect);
+            if (err) next(err); else res.redirect(303, loginRedirect);
         });
     } catch (err) {
         next(err);
@@ -157,7 +154,7 @@ app.post('/register', async (req, res, next) => {
 });
 
 app.get('/logIn', (req, res, next) => {
-    res.render('logIn');
+    res.render('logIn', { authenticated: req.isAuthenticated() });
 });
 
 app.post('/logIn', passport.authenticate('local', {
@@ -177,7 +174,10 @@ app.delete('/logOut', (req, res, next) => {
 });
 
 app.get('/account', isAuthenticated, (req, res, next) => {
-    res.render('account', { user: req.user });
+    res.render('account', {
+        user: req.user,
+        authenticated: true
+    });
 });
 
 app.listen(PORT, HOST, () => {
