@@ -1,18 +1,25 @@
 <nav>
   <a href="/">Home</a>
   <a href="account">Account</a>
+  <% if (authenticated) { %>
+
+  <button type="button" onclick="
+      fetch('/logOut', { method: 'DELETE' }).then(response => {
+        if (response.status === 204)
+          location.pathname = '/';
+        else {
+          response.text().then(console.error);
+          alert('Logout operation failed.');
+        }
+      }).catch(err => {
+        console.error(err);
+        alert('Network error');
+      });">Log out</button>
+
+  <% } else { %>
+
   <a href="logIn">Log in</a>
   <a href="register">Sign up</a>
-  <button type="button" onclick="
-    fetch('/logOut', { method: 'DELETE' }).then(response => {
-      if (response.status === 204)
-        location.pathname = '/';
-      else {
-        response.text().then(console.error);
-        alert('Logout operation failed.');
-      }
-    }).catch(err => {
-      console.error(err);
-      alert('Network error');
-    });">Log out</button>
+  
+  <% } %>
 </nav>
