@@ -28,10 +28,10 @@ const isAuthenticated = (req, res, next) => {
     else res.redirect(unauthenticatedRedirect);
 };
 
-const validateUsername = username => typeof username === 'string' &&
+const usernameIsValid = username => typeof username === 'string' &&
     /^[!-~]{1,128}$/.test(username);
 
-const validatePassword = password => typeof password === 'string' &&
+const passwordIsValid = password => typeof password === 'string' &&
     /^(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]{11,128}$/
         .test(password);
 
@@ -112,7 +112,8 @@ app.get('/account', isAuthenticated, (req, res, next) => {
 });
 
 app.post('/register', async (req, res, next) => {
-    if (!validateUsername(req.body.username) || !validatePassword(req.body.password)) {
+    if (!usernameIsValid(req.body.username) ||
+        !passwordIsValid(req.body.password)) {
         console.error('Server side validation failure');
         console.error(req.body);
         res.sendStatus(400);
