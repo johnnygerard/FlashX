@@ -13,7 +13,9 @@ if (env.NODE_ENV !== 'production')
 const app = express();
 const PORT = env.PORT || 3000;
 const HOST = 'localhost';
-const loginRedirect = '/account';
+const authenticatedRedirect = '/account';
+const unauthenticatedRedirect = '/';
+const registrationFailureRedirect = '/';
 
 // values based on NIST recommendations
 const ITERATIONS = 1000;
@@ -22,7 +24,8 @@ const KEY_BYTE_LENGTH = 14;
 const SALT_BYTE_LENGTH = 16;
 
 const isAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) next(); else res.redirect('/logIn');
+    if (req.isAuthenticated()) next();
+    else res.redirect(unauthenticatedRedirect);
 };
 
 const validateUsername = username => typeof username === 'string' &&
@@ -101,8 +104,11 @@ app.get('/', (req, res, next) => {
     res.render('index', { authenticated: req.isAuthenticated() });
 });
 
-app.get('/register', (req, res, next) => {
-    res.render('register', { authenticated: req.isAuthenticated() });
+app.get('/account', isAuthenticated, (req, res, next) => {
+    res.render('account', {
+        user: req.user,
+        authenticated: true
+    });
 });
 
 app.post('/register', async (req, res, next) => {
@@ -118,7 +124,8 @@ app.post('/register', async (req, res, next) => {
         const users = client.db('user').collection('users');
 
         if (await users.findOne({ _id: req.body.username })) {
-            res.redirect(303, '/register');
+            // username not available
+            res.redirect(303, registrationFailureRedirect);
             return;
         }
 
@@ -144,7 +151,7 @@ app.post('/register', async (req, res, next) => {
 
         await users.insertOne(user);
         req.logIn(user, err => {
-            if (err) next(err); else res.redirect(303, loginRedirect);
+            if (err) next(err); else res.redirect(303, authenticatedRedirect);
         });
     } catch (err) {
         next(err);
@@ -153,14 +160,10 @@ app.post('/register', async (req, res, next) => {
     }
 });
 
-app.get('/logIn', (req, res, next) => {
-    res.render('logIn', { authenticated: req.isAuthenticated() });
-});
-
 app.post('/logIn', passport.authenticate('local', {
-    successRedirect: loginRedirect,
+    successRedirect: authenticatedRedirect,
     successMessage: true,
-    failureRedirect: '/logIn',
+    failureRedirect: unauthenticatedRedirect,
     failureMessage: true
 }));
 
@@ -171,13 +174,6 @@ app.delete('/logOut', (req, res, next) => {
         });
     else
         res.status(204).end();
-});
-
-app.get('/account', isAuthenticated, (req, res, next) => {
-    res.render('account', {
-        user: req.user,
-        authenticated: true
-    });
 });
 
 app.listen(PORT, HOST, () => {

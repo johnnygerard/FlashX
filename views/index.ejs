@@ -9,6 +9,75 @@
 
 <body>
   <%- include('/nav', { authenticated }) %>
+
+  <% if (!authenticated) { %>
+
+  <form action="/login" method="post">
+    <label>Username
+      <input name="username" autocomplete="username" required autofocus>
+    </label>
+    <label>Password
+      <input name="password" autocomplete="current-password" required>
+    </label>
+    <button>Log in</button>
+  </form>
+
+  <form action="/register" method="post">
+    <label>Username
+      <input name="username" autocomplete="username" required autofocus
+          maxlength="128" pattern="[!-~]*">
+    </label>
+    <script>
+      {
+        const username = document.querySelector('input[name=username]');
+
+        username.addEventListener('input', event => {
+          const validity = username.validity;
+          const message =
+            validity.tooLong ? 'Maximum length is 128' :
+              validity.patternMismatch ? `Forbidden:
+            spaces
+            control characters
+            non-ascii characters` : '';
+
+          username.setCustomValidity(message);
+        });
+      }
+    </script>
+    <label>Password
+      <input name="password" autocomplete="new-password" minlength="11"
+          pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
+          maxlength="128" required>
+    </label>
+    <script>
+      {
+        const password = document.querySelector('input[name=password]');
+
+        password.addEventListener('input', event => {
+          const validity = password.validity;
+          const message =
+            validity.tooShort ? 'Minimum length is 11' :
+              validity.tooLong ? 'Maximum length is 128' :
+                validity.patternMismatch ? `Required:
+    1 small letter
+    1 capital letter
+    1 digit
+    1 symbol
+    
+    Forbidden:
+    spaces
+    control characters
+    non-ascii characters` : '';
+
+          password.setCustomValidity(message);
+        });
+      }
+    </script>
+    <button>Sign up</button>
+  </form>
+
+  <% } %>
+
 </body>
 
 </html>
