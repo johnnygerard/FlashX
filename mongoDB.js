@@ -34,5 +34,4 @@ const sessionStore = new MongoDBStore({
 
 sessionStore.on('error', console.error);
 
-export { sessionStore, SESSION_LIFETIME };
-export default client;
+export { client, sessionStore, SESSION_LIFETIME };
