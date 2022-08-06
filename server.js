@@ -2,7 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
 import { env } from 'process';
-import client, { sessionStore, SESSION_LIFETIME } from './MongoClient.js';
+import client, { sessionStore, SESSION_LIFETIME } from './mongoDB.js';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import ejs from 'ejs';
