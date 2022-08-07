@@ -28,12 +28,23 @@ const isAuthenticated = (req, res, next) => {
     else res.redirect(unauthenticatedRedirect);
 };
 
-const usernameIsValid = username => typeof username === 'string' &&
-    /^[!-~]{1,128}$/.test(username);
+const usernameRegExp = /^[!-~]{1,128}$/;
 
-const passwordIsValid = password => typeof password === 'string' &&
-    /^(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]{11,128}$/
-        .test(password);
+/*  /^
+    (?=.*?\d)
+    (?=.*?[a-z])
+    (?=.*?[A-Z])
+    (?=.*?[!-/:-@[-`{-~])
+    [!-~]{11,128}
+    $/                              */
+const passwordRegExp =
+    /^(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]{11,128}$/;
+
+const usernameIsValid = username =>
+    typeof username === 'string' && usernameRegExp.test(username);
+
+const passwordIsValid = password =>
+    typeof password === 'string' && passwordRegExp.test(password);
 
 passport.use(new LocalStrategy(async (username, password, done) => {
     try {
