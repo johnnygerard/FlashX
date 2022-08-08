@@ -128,7 +128,9 @@ app.get('/account', isAuthenticated, (req, res, next) => {
 });
 
 app.post('/register', async (req, res, next) => {
-    if (!usernameIsValid(req.body.username) ||
+    const _id = req.body.username;
+
+    if (!usernameIsValid(_id) ||
         !passwordIsValid(req.body.password)) {
         console.error('Server side validation failure');
         console.error(req.body);
@@ -140,8 +142,8 @@ app.post('/register', async (req, res, next) => {
         await client.connect();
         const users = client.db('user').collection('users');
 
-        if (await users.findOne({ _id: req.body.username })) {
-            req.flash(`This username (${req.body.username}) is not available.`);
+        if (await users.findOne({ _id })) {
+            req.flash(`This username (${_id}) is not available.`);
             res.redirect(303, registrationFailureRedirect);
             return;
         }
@@ -160,7 +162,7 @@ app.post('/register', async (req, res, next) => {
         });
 
         const user = {
-            _id: req.body.username,
+            _id,
             salt,
             derivedKey,
             registrationDate: new Date
