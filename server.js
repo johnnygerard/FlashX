@@ -92,7 +92,7 @@ app.use(session({
         path: '/',
         maxAge: SESSION_LIFETIME,
         httpOnly: true,
-        secure: env.NODE_ENV === 'production' ? true : false,
+        secure: env.NODE_ENV === 'production',
         sameSite: 'lax'
     },
     resave: false,
