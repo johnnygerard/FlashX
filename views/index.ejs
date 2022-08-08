@@ -12,6 +12,9 @@
 
   <% if (!authenticated) { %>
 
+  <% for (const { message } of flash) { %>
+  <p><%= message %></p>
+  <% } %>
   <form action="/login" method="post">
     <label>Username
       <input name="username" autocomplete="username" required autofocus>

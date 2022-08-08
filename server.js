@@ -6,6 +6,7 @@ import { client, sessionStore, SESSION_LIFETIME } from './mongoDB.js';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import ejs from 'ejs';
+import flash from 'flash';
 
 if (env.NODE_ENV !== 'production')
     await import('dotenv/config');
@@ -53,8 +54,9 @@ passport.use(new LocalStrategy(async (username, password, done) => {
         const user = await users.findOne({ _id: username });
 
         if (!user) {
-            console.log('user non existent');
-            done(null, false);
+            done(null, false, {
+                message: `This username (${username}) does not exist.`
+            });
             return;
         }
 
@@ -66,11 +68,9 @@ passport.use(new LocalStrategy(async (username, password, done) => {
         });
 
         if (derivedKey.equals(user.derivedKey.buffer)) {
-            console.log('good password');
             done(null, user);
         } else {
-            console.log('wrong password');
-            done(null, false);
+            done(null, false, { message: 'Your password is invalid.' });
         }
     } catch (err) {
         done(err);
@@ -110,6 +110,11 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash(), (req, res, next) => {
+    if (req.session.flash.length)
+        req.session.flash = [];
+    next();
+});
 
 app.get('/', (req, res, next) => {
     res.render('index', { authenticated: req.isAuthenticated() });
@@ -136,7 +141,7 @@ app.post('/register', async (req, res, next) => {
         const users = client.db('user').collection('users');
 
         if (await users.findOne({ _id: req.body.username })) {
-            // username not available
+            req.flash(`This username (${req.body.username}) is not available.`);
             res.redirect(303, registrationFailureRedirect);
             return;
         }
@@ -174,9 +179,9 @@ app.post('/register', async (req, res, next) => {
 
 app.post('/logIn', passport.authenticate('local', {
     successRedirect: authenticatedRedirect,
-    successMessage: true,
+    successFlash: true,
     failureRedirect: unauthenticatedRedirect,
-    failureMessage: true
+    failureFlash: true
 }));
 
 app.delete('/logOut', (req, res, next) => {
