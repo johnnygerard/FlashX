@@ -79,6 +79,14 @@ passport.use(new LocalStrategy(async (username, password, done) => {
     }
 }));
 
+passport.serializeUser((user, done) => {
+    done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+    done(null, id);
+});
+
 app.set('view engine', 'ejs');
 const viewOptions = { root: 'views/partials' };
 app.engine('ejs', (path, data, cb) => {
@@ -102,14 +110,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-passport.serializeUser((user, done) => {
-    done(null, user._id);
-});
-
-passport.deserializeUser((id, done) => {
-    done(null, id);
-});
 
 app.get('/', (req, res, next) => {
     res.render('index', { authenticated: req.isAuthenticated() });
