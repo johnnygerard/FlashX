@@ -3,6 +3,14 @@ import { client } from './mongoDB.js';
 
 const router = express.Router();
 
+class FlashcardSet {
+    flashcards = [];
+
+    constructor(name) {
+        this.name = name;
+    }
+}
+
 // Create one flashcard set
 router.post('/fset', async (req, res, next) => {
     try {
@@ -10,12 +18,7 @@ router.post('/fset', async (req, res, next) => {
         const users = client.db('user').collection('users');
 
         await users.updateOne({ _id: req.user }, {
-            $push: {
-                fsets: {
-                    flashcards: [],
-                    name: req.query.name
-                }
-            }
+            $push: { fsets: new FlashcardSet(req.query.name) }
         });
         res.status(204).end();
     } catch (err) {
