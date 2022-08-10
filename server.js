@@ -7,6 +7,7 @@ import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import ejs from 'ejs';
 import flash from 'flash';
+import api from './api.js';
 
 if (env.NODE_ENV !== 'production')
     await import('dotenv/config');
@@ -87,6 +88,15 @@ passport.deserializeUser((id, done) => {
     done(null, id);
 });
 
+app.set('query parser', query => {
+    const parser = new URLSearchParams(query);
+    const params = {};
+
+    for (const [key, value] of parser.entries())
+        params[key] = value;
+
+    return params;
+});
 app.set('view engine', 'ejs');
 const viewOptions = { root: 'views/partials' };
 app.engine('ejs', (path, data, cb) => {
@@ -115,6 +125,10 @@ app.use(flash(), (req, res, next) => {
         req.session.flash = [];
     next();
 });
+app.use('/api', (req, res, next) => {
+    if (req.isAuthenticated()) next();
+    else res.status(403).end();
+}, api);
 
 app.get('/', (req, res, next) => {
     res.render('index', { authenticated: req.isAuthenticated() });
@@ -165,6 +179,7 @@ app.post('/register', async (req, res, next) => {
             _id,
             salt,
             derivedKey,
+            fsets: [],
             registrationDate: new Date
         };
 
