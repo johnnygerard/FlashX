@@ -11,8 +11,8 @@ class FlashcardSet {
     }
 }
 
-// Create one flashcard set
-router.post('/fset', async (req, res, next) => {
+router.route('/fset').post(async (req, res, next) => {
+    // Create a flashcard set
     try {
         await client.connect();
         const users = client.db('user').collection('users');
@@ -26,10 +26,8 @@ router.post('/fset', async (req, res, next) => {
     } finally {
         await client.close();
     }
-});
-
-// Rename a flashcard set
-router.patch('/fset', async (req, res, next) => {
+}).patch(async (req, res, next) => {
+    // Rename a flashcard set
     try {
         await client.connect();
         const users = client.db('user').collection('users');
