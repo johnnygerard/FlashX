@@ -25,4 +25,21 @@ router.post('/fset', async (req, res, next) => {
     }
 });
 
+// Rename a flashcard set
+router.patch('/fset', async (req, res, next) => {
+    try {
+        await client.connect();
+        const users = client.db('user').collection('users');
+
+        await users.updateOne({ _id: req.user }, {
+            $set: { [`fsets.${req.query.index}.name`]: req.query.name }
+        });
+        res.status(204).end();
+    } catch (err) {
+        next(err);
+    } finally {
+        await client.close();
+    }
+});
+
 export default router;
