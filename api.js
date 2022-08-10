@@ -41,6 +41,34 @@ router.route('/fset').post(async (req, res, next) => {
     } finally {
         await client.close();
     }
+}).delete(async (req, res, next) => {
+    // Delete a flashcard set
+    try {
+        await client.connect();
+        const users = client.db('user').collection('users');
+        const index = +req.query.index;
+
+        await users.updateOne({ _id: req.user }, [{
+            $set: {
+                fsets: {
+                    $concatArrays: [
+                        { $slice: ['$fsets', index] },
+                        {
+                            $slice: [
+                                '$fsets',
+                                { $subtract: [index + 1, { $size: '$fsets' }] }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }]);
+        res.status(204).end();
+    } catch (err) {
+        next(err);
+    } finally {
+        await client.close();
+    }
 });
 
 export default router;
