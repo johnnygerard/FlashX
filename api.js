@@ -11,6 +11,13 @@ class FlashcardSet {
     }
 }
 
+class Flashcard {
+    constructor(question, answer) {
+        this.question = question;
+        this.answer = answer;
+    }
+}
+
 router.route('/fset').post(async (req, res, next) => {
     // Create a flashcard set
     try {
