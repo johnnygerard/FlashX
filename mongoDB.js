@@ -19,6 +19,7 @@ const client = await MongoClient.connect(URI, {
     serverApi: ServerApiVersion.v1
 });
 
+const users = client.db('user').collection('users');
 const MongoDBStore = connectMongodbSession(session);
 const SESSION_LIFETIME = 1000 * 60 * 60 * 24 * 10; // 10 days in ms
 const sessionStore = new MongoDBStore({
@@ -34,4 +35,4 @@ const sessionStore = new MongoDBStore({
 
 sessionStore.on('error', console.error);
 
-export { client, sessionStore, SESSION_LIFETIME };
+export { users, sessionStore, SESSION_LIFETIME };

@@ -1,5 +1,5 @@
 import express from 'express';
-import { client } from './mongoDB.js';
+import { users } from './mongoDB.js';
 
 const router = express.Router();
 
@@ -21,8 +21,6 @@ class Flashcard {
 router.route('/fset').post(async (req, res, next) => {
     // Create a flashcard set
     try {
-        const users = client.db('user').collection('users');
-
         await users.updateOne({ _id: req.user }, {
             $push: { fsets: new FlashcardSet(req.query.name) }
         });
@@ -33,8 +31,6 @@ router.route('/fset').post(async (req, res, next) => {
 }).patch(async (req, res, next) => {
     // Rename a flashcard set
     try {
-        const users = client.db('user').collection('users');
-
         await users.updateOne({ _id: req.user }, {
             $set: { [`fsets.${req.query.index}.name`]: req.query.name }
         });
@@ -45,7 +41,6 @@ router.route('/fset').post(async (req, res, next) => {
 }).delete(async (req, res, next) => {
     // Delete a flashcard set
     try {
-        const users = client.db('user').collection('users');
         const index = +req.query.index;
 
         await users.updateOne({ _id: req.user }, [{

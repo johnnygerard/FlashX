@@ -2,7 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
 import { env } from 'process';
-import { client, sessionStore, SESSION_LIFETIME } from './mongoDB.js';
+import { users, sessionStore, SESSION_LIFETIME } from './mongoDB.js';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import ejs from 'ejs';
@@ -50,7 +50,6 @@ const passwordIsValid = password =>
 
 passport.use(new LocalStrategy(async (username, password, done) => {
     try {
-        const users = client.db('user').collection('users');
         const user = await users.findOne({ _id: username });
 
         if (!user) {
@@ -150,8 +149,6 @@ app.post('/register', async (req, res, next) => {
     }
 
     try {
-        const users = client.db('user').collection('users');
-
         if (await users.findOne({ _id })) {
             req.flash(`This username (${_id}) is not available.`);
             res.redirect(303, registrationFailureRedirect);
