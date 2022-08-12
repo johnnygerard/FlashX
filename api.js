@@ -21,7 +21,6 @@ class Flashcard {
 router.route('/fset').post(async (req, res, next) => {
     // Create a flashcard set
     try {
-        await client.connect();
         const users = client.db('user').collection('users');
 
         await users.updateOne({ _id: req.user }, {
@@ -30,13 +29,10 @@ router.route('/fset').post(async (req, res, next) => {
         res.status(204).end();
     } catch (err) {
         next(err);
-    } finally {
-        await client.close();
     }
 }).patch(async (req, res, next) => {
     // Rename a flashcard set
     try {
-        await client.connect();
         const users = client.db('user').collection('users');
 
         await users.updateOne({ _id: req.user }, {
@@ -45,13 +41,10 @@ router.route('/fset').post(async (req, res, next) => {
         res.status(204).end();
     } catch (err) {
         next(err);
-    } finally {
-        await client.close();
     }
 }).delete(async (req, res, next) => {
     // Delete a flashcard set
     try {
-        await client.connect();
         const users = client.db('user').collection('users');
         const index = +req.query.index;
 
@@ -73,8 +66,6 @@ router.route('/fset').post(async (req, res, next) => {
         res.status(204).end();
     } catch (err) {
         next(err);
-    } finally {
-        await client.close();
     }
 });
 

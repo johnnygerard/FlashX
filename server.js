@@ -50,7 +50,6 @@ const passwordIsValid = password =>
 
 passport.use(new LocalStrategy(async (username, password, done) => {
     try {
-        await client.connect();
         const users = client.db('user').collection('users');
         const user = await users.findOne({ _id: username });
 
@@ -75,8 +74,6 @@ passport.use(new LocalStrategy(async (username, password, done) => {
         }
     } catch (err) {
         done(err);
-    } finally {
-        await client.close();
     }
 }));
 
@@ -153,7 +150,6 @@ app.post('/register', async (req, res, next) => {
     }
 
     try {
-        await client.connect();
         const users = client.db('user').collection('users');
 
         if (await users.findOne({ _id })) {
@@ -189,8 +185,6 @@ app.post('/register', async (req, res, next) => {
         });
     } catch (err) {
         next(err);
-    } finally {
-        await client.close();
     }
 });
 

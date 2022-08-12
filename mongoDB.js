@@ -13,7 +13,7 @@ const DB_PASSWORD = encodeURIComponent(env.DB_PASSWORD);
 const AUTHORITY = `${DB_USER}:${DB_PASSWORD}@${env.DB_HOST}`;
 const URI = `mongodb+srv://${AUTHORITY}/?retryWrites=true&w=majority`;
 
-const client = new MongoClient(URI, {
+const client = await MongoClient.connect(URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     serverApi: ServerApiVersion.v1
