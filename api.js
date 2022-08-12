@@ -2,6 +2,12 @@ import express from 'express';
 import { users } from './mongoDB.js';
 
 const router = express.Router();
+const handleValidationFailure = (req, res) => {
+    console.error('Server side validation failure');
+    console.error(req.method, req.originalUrl);
+    console.error(req.body);
+    res.status(400).end();
+};
 
 class FlashcardSet {
     flashcards = [];
@@ -20,9 +26,17 @@ class Flashcard {
 
 router.route('/fset').post(async (req, res, next) => {
     // Create a flashcard set
+
+    if (typeof req.body.name !== 'string') {
+        handleValidationFailure(req, res);
+        return;
+    }
+
+    
+
     try {
         await users.updateOne({ _id: req.user }, {
-            $push: { fsets: new FlashcardSet(req.query.name) }
+            $push: { fsets: new FlashcardSet(req.body.name) }
         });
         res.status(204).end();
     } catch (err) {
@@ -30,9 +44,17 @@ router.route('/fset').post(async (req, res, next) => {
     }
 }).patch(async (req, res, next) => {
     // Rename a flashcard set
+    const { name, index } = req.body;
+
+    if (typeof name !== 'string' ||
+        typeof index !== 'number') {
+        handleValidationFailure(req, res);
+        return;
+    }
+
     try {
         await users.updateOne({ _id: req.user }, {
-            $set: { [`fsets.${req.query.index}.name`]: req.query.name }
+            $set: { [`fsets.${index}.name`]: name }
         });
         res.status(204).end();
     } catch (err) {
@@ -40,9 +62,14 @@ router.route('/fset').post(async (req, res, next) => {
     }
 }).delete(async (req, res, next) => {
     // Delete a flashcard set
-    try {
-        const index = +req.query.index;
+    const { index } = req.body;
 
+    if (typeof index !== 'number') {
+        handleValidationFailure(req, res);
+        return;
+    }
+
+    try {
         await users.updateOne({ _id: req.user }, [{
             $set: {
                 fsets: {
