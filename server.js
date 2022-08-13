@@ -8,6 +8,8 @@ import LocalStrategy from 'passport-local';
 import ejs from 'ejs';
 import flash from 'flash';
 import api from './api.js';
+import { BAD_REQUEST, FORBIDDEN, NO_CONTENT, SEE_OTHER }
+    from './httpStatusCodes.js';
 
 if (env.NODE_ENV !== 'production')
     await import('dotenv/config');
@@ -124,7 +126,7 @@ app.use(flash(), (req, res, next) => {
 });
 app.use('/api', (req, res, next) => {
     if (req.isAuthenticated()) next();
-    else res.status(403).end();
+    else res.status(FORBIDDEN).end();
 }, api);
 
 app.get('/', (req, res, next) => {
@@ -145,14 +147,14 @@ app.post('/register', async (req, res, next) => {
         !passwordIsValid(req.body.password)) {
         console.error('Server side validation failure');
         console.error(req.body);
-        res.sendStatus(400);
+        res.sendStatus(BAD_REQUEST);
         return;
     }
 
     try {
         if (await users.findOne({ _id })) {
             req.flash(`This username (${_id}) is not available.`);
-            res.redirect(303, registrationFailureRedirect);
+            res.redirect(SEE_OTHER, registrationFailureRedirect);
             return;
         }
 
@@ -179,7 +181,8 @@ app.post('/register', async (req, res, next) => {
 
         await users.insertOne(user);
         req.logIn(user, err => {
-            if (err) next(err); else res.redirect(303, authenticatedRedirect);
+            if (err) next(err);
+            else res.redirect(SEE_OTHER, authenticatedRedirect);
         });
     } catch (err) {
         next(err);
@@ -196,10 +199,10 @@ app.post('/logIn', passport.authenticate('local', {
 app.delete('/logOut', (req, res, next) => {
     if (req.isAuthenticated())
         req.session.destroy(err => {
-            if (err) next(err); else res.status(204).end();
+            if (err) next(err); else res.status(NO_CONTENT).end();
         });
     else
-        res.status(204).end();
+        res.status(NO_CONTENT).end();
 });
 
 app.listen(PORT, HOST, () => {

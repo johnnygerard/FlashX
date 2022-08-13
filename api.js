@@ -1,4 +1,5 @@
 import express from 'express';
+import { BAD_REQUEST, NO_CONTENT } from './httpStatusCodes.js';
 import { users } from './mongoDB.js';
 
 const router = express.Router();
@@ -6,7 +7,7 @@ const handleValidationFailure = (req, res) => {
     console.error('Server side validation failure');
     console.error(req.method, req.originalUrl);
     console.error(req.body);
-    res.status(400).end();
+    res.status(BAD_REQUEST).end();
 };
 
 class FlashcardSet {
@@ -38,7 +39,7 @@ router.route('/fset').post(async (req, res, next) => {
         await users.updateOne({ _id: req.user }, {
             $push: { fsets: new FlashcardSet(req.body.name) }
         });
-        res.status(204).end();
+        res.status(NO_CONTENT).end();
     } catch (err) {
         next(err);
     }
@@ -56,7 +57,7 @@ router.route('/fset').post(async (req, res, next) => {
         await users.updateOne({ _id: req.user }, {
             $set: { [`fsets.${index}.name`]: name }
         });
-        res.status(204).end();
+        res.status(NO_CONTENT).end();
     } catch (err) {
         next(err);
     }
@@ -85,7 +86,7 @@ router.route('/fset').post(async (req, res, next) => {
                 }
             }
         }]);
-        res.status(204).end();
+        res.status(NO_CONTENT).end();
     } catch (err) {
         next(err);
     }
