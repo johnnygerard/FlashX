@@ -34,10 +34,10 @@ const isAuthenticated = (req, res, next) => {
 
 const usernameRegExp = /^[!-~]{1,128}$/;
 const passwordRegExp = RegExp([
-    /^(?=.*?\d)/,
-    /(?=.*?[a-z])/,
-    /(?=.*?[A-Z])/,
-    /(?=.*?[!-/:-@[-`{-~])/,
+    /^(?=[^]*?\d)/,
+    /(?=[^]*?[a-z])/,
+    /(?=[^]*?[A-Z])/,
+    /(?=[^]*?[!-/:-@[-`{-~])/,
     /[!-~]{11,128}$/,
 ].reduce((previous, current) => previous + current.source, ''));
 
