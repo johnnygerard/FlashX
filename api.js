@@ -10,6 +10,13 @@ const handleValidationFailure = (req, res) => {
     res.status(BAD_REQUEST).end();
 };
 
+class Flashcard {
+    constructor(question, answer) {
+        this.question = question;
+        this.answer = answer;
+    }
+}
+
 class FlashcardSet {
     flashcards = [];
 
@@ -18,22 +25,12 @@ class FlashcardSet {
     }
 }
 
-class Flashcard {
-    constructor(question, answer) {
-        this.question = question;
-        this.answer = answer;
-    }
-}
-
+// Create a flashcard set
 router.route('/fset').post(async (req, res, next) => {
-    // Create a flashcard set
-
     if (typeof req.body.name !== 'string') {
         handleValidationFailure(req, res);
         return;
     }
-
-    
 
     try {
         await users.updateOne({ _id: req.user }, {
@@ -43,8 +40,8 @@ router.route('/fset').post(async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}).patch(async (req, res, next) => {
     // Rename a flashcard set
+}).patch(async (req, res, next) => {
     const { name, index } = req.body;
 
     if (typeof name !== 'string' ||
@@ -61,8 +58,8 @@ router.route('/fset').post(async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}).delete(async (req, res, next) => {
     // Delete a flashcard set
+}).delete(async (req, res, next) => {
     const { index } = req.body;
 
     if (typeof index !== 'number') {
