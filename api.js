@@ -26,22 +26,18 @@ class FlashcardSet {
 }
 
 // Create a flashcard set
-router.route('/fset').post(async (req, res, next) => {
+router.route('/fset').post((req, res, next) => {
     if (typeof req.body.name !== 'string') {
         handleValidationFailure(req, res);
         return;
     }
 
-    try {
-        await users.updateOne({ _id: req.user }, {
-            $push: { fsets: new FlashcardSet(req.body.name) }
-        });
-        res.status(NO_CONTENT).end();
-    } catch (err) {
-        next(err);
-    }
+    users.updateOne({ _id: req.user }, {
+        $push: { fsets: new FlashcardSet(req.body.name) }
+    }).then(() => res.status(NO_CONTENT).end()).catch(next);
+
     // Rename a flashcard set
-}).patch(async (req, res, next) => {
+}).patch((req, res, next) => {
     const { name, index } = req.body;
 
     if (typeof name !== 'string' ||
@@ -50,16 +46,12 @@ router.route('/fset').post(async (req, res, next) => {
         return;
     }
 
-    try {
-        await users.updateOne({ _id: req.user }, {
-            $set: { [`fsets.${index}.name`]: name }
-        });
-        res.status(NO_CONTENT).end();
-    } catch (err) {
-        next(err);
-    }
+    users.updateOne({ _id: req.user }, {
+        $set: { [`fsets.${index}.name`]: name }
+    }).then(() => res.status(NO_CONTENT).end()).catch(next);
+
     // Delete a flashcard set
-}).delete(async (req, res, next) => {
+}).delete((req, res, next) => {
     const { index } = req.body;
 
     if (typeof index !== 'number') {
@@ -67,26 +59,21 @@ router.route('/fset').post(async (req, res, next) => {
         return;
     }
 
-    try {
-        await users.updateOne({ _id: req.user }, [{
-            $set: {
-                fsets: {
-                    $concatArrays: [
-                        { $slice: ['$fsets', index] },
-                        {
-                            $slice: [
-                                '$fsets',
-                                { $subtract: [index + 1, { $size: '$fsets' }] }
-                            ]
-                        }
-                    ]
-                }
+    users.updateOne({ _id: req.user }, [{
+        $set: {
+            fsets: {
+                $concatArrays: [
+                    { $slice: ['$fsets', index] },
+                    {
+                        $slice: [
+                            '$fsets',
+                            { $subtract: [index + 1, { $size: '$fsets' }] }
+                        ]
+                    }
+                ]
             }
-        }]);
-        res.status(NO_CONTENT).end();
-    } catch (err) {
-        next(err);
-    }
+        }
+    }]).then(() => res.status(NO_CONTENT).end()).catch(next);
 });
 
 export default router;
