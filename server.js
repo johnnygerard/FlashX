@@ -33,16 +33,13 @@ const isAuthenticated = (req, res, next) => {
 };
 
 const usernameRegExp = /^[!-~]{1,128}$/;
-
-/*  /^
-    (?=.*?\d)
-    (?=.*?[a-z])
-    (?=.*?[A-Z])
-    (?=.*?[!-/:-@[-`{-~])
-    [!-~]{11,128}
-    $/                              */
-const passwordRegExp =
-    /^(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]{11,128}$/;
+const passwordRegExp = RegExp([
+    /^(?=.*?\d)/,
+    /(?=.*?[a-z])/,
+    /(?=.*?[A-Z])/,
+    /(?=.*?[!-/:-@[-`{-~])/,
+    /[!-~]{11,128}$/,
+].reduce((previous, current) => previous + current.source, ''));
 
 const usernameIsValid = username =>
     typeof username === 'string' && usernameRegExp.test(username);
