@@ -78,4 +78,78 @@ router.route('/fset').post(async (req, res, next) => {
     }
 });
 
+// Create flashcard
+router.route('/flashcard').post(async (req, res, next) => {
+    const { fset, question, answer } = req.body;
+
+    if (typeof fset !== 'number' ||
+        typeof question !== 'string' ||
+        typeof answer !== 'string') {
+        handleValidationFailure(req, res);
+        return;
+    }
+
+    try {
+        await users.updateOne({ _id: req.user }, {
+            $push: {
+                [`fsets.${fset}.flashcards`]: new Flashcard(question, answer)
+            }
+        });
+
+        res.status(NO_CONTENT).end();
+    } catch (err) {
+        next(err);
+    }
+
+    // Delete flashcard
+}).delete(async (req, res, next) => {
+    const { fset, index } = req.body;
+    const flashcards = `fsets.${fset}.flashcards`;
+    const filter = { _id: req.user };
+
+    if (typeof fset !== 'number' ||
+        typeof index !== 'number') {
+        handleValidationFailure(req, res);
+        return;
+    }
+
+    try {
+        await users.updateOne(filter, {
+            $unset: { [`${flashcards}.${index}`]: 0 }
+        });
+
+        await users.updateOne(filter, {
+            $pull: { [flashcards]: null }
+        });
+
+        res.status(NO_CONTENT).end();
+    } catch (err) {
+        next(err);
+    }
+
+    // Modify flashcard
+}).patch(async (req, res, next) => {
+    const { fset, index, question, answer } = req.body;
+
+    if (typeof fset !== 'number' ||
+        typeof index !== 'number' ||
+        typeof question !== 'string' ||
+        typeof answer !== 'string') {
+        handleValidationFailure(req, res);
+        return;
+    }
+
+    try {
+        await users.updateOne({ _id: req.user }, {
+            $set: {
+                [`fsets.${fset}.flashcards.${index}`]: { question, answer },
+            }
+        });
+
+        res.status(NO_CONTENT).end();
+    } catch (err) {
+        next(err);
+    }
+});
+
 export default router;
