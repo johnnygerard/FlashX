@@ -61,6 +61,7 @@ router.route('/fset').post(async (req, res, next) => {
     // Delete a flashcard set
 }).delete(async (req, res, next) => {
     const { index } = req.body;
+    const filter = { _id: req.user };
 
     if (typeof index !== 'number') {
         handleValidationFailure(req, res);
@@ -68,21 +69,9 @@ router.route('/fset').post(async (req, res, next) => {
     }
 
     try {
-        await users.updateOne({ _id: req.user }, [{
-            $set: {
-                fsets: {
-                    $concatArrays: [
-                        { $slice: ['$fsets', index] },
-                        {
-                            $slice: [
-                                '$fsets',
-                                { $subtract: [index + 1, { $size: '$fsets' }] }
-                            ]
-                        }
-                    ]
-                }
-            }
-        }]);
+        await users.updateOne(filter, { $unset: { [`fsets.${index}`]: 0 } });
+        await users.updateOne(filter, { $pull: { fsets: null } });
+
         res.status(NO_CONTENT).end();
     } catch (err) {
         next(err);
