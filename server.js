@@ -17,7 +17,7 @@ if (env.NODE_ENV !== 'production')
 const app = express();
 const PORT = env.PORT || 3000;
 const HOST = 'localhost';
-const authenticatedRedirect = '/account';
+const authenticatedRedirect = '/manager';
 const unauthenticatedRedirect = '/';
 const registrationFailureRedirect = '/';
 
