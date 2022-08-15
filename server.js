@@ -137,6 +137,22 @@ app.get('/account', isAuthenticated, (req, res, next) => {
     });
 });
 
+app.get('/manager', isAuthenticated, async (req, res, next) => {
+    const options = { projection: { _id: 0, fsets: '$fsets.name' } };
+
+    try {
+        const doc = await users.findOne({ _id: req.user }, options);
+
+        res.render('flashcardManager', {
+            user: req.user,
+            authenticated: true,
+            fsets: doc.fsets
+        });
+    } catch (err) {
+        next(err);
+    }
+});
+
 app.post('/register', async (req, res, next) => {
     const _id = req.body.username;
 
