@@ -29,7 +29,7 @@ const SALT_BYTE_LENGTH = 16;
 
 const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) next();
-    else res.redirect(unauthenticatedRedirect);
+    else res.redirect(SEE_OTHER, unauthenticatedRedirect);
 };
 
 const usernameRegExp = /^[!-~]{1,128}$/;
@@ -136,6 +136,8 @@ app.get('/account', isAuthenticated, (req, res, next) => {
         authenticated: true
     });
 });
+
+// app.get('/manager',)
 
 app.post('/register', async (req, res, next) => {
     const _id = req.body.username;
