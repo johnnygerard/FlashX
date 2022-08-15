@@ -137,8 +137,6 @@ app.get('/account', isAuthenticated, (req, res, next) => {
     });
 });
 
-// app.get('/manager',)
-
 app.post('/register', async (req, res, next) => {
     const _id = req.body.username;
 
