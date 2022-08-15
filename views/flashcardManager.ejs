@@ -11,6 +11,13 @@
   <%- include('/nav', { authenticated }) %>
   <h1>FlashX</h1>
   <h2>Welcome <%= user %>!</h2>
+  <% if (fsets.length) { %>
+  <ul>
+    <% for (const fset of fsets) { %>
+    <li><%= fset %></li>
+    <% } %>
+  </ul>
+  <% } %>
 </body>
 
 </html>
