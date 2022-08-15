@@ -2,6 +2,7 @@
   <a href="/">Home</a>
 
   <% if (authenticated) { %>
+  <a href="manager">Hub</a>
   <a href="account">Account</a>
   <button type="button" onclick="
       fetch('/logOut', { method: 'DELETE' }).then(response => {
