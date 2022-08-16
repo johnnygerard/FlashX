@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlashX | Flashcards</title>
+</head>
+
+<body>
+  <%- include('/nav', { authenticated }) %>
+  <h1>FlashX</h1>
+  <h2>Flashcard collection "<%= fset.name %>"</h2>
+  <% if (fset.flashcards.length) { %>
+  <dl>
+    <% for (const flashcard of fset.flashcards) { %>
+    <dt><%= flashcard.question %></dt>
+    <dd><%= flashcard.answer %></dd>
+    <% } %>
+  </dl>
+  <% } %>
+</body>
+
+</html>
