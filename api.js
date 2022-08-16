@@ -27,14 +27,16 @@ class FlashcardSet {
 
 // Create a flashcard set
 router.route('/fset').post(async (req, res, next) => {
-    if (typeof req.body.name !== 'string') {
+    const { name } = req.body;
+
+    if (typeof name !== 'string') {
         handleValidationFailure(req, res);
         return;
     }
 
     try {
         await users.updateOne({ _id: req.user }, {
-            $push: { fsets: new FlashcardSet(req.body.name) }
+            $push: { fsets: new FlashcardSet(name) }
         });
         res.status(NO_CONTENT).end();
     } catch (err) {
