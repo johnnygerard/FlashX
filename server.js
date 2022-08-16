@@ -153,6 +153,36 @@ app.get('/manager', isAuthenticated, async (req, res, next) => {
     }
 });
 
+app.get('/manager/:index', isAuthenticated, async (req, res, next) => {
+    const index = +req.params.index;
+
+    if (!Number.isInteger(index) || index < 0) {
+        console.error('Server side validation failure');
+        console.error(req.method, req.originalUrl);
+        console.error(req.params);
+        res.status(BAD_REQUEST).end();
+        return;
+    }
+
+    const pipeline = [
+        { $match: { _id: req.user } },
+        { $project: { _id: 0, fsets: 1 } },
+        { $project: { fset: { $arrayElemAt: ['$fsets', index] } } }
+    ];
+
+    try {
+        const doc = await users.aggregate(pipeline).next();
+
+        res.render('flashcards', {
+            user: req.user,
+            authenticated: true,
+            fset: doc.fset
+        });
+    } catch (err) {
+        next(err);
+    }
+});
+
 app.post('/register', async (req, res, next) => {
     const _id = req.body.username;
 
