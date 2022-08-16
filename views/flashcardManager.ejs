@@ -12,11 +12,11 @@
   <h1>FlashX</h1>
   <h2>Welcome <%= user %>!</h2>
   <% if (fsets.length) { %>
-  <ul>
-    <% for (const fset of fsets) { %>
-    <li><%= fset %></li>
-    <% } %>
-  </ul>
+  <ol>
+    <% fsets.forEach((fset, index) => { %>
+    <li><a href="manager/<%= index %>"><%= fset %></a></li>
+    <% }); %>
+  </ol>
   <% } %>
 </body>
 
