@@ -22,7 +22,7 @@
     const onButtonClick = handler =>
       button.addEventListener('click', handler, { once: true });
 
-    onButtonClick(async function handler(event) {
+    const handler = async event => {
       let reloading = false;
 
       try {
@@ -47,7 +47,9 @@
       } finally {
         if (!reloading) onButtonClick(handler);
       }
-    });
+    };
+
+    onButtonClick(handler);
 
     input.addEventListener('keyup', event => {
       if (event.key === 'Enter') button.click();
