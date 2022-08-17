@@ -12,26 +12,26 @@
   <h1>FlashX</h1>
   <h2>Welcome <%= user %>!</h2>
   <label>Name
-    <input required maxlength="256" id="createFSetInput">
+    <input required maxlength="256" id="name">
   </label>
-  <button id="createFSet" type="button">Create a flashcard collection</button>
+  <button type="button" id="createFSet">Create a flashcard collection</button>
   <script type="module">
     const button = document.getElementById('createFSet');
-    const input = document.getElementById('createFSetInput');
+    const name = document.getElementById('name');
 
-    const onButtonClick = handler =>
-      button.addEventListener('click', handler, { once: true });
+    const addClickListener = onClick =>
+      button.addEventListener('click', onClick, { once: true });
 
-    const handler = async event => {
+    const onClick = async event => {
       let reloading = false;
 
       try {
-        if (!input.reportValidity()) return;
+        if (!name.reportValidity()) return;
 
         const response = await fetch('/api/fset', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: input.value })
+          body: JSON.stringify({ name: name.value })
         });
 
         if (response.status === 204) {
@@ -45,13 +45,13 @@
         console.error(err);
         alert('Network error');
       } finally {
-        if (!reloading) onButtonClick(handler);
+        if (!reloading) addClickListener(onClick);
       }
     };
 
-    onButtonClick(handler);
+    addClickListener(onClick);
 
-    input.addEventListener('keyup', event => {
+    name.addEventListener('keyup', event => {
       if (event.key === 'Enter') button.click();
     });
   </script>
