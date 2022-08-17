@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FlashX | Flashcard hub</title>
+  <base href="/manager/">
 </head>
 
 <body>
@@ -58,7 +59,7 @@
   <% if (fsets.length) { %>
   <ol>
     <% fsets.forEach((fset, index) => { %>
-    <li><a href="manager/<%= index %>"><%= fset %></a></li>
+    <li><a href="<%= index %>"><%= fset %></a></li>
     <% }); %>
   </ol>
   <% } %>
