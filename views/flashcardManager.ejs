@@ -11,6 +11,51 @@
   <%- include('/nav', { authenticated }) %>
   <h1>FlashX</h1>
   <h2>Welcome <%= user %>!</h2>
+  <label>Name
+    <input required maxlength="256" id="createFSetInput">
+  </label>
+  <button id="createFSet" type="button">Create a flashcard collection</button>
+  <script type="module">
+    const button = document.getElementById('createFSet');
+    const input = document.getElementById('createFSetInput');
+
+    button.addEventListener('click', async function (event) {
+      if (!input.reportValidity()) return;
+      this.disabled = true;
+      this.innerText = 'Loading...';
+
+      const initialText = this.innerText;
+      let success = false;
+
+      try {
+        const response = await fetch('/api/fset', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: input.value })
+        });
+
+        if (response.status === 204) {
+          success = true;
+          location.reload();
+          return;
+        }
+        console.error(await response.text());
+        alert('Operation failed.');
+      } catch (err) {
+        console.error(err);
+        alert('Network error');
+      } finally {
+        if (!success) {
+          this.innerText = initialText;
+          this.disabled = false;
+        }
+      }
+    });
+
+    input.addEventListener('keyup', event => {
+      if (event.key === 'Enter') button.click();
+    });
+  </script>
   <% if (fsets.length) { %>
   <ol>
     <% fsets.forEach((fset, index) => { %>
