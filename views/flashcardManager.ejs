@@ -6,82 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FlashX | Flashcard hub</title>
   <base href="/manager/">
-</head>
+  <script>
+    const addClickListener = (target, route, method, payload, ...inputs) => {
+      const attach = handler =>
+        target.addEventListener('click', handler, { once: true });
 
-<body>
-  <%- include('/nav', { authenticated }) %>
-  <h1>FlashX</h1>
-  <h2>Welcome <%= user %>!</h2>
-  <label>Name
-    <input required maxlength="256" id="name">
-  </label>
-  <button type="button" id="createFSet">Create a flashcard collection</button>
-  <script type="module">
-    const button = document.getElementById('createFSet');
-    const name = document.getElementById('name');
-
-    const addClickListener = onClick =>
-      button.addEventListener('click', onClick, { once: true });
-
-    const onClick = async event => {
-      let reloading = false;
-
-      try {
-        if (!name.reportValidity()) return;
-
-        const response = await fetch('/api/fset', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: name.value })
-        });
-
-        if (response.status === 204) {
-          reloading = true;
-          location.reload();
-        } else {
-          console.error(await response.text());
-          alert('Operation failed.');
-        }
-      } catch (err) {
-        console.error(err);
-        alert('Network error');
-      } finally {
-        if (!reloading) addClickListener(onClick);
-      }
-    };
-
-    addClickListener(onClick);
-
-    name.addEventListener('keyup', event => {
-      if (event.key === 'Enter') button.click();
-    });
-  </script>
-  <% if (fsets.length) { %>
-  <ol id="fsets">
-    <% fsets.forEach((fset, index) => { %>
-    <li><a href="<%= index %>"><%= fset %></a></li>
-    <% }); %>
-  </ol>
-  <template id="delete"><button type="button">Delete</button></template>
-  <script type="module">
-    const button = document.getElementById('delete').content.firstChild;
-
-    const addClickListener = (target, onClick) =>
-      target.addEventListener('click', onClick, { once: true });
-
-    const listItems = document.getElementById('fsets').children;
-
-    Array.prototype.forEach.call(listItems, (li, index) => {
-      const buttonClone = button.cloneNode(true);
-
-      const onClick = async event => {
+      const handler = async event => {
         let reloading = false;
 
         try {
-          const response = await fetch('/api/fset', {
-            method: 'DELETE',
+          for (const input of inputs) {
+            if (!input.reportValidity()) return;
+            payload[input.name] = input.value;
+          }
+
+          const response = await fetch(`/api/${route}`, {
+            method,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ index })
+            body: JSON.stringify(payload)
           });
 
           if (response.status === 204) {
@@ -95,11 +37,48 @@
           console.error(err);
           alert('Network error');
         } finally {
-          if (!reloading) addClickListener(buttonClone, onClick);
+          if (!reloading) attach(handler);
         }
       };
+      attach(handler);
+    }
+  </script>
+</head>
 
-      addClickListener(buttonClone, onClick);
+<body>
+  <%- include('/nav', { authenticated }) %>
+  <h1>FlashX</h1>
+  <h2>Welcome <%= user %>!</h2>
+  <label>Name
+    <input required maxlength="256" id="name" name="name">
+  </label>
+  <button type="button" id="createFSet">Create a flashcard collection</button>
+  <script type="module">
+    const button = document.getElementById('createFSet');
+    const name = document.getElementById('name');
+
+    addClickListener(button, 'fset', 'POST', {}, name);
+
+    name.addEventListener('keyup', event => {
+      if (event.key === 'Enter') button.click();
+    });
+  </script>
+  <% if (fsets.length) { %>
+  <ol id="fsets">
+    <% fsets.forEach((fset, index) => { %>
+    <li><a href="<%= index %>"><%= fset %></a></li>
+    <% }); %>
+  </ol>
+  <template id="delete"><button type="button">Delete</button></template>
+  <script type="module">
+    const deleteButton = document.getElementById('delete').content.firstChild;
+
+    const listItems = document.getElementById('fsets').children;
+
+    Array.prototype.forEach.call(listItems, (li, index) => {
+      const buttonClone = deleteButton.cloneNode(true);
+
+      addClickListener(buttonClone, 'fset', 'DELETE', { index });
       li.appendChild(buttonClone);
     });
   </script>
