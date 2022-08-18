@@ -1,0 +1,37 @@
+<script>
+  const addClickListener = (target, route, method, payload, ...inputs) => {
+    const attach = handler =>
+      target.addEventListener('click', handler, { once: true });
+
+    const handler = async event => {
+      let reloading = false;
+
+      try {
+        for (const input of inputs) {
+          if (!input.reportValidity()) return;
+          payload[input.name] = input.value;
+        }
+
+        const response = await fetch(`/api/${route}`, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.status === 204) {
+          reloading = true;
+          location.reload();
+        } else {
+          console.error(await response.text());
+          alert('Operation failed.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Network error');
+      } finally {
+        if (!reloading) attach(handler);
+      }
+    };
+    attach(handler);
+  }
+</script>
