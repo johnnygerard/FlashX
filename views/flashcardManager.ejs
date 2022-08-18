@@ -57,11 +57,52 @@
     });
   </script>
   <% if (fsets.length) { %>
-  <ol>
+  <ol id="fsets">
     <% fsets.forEach((fset, index) => { %>
     <li><a href="<%= index %>"><%= fset %></a></li>
     <% }); %>
   </ol>
+  <template id="delete"><button type="button">Delete</button></template>
+  <script type="module">
+    const button = document.getElementById('delete').content.firstChild;
+
+    const addClickListener = (target, onClick) =>
+      target.addEventListener('click', onClick, { once: true });
+
+    const listItems = document.getElementById('fsets').children;
+
+    Array.prototype.forEach.call(listItems, (li, index) => {
+      const buttonClone = button.cloneNode(true);
+
+      const onClick = async event => {
+        let reloading = false;
+
+        try {
+          const response = await fetch('/api/fset', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ index })
+          });
+
+          if (response.status === 204) {
+            reloading = true;
+            location.reload();
+          } else {
+            console.error(await response.text());
+            alert('Operation failed.');
+          }
+        } catch (err) {
+          console.error(err);
+          alert('Network error');
+        } finally {
+          if (!reloading) addClickListener(buttonClone, onClick);
+        }
+      };
+
+      addClickListener(buttonClone, onClick);
+      li.appendChild(buttonClone);
+    });
+  </script>
   <% } %>
 </body>
 
