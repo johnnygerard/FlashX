@@ -27,13 +27,6 @@
     const payload = { fset: +location.pathname.match(/\d+/)[0] };
 
     addClickListener(button, 'flashcard', 'POST', payload, question, answer);
-
-    const onKeyUp = event => {
-      if (event.key === 'Enter') button.click();
-    };
-
-    question.addEventListener('keyup', onKeyUp);
-    answer.addEventListener('keyup', onKeyUp);
   </script>
 
   <% if (fset.flashcards.length) { %>

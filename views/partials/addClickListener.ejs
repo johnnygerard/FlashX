@@ -33,5 +33,10 @@
       }
     };
     attach(handler);
+
+    for (const input of inputs)
+      input.addEventListener('keyup', event => {
+        if (event.key === 'Enter') target.click();
+      });
   }
 </script>

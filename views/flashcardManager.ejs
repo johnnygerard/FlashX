@@ -22,10 +22,6 @@
     const name = document.getElementById('name');
 
     addClickListener(button, 'fset', 'POST', {}, name);
-
-    name.addEventListener('keyup', event => {
-      if (event.key === 'Enter') button.click();
-    });
   </script>
   <% if (fsets.length) { %>
   <ol id="fsets">
@@ -56,10 +52,6 @@
       addClickListener(deleteButtonClone, 'fset', 'DELETE', { index });
       addClickListener(renameButtonClone, 'fset', 'PATCH', { index },
         nameInputClone);
-
-      nameInputClone.addEventListener('keyup', event => {
-        if (event.key === 'Enter') renameButtonClone.click();
-      });
 
       li.appendChild(nameInputClone);
       li.appendChild(renameButtonClone);
