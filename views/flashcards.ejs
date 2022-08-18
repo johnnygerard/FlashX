@@ -5,6 +5,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FlashX | Flashcards</title>
+  <script>
+    const addClickListener = (target, route, method, payload, ...inputs) => {
+      const attach = handler =>
+        target.addEventListener('click', handler, { once: true });
+
+      const handler = async event => {
+        let reloading = false;
+
+        try {
+          for (const input of inputs) {
+            if (!input.reportValidity()) return;
+            payload[input.name] = input.value;
+          }
+
+          const response = await fetch(`/api/${route}`, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (response.status === 204) {
+            reloading = true;
+            location.reload();
+          } else {
+            console.error(await response.text());
+            alert('Operation failed.');
+          }
+        } catch (err) {
+          console.error(err);
+          alert('Network error');
+        } finally {
+          if (!reloading) attach(handler);
+        }
+      };
+      attach(handler);
+    }
+  </script>
 </head>
 
 <body>
@@ -13,52 +50,19 @@
   <h2>Flashcard collection "<%= fset.name %>"</h2>
 
   <label>Question
-    <input required maxlength="256" id="question">
+    <input required maxlength="256" id="createQ" name="question">
   </label>
   <label>Answer
-    <input required maxlength="256" id="answer">
+    <input required maxlength="256" id="createA" name="answer">
   </label>
   <button type="button" id="createFlashcard">Create a flashcard</button>
   <script type="module">
     const button = document.getElementById('createFlashcard');
-    const question = document.getElementById('question');
-    const answer = document.getElementById('answer');
+    const question = document.getElementById('createQ');
+    const answer = document.getElementById('createA');
+    const payload = { fset: +location.pathname.match(/\d+/)[0] };
 
-    const addClickListener = onClick =>
-      button.addEventListener('click', onClick, { once: true });
-
-    const onClick = async event => {
-      let reloading = false;
-
-      try {
-        if (!question.reportValidity() || !answer.reportValidity()) return;
-
-        const response = await fetch('/api/flashcard', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            question: question.value,
-            answer: answer.value,
-            fset: +location.pathname.match(/\d+/)[0]
-          })
-        });
-
-        if (response.status === 204) {
-          reloading = true;
-          location.reload();
-        } else {
-          console.error(await response.text());
-          alert('Operation failed.');
-        }
-      } catch (err) {
-        console.error(err);
-        alert('Network error');
-      } finally {
-        if (!reloading) addClickListener(onClick);
-      }
-    };
-
-    addClickListener(onClick);
+    addClickListener(button, 'flashcard', 'POST', payload, question, answer);
 
     const onKeyUp = event => {
       if (event.key === 'Enter') button.click();
