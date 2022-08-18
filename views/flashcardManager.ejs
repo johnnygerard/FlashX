@@ -70,15 +70,36 @@
     <% }); %>
   </ol>
   <template id="delete"><button type="button">Delete</button></template>
+  <template id="rename">
+    <input required maxlength="256" name="name">
+    <button type="button">Rename</button>
+  </template>
   <script type="module">
-    const deleteButton = document.getElementById('delete').content.firstChild;
+    const deleteFragment = document.getElementById('delete').content;
+    const deleteButton = deleteFragment.firstElementChild;
+
+    const renameFragment = document.getElementById('rename').content;
+    const renameButton = renameFragment.querySelector('button');
+    const nameInput = renameFragment.querySelector('input');
+
     const listItems = document.getElementById('fsets').children;
 
     Array.prototype.forEach.call(listItems, (li, index) => {
-      const buttonClone = deleteButton.cloneNode(true);
+      const deleteButtonClone = deleteButton.cloneNode(true);
+      const renameButtonClone = renameButton.cloneNode(true);
+      const nameInputClone = nameInput.cloneNode(true);
 
-      addClickListener(buttonClone, 'fset', 'DELETE', { index });
-      li.appendChild(buttonClone);
+      addClickListener(deleteButtonClone, 'fset', 'DELETE', { index });
+      addClickListener(renameButtonClone, 'fset', 'PATCH', { index },
+        nameInputClone);
+
+      nameInputClone.addEventListener('keyup', event => {
+        if (event.key === 'Enter') renameButtonClone.click();
+      });
+
+      li.appendChild(nameInputClone);
+      li.appendChild(renameButtonClone);
+      li.appendChild(deleteButtonClone);
     });
   </script>
   <% } %>
