@@ -5,19 +5,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FlashX | Homepage</title>
+  <%- include('/addClickListener') %>
 </head>
 
 <body>
   <%- include('/nav', { authenticated }) %>
-  <select>
+  <select id="fsets">
     <% for (const fset of fsets) { %>
     <option label="<%= fset %>" />
     <% } %>
   </select>
-  <script>
-    
+  <button id="start" type="button">Start a training session</button>
+  <script type="module">
+    const button = document.getElementById('start');
+    const select = document.getElementById('fsets');
+
+    const attach = handler =>
+      button.addEventListener('click', handler, { once: true });
+
+    const handler = async event => {
+      let successful = false;
+
+      try {
+        const response = await fetch(`/api/flashcard/${select.selectedIndex}`);
+
+        if (response.ok) {
+          successful = true;
+          // Process data
+          console.log(await response.json());
+        } else {
+          console.error(await response.text());
+          alert('Operation failed.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Network error');
+      } finally {
+        if (!successful) attach(handler);
+      }
+    };
+    attach(handler);
   </script>
-  <button type="button">Start a training session</button>
 </body>
 
 </html>
