@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlashX | Homepage</title>
+</head>
+
+<body>
+  <%- include('/nav', { authenticated }) %>
+  <select>
+    <% for (const fset of fsets) { %>
+    <option label="<%= fset %>" />
+    <% } %>
+  </select>
+  <script>
+    
+  </script>
+  <button type="button">Start a training session</button>
+</body>
+
+</html>
