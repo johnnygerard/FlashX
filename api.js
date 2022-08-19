@@ -128,11 +128,13 @@ router.route('/flashcard').post(async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-    // Read flashcards
-}).get(async (req, res, next) => {
-    const { index } = req.body;
+});
 
-    if (typeof index !== 'number') {
+// Read flashcards
+router.get('/flashcard/:index', async (req, res, next) => {
+    const index = +req.params.index;
+
+    if (!Number.isInteger(index) || index < 0) {
         handleValidationFailure(req, res);
         return;
     }
@@ -141,7 +143,7 @@ router.route('/flashcard').post(async (req, res, next) => {
         { $match: { _id: req.user } },
         { $project: { _id: 0, fsets: 1 } },
         { $project: { fset: { $arrayElemAt: ['$fsets', index] } } },
-        { $project: { flashcards: '$fset.flashcards'  } }
+        { $project: { flashcards: '$fset.flashcards' } }
     ];
 
     try {
