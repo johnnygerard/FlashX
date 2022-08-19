@@ -47,7 +47,7 @@ router.route('/fset').post(async (req, res, next) => {
     const { name, index } = req.body;
 
     if (typeof name !== 'string' ||
-        typeof index !== 'number') {
+        !Number.isInteger(index) || index < 0) {
         handleValidationFailure(req, res);
         return;
     }
@@ -65,7 +65,7 @@ router.route('/fset').post(async (req, res, next) => {
     const { index } = req.body;
     const filter = { _id: req.user };
 
-    if (typeof index !== 'number') {
+    if (!Number.isInteger(index) || index < 0) {
         handleValidationFailure(req, res);
         return;
     }
@@ -84,7 +84,7 @@ router.route('/fset').post(async (req, res, next) => {
 router.route('/flashcard').post(async (req, res, next) => {
     const { fset, question, answer } = req.body;
 
-    if (typeof fset !== 'number' ||
+    if (!Number.isInteger(fset) || fset < 0 ||
         typeof question !== 'string' ||
         typeof answer !== 'string') {
         handleValidationFailure(req, res);
@@ -109,8 +109,8 @@ router.route('/flashcard').post(async (req, res, next) => {
     const flashcards = `fsets.${fset}.flashcards`;
     const filter = { _id: req.user };
 
-    if (typeof fset !== 'number' ||
-        typeof index !== 'number') {
+    if (!Number.isInteger(fset) || fset < 0 ||
+        !Number.isInteger(index) || index < 0) {
         handleValidationFailure(req, res);
         return;
     }
@@ -158,8 +158,8 @@ router.get('/flashcard/:index', async (req, res, next) => {
 router.patch('/flashcard/question', async (req, res, next) => {
     const { fset, index, question } = req.body;
 
-    if (typeof fset !== 'number' ||
-        typeof index !== 'number' ||
+    if (!Number.isInteger(fset) || fset < 0 ||
+        !Number.isInteger(index) || index < 0 ||
         typeof question !== 'string') {
         handleValidationFailure(req, res);
         return;
@@ -181,8 +181,8 @@ router.patch('/flashcard/question', async (req, res, next) => {
 router.patch('/flashcard/answer', async (req, res, next) => {
     const { fset, index, answer } = req.body;
 
-    if (typeof fset !== 'number' ||
-        typeof index !== 'number' ||
+    if (!Number.isInteger(fset) || fset < 0 ||
+        !Number.isInteger(index) || index < 0 ||
         typeof answer !== 'string') {
         handleValidationFailure(req, res);
         return;
