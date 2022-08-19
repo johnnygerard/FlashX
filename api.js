@@ -128,15 +128,14 @@ router.route('/flashcard').post(async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+});
 
-    // Modify flashcard
-}).patch(async (req, res, next) => {
-    const { fset, index, question, answer } = req.body;
+router.patch('/flashcard/question', async (req, res, next) => {
+    const { fset, index, question } = req.body;
 
     if (typeof fset !== 'number' ||
         typeof index !== 'number' ||
-        typeof question !== 'string' ||
-        typeof answer !== 'string') {
+        typeof question !== 'string') {
         handleValidationFailure(req, res);
         return;
     }
@@ -144,7 +143,7 @@ router.route('/flashcard').post(async (req, res, next) => {
     try {
         await users.updateOne({ _id: req.user }, {
             $set: {
-                [`fsets.${fset}.flashcards.${index}`]: { question, answer },
+                [`fsets.${fset}.flashcards.${index}.question`]: question,
             }
         });
 
@@ -153,5 +152,28 @@ router.route('/flashcard').post(async (req, res, next) => {
         next(err);
     }
 });
+
+router.patch('/flashcard/answer', async (req, res, next) => {
+    const { fset, index, answer } = req.body;
+
+    if (typeof fset !== 'number' ||
+        typeof index !== 'number' ||
+        typeof answer !== 'string') {
+        handleValidationFailure(req, res);
+        return;
+    }
+
+    try {
+        await users.updateOne({ _id: req.user }, {
+            $set: {
+                [`fsets.${fset}.flashcards.${index}.answer`]: answer,
+            }
+        });
+
+        res.status(NO_CONTENT).end();
+    } catch (err) {
+        next(err);
+    }
+})
 
 export default router;
