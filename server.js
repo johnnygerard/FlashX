@@ -137,16 +137,31 @@ app.get('/account', isAuthenticated, (req, res, next) => {
     });
 });
 
-app.get('/manager', isAuthenticated, async (req, res, next) => {
+const getFSetNames = async _id => {
     const options = { projection: { _id: 0, fsets: '$fsets.name' } };
 
+    const doc = await users.findOne({ _id }, options);
+    return doc.fsets;
+};
+
+app.get('/training', isAuthenticated, async (req, res, next) => {
     try {
-        const doc = await users.findOne({ _id: req.user }, options);
+        const fsets = await getFSetNames(req.user);
+
+        res.render('training', { authenticated: true, fsets });
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.get('/manager', isAuthenticated, async (req, res, next) => {
+    try {
+        const fsets = await getFSetNames(req.user);
 
         res.render('flashcardManager', {
             user: req.user,
             authenticated: true,
-            fsets: doc.fsets
+            fsets
         });
     } catch (err) {
         next(err);
