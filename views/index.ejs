@@ -10,6 +10,16 @@
 <body>
   <%- include('/nav', { authenticated }) %>
 
+  <hgroup>
+    <h1>FlashX</h1>
+    <p>Learn with flashcards!</p>
+  </hgroup>
+
+  <ul>
+    <li>Build your own flashcard collections.</li>
+    <li>Start memorizing with a FlashX training session.</li>
+  </ul>
+
   <% if (!authenticated) { %>
 
   <% for (const { message } of flash) { %>
