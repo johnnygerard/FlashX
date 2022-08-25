@@ -126,8 +126,17 @@ app.use('/api', (req, res, next) => {
     else res.status(FORBIDDEN).end();
 }, api);
 
+app.use(express.static('public'));
+
 app.get('/', (req, res, next) => {
     res.render('index', { authenticated: req.isAuthenticated() });
+});
+
+app.get('/about', (req, res, next) => {
+    res.render('about', {
+        authenticated: req.isAuthenticated(),
+        repo: 'https://github.com/johnnygerard/FlashX'
+    });
 });
 
 app.get('/account', isAuthenticated, (req, res, next) => {
