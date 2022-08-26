@@ -1,22 +1,26 @@
 <nav>
-  <a href="/">Home</a>
-  <a href="/about">About</a>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
 
-  <% if (authenticated) { %>
-  <a href="/manager">Hub</a>
-  <a href="/training">Training</a>
-  <a href="/account">Account</a>
-  <button type="button" onclick="
-      fetch('/logOut', { method: 'DELETE' }).then(response => {
-        if (response.status === 204)
-          location.pathname = '/';
-        else {
-          response.text().then(console.error);
-          alert('Logout operation failed.');
-        }
-      }).catch(err => {
-        console.error(err);
-        alert('Network error');
-      });">Log out</button>
-  <% } %>
+    <% if (authenticated) { %>
+    <li><a href="/manager">Hub</a></li>
+    <li><a href="/training">Training</a></li>
+    <li><a href="/account">Account</a></li>
+    <li>
+      <button type="button" onclick="
+        fetch('/logOut', { method: 'DELETE' }).then(response => {
+          if (response.status === 204)
+            location.pathname = '/';
+          else {
+            response.text().then(console.error);
+            alert('Logout operation failed.');
+          }
+        }).catch(err => {
+          console.error(err);
+          alert('Network error');
+        });">Log out</button>
+    </li>
+    <% } %>
+  </ul>
 </nav>
