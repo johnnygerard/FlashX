@@ -155,6 +155,7 @@ router.get('/flashcard/:index', async (req, res, next) => {
     }
 });
 
+// Update question
 router.patch('/flashcard/question', async (req, res, next) => {
     const { fset, index, question } = req.body;
 
@@ -178,6 +179,7 @@ router.patch('/flashcard/question', async (req, res, next) => {
     }
 });
 
+// Update answer
 router.patch('/flashcard/answer', async (req, res, next) => {
     const { fset, index, answer } = req.body;
 
