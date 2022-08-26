@@ -8,18 +8,34 @@
     <li><a href="/training">Training</a></li>
     <li><a href="/account">Account</a></li>
     <li>
-      <button type="button" onclick="
-        fetch('/logOut', { method: 'DELETE' }).then(response => {
-          if (response.status === 204)
-            location.pathname = '/';
-          else {
-            response.text().then(console.error);
-            alert('Logout operation failed.');
+      <button type="button" id="logout">Log out</button>
+      <script type="module">
+        const button = document.getElementById('logout');
+        let ok = false;
+
+        const addClickListener = handler =>
+          button.addEventListener('click', handler, { once: true });
+
+        const handler = async event => {
+          try {
+            const response = await fetch('/logOut', { method: 'DELETE' });
+
+            if (response.ok) {
+              ok = true;
+              location.pathname = '/';
+            } else {
+              response.text().then(console.error);
+              alert('Logout operation failed.');
+            }
+          } catch (err) {
+            console.error(err);
+            alert('Network error');
+          } finally {
+            if (!ok) addClickListener(handler);
           }
-        }).catch(err => {
-          console.error(err);
-          alert('Network error');
-        });">Log out</button>
+        };
+        addClickListener(handler);
+      </script>
     </li>
     <% } %>
   </ul>
