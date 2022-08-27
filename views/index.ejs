@@ -35,11 +35,11 @@
 
   <form action="/register" method="post">
     <label>Username
-      <input name="username" autocomplete="username" required maxlength="128"
-          pattern="[!-~]*">
+      <input name="username" id="username" autocomplete="username" required
+          maxlength="128" pattern="[!-~]*">
     </label>
     <script type="module">
-      const username = document.querySelector('input[name=username]');
+      const username = document.getElementById('username');
 
       username.addEventListener('input', event => {
         const validity = username.validity;
@@ -54,12 +54,13 @@
       });
     </script>
     <label>Password
-      <input name="password" autocomplete="new-password" minlength="11"
+      <input name="password" id="password" autocomplete="new-password"
+          minlength="11"
           pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
           maxlength="128" required>
     </label>
     <script type="module">
-      const password = document.querySelector('input[name=password]');
+      const password = document.getElementById('password');
 
       password.addEventListener('input', event => {
         const validity = password.validity;
