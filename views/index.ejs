@@ -3,6 +3,26 @@
 
 <head>
   <%- include('/metadata', { title: 'Homepage' }) %>
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      background-color: lightgray;
+      width: fit-content;
+      padding: 1em;
+    }
+
+    input,
+    form>button {
+      margin-bottom: 2em;
+    }
+
+    form>p {
+      align-self: flex-start;
+      margin: 0;
+    }
+
+  </style>
 </head>
 
 <body>
@@ -24,34 +44,33 @@
   <p><%= message %></p>
   <% } %>
   <script>
-    const swapForms = () => {
-      const login = document.getElementById('login');
-      const register = document.getElementById('register');
-
-      login.hidden = !login.hidden;
-      register.hidden = !register.hidden;
+    const swapForms = register => {
+      document.getElementById('login').style.display =
+        register ? 'none' : 'flex';
+      document.getElementById('register').style.display =
+        register ? 'flex' : 'none';
     };
   </script>
   <form action="/login" method="post" id="login">
-    <label>Username
-      <input name="username" autocomplete="username" required autofocus>
-    </label>
-    <label>Password
-      <input name="password" autocomplete="current-password" required>
-    </label>
+    <label for="loginUsername">Username</label>
+    <input id="loginUsername" name="username" autocomplete="username" required
+        autofocus>
+
+    <label for="loginPassword">Password</label>
+    <input id="loginPassword" name="password" autocomplete="current-password"
+        required>
     <button>Log in</button>
     <p>No account?
-      <button type="button" onclick="swapForms()">Register</button>
+      <button type="button" onclick="swapForms(true)">Register</button>
     </p>
   </form>
 
-  <form action="/register" method="post" id="register" hidden>
-    <label>Username
-      <input name="username" id="username" autocomplete="username" required
-          maxlength="128" pattern="[!-~]*">
-    </label>
+  <form action="/register" method="post" id="register" style="display: none">
+    <label for="registerUsername">Username</label>
+    <input id="registerUsername" name="username" autocomplete="username"
+        required maxlength="128" pattern="[!-~]*">
     <script type="module">
-      const username = document.getElementById('username');
+      const username = document.getElementById('registerUsername');
 
       username.addEventListener('input', event => {
         const validity = username.validity;
@@ -65,14 +84,14 @@
         username.setCustomValidity(message);
       });
     </script>
-    <label>Password
-      <input name="password" id="password" autocomplete="new-password"
-          minlength="11"
-          pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
-          maxlength="128" required>
-    </label>
+    <label for="registerPassword">Password</label>
+    <input id="registerPassword" name="password" autocomplete="new-password"
+        minlength="11"
+        pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
+        maxlength="128" required>
+
     <script type="module">
-      const password = document.getElementById('password');
+      const password = document.getElementById('registerPassword');
 
       password.addEventListener('input', event => {
         const validity = password.validity;
@@ -95,7 +114,7 @@
     </script>
     <button>Sign up</button>
     <p>Already registered?
-      <button type="button" onclick="swapForms()">Log in</button>
+      <button type="button" onclick="swapForms(false)">Log in</button>
     </p>
   </form>
 
