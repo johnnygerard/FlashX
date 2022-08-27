@@ -23,7 +23,16 @@
   <% for (const { message } of flash) { %>
   <p><%= message %></p>
   <% } %>
-  <form action="/login" method="post">
+  <script>
+    const swapForms = () => {
+      const login = document.getElementById('login');
+      const register = document.getElementById('register');
+
+      login.hidden = !login.hidden;
+      register.hidden = !register.hidden;
+    };
+  </script>
+  <form action="/login" method="post" id="login">
     <label>Username
       <input name="username" autocomplete="username" required autofocus>
     </label>
@@ -31,9 +40,12 @@
       <input name="password" autocomplete="current-password" required>
     </label>
     <button>Log in</button>
+    <p>No account?
+      <button type="button" onclick="swapForms()">Register</button>
+    </p>
   </form>
 
-  <form action="/register" method="post">
+  <form action="/register" method="post" id="register" hidden>
     <label>Username
       <input name="username" id="username" autocomplete="username" required
           maxlength="128" pattern="[!-~]*">
@@ -82,6 +94,9 @@
       });
     </script>
     <button>Sign up</button>
+    <p>Already registered?
+      <button type="button" onclick="swapForms()">Log in</button>
+    </p>
   </form>
 
   <% } %>
