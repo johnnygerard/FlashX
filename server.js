@@ -137,13 +137,15 @@ app.use('/api', (req, res, next) => {
 }, api);
 
 app.use((req, res, next) => {
-    res.renderMin = (view, locals, cb) => {
+    const render = res.render;
+
+    res.render = (view, locals, cb) => {
         const defaultCallback = async (err, html) => {
             if (err) next(err);
             else res.send(await minify(html, minifyOptions));
         };
 
-        res.render(view, locals, cb || defaultCallback);
+        render.call(res, view, locals, cb || defaultCallback);
     };
     next();
 });
@@ -151,18 +153,18 @@ app.use((req, res, next) => {
 app.use(express.static('public'));
 
 app.get('/', (req, res, next) => {
-    res.renderMin('index', { authenticated: req.isAuthenticated() });
+    res.render('index', { authenticated: req.isAuthenticated() });
 });
 
 app.get('/about', (req, res, next) => {
-    res.renderMin('about', {
+    res.render('about', {
         authenticated: req.isAuthenticated(),
         repo: 'https://github.com/johnnygerard/FlashX'
     });
 });
 
 app.get('/account', isAuthenticated, (req, res, next) => {
-    res.renderMin('account', {
+    res.render('account', {
         user: req.user,
         authenticated: true
     });
@@ -179,7 +181,7 @@ app.get('/training', isAuthenticated, async (req, res, next) => {
     try {
         const fsets = await getFSetNames(req.user);
 
-        res.renderMin('training', { authenticated: true, fsets });
+        res.render('training', { authenticated: true, fsets });
     } catch (err) {
         next(err);
     }
@@ -189,7 +191,7 @@ app.get('/manager', isAuthenticated, async (req, res, next) => {
     try {
         const fsets = await getFSetNames(req.user);
 
-        res.renderMin('flashcardManager', {
+        res.render('flashcardManager', {
             user: req.user,
             authenticated: true,
             fsets
@@ -219,7 +221,7 @@ app.get('/manager/:index', isAuthenticated, async (req, res, next) => {
     try {
         const doc = await users.aggregate(pipeline).next();
 
-        res.renderMin('flashcards', {
+        res.render('flashcards', {
             user: req.user,
             authenticated: true,
             fset: doc.fset
