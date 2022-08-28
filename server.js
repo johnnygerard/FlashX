@@ -8,6 +8,7 @@ import LocalStrategy from 'passport-local';
 import ejs from 'ejs';
 import flash from 'flash';
 import api from './api.js';
+import { minify } from 'html-minifier-terser';
 import { BAD_REQUEST, FORBIDDEN, NO_CONTENT, SEE_OTHER }
     from './httpStatusCodes.js';
 
@@ -26,6 +27,15 @@ const ITERATIONS = 1000;
 const KDF = 'sha3-256'; // key derivation function
 const KEY_BYTE_LENGTH = 14;
 const SALT_BYTE_LENGTH = 16;
+
+const minifyOptions = {
+    collapseWhitespace: true,
+    minifyCSS: true,
+    minifyJS: true,
+    removeAttributeQuotes: true,
+    removeComments: true,
+    removeOptionalTags: true,
+};
 
 const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) next();
@@ -126,21 +136,33 @@ app.use('/api', (req, res, next) => {
     else res.status(FORBIDDEN).end();
 }, api);
 
+app.use((req, res, next) => {
+    res.renderMin = (view, locals, cb) => {
+        const defaultCallback = async (err, html) => {
+            if (err) next(err);
+            else res.send(await minify(html, minifyOptions));
+        };
+
+        res.render(view, locals, cb || defaultCallback);
+    };
+    next();
+});
+
 app.use(express.static('public'));
 
 app.get('/', (req, res, next) => {
-    res.render('index', { authenticated: req.isAuthenticated() });
+    res.renderMin('index', { authenticated: req.isAuthenticated() });
 });
 
 app.get('/about', (req, res, next) => {
-    res.render('about', {
+    res.renderMin('about', {
         authenticated: req.isAuthenticated(),
         repo: 'https://github.com/johnnygerard/FlashX'
     });
 });
 
 app.get('/account', isAuthenticated, (req, res, next) => {
-    res.render('account', {
+    res.renderMin('account', {
         user: req.user,
         authenticated: true
     });
@@ -157,7 +179,7 @@ app.get('/training', isAuthenticated, async (req, res, next) => {
     try {
         const fsets = await getFSetNames(req.user);
 
-        res.render('training', { authenticated: true, fsets });
+        res.renderMin('training', { authenticated: true, fsets });
     } catch (err) {
         next(err);
     }
@@ -167,7 +189,7 @@ app.get('/manager', isAuthenticated, async (req, res, next) => {
     try {
         const fsets = await getFSetNames(req.user);
 
-        res.render('flashcardManager', {
+        res.renderMin('flashcardManager', {
             user: req.user,
             authenticated: true,
             fsets
@@ -197,7 +219,7 @@ app.get('/manager/:index', isAuthenticated, async (req, res, next) => {
     try {
         const doc = await users.aggregate(pipeline).next();
 
-        res.render('flashcards', {
+        res.renderMin('flashcards', {
             user: req.user,
             authenticated: true,
             fset: doc.fset
