@@ -15,6 +15,17 @@ import { BAD_REQUEST, FORBIDDEN, NO_CONTENT, SEE_OTHER }
 if (env.NODE_ENV !== 'production')
     await import('dotenv/config');
 
+const nativeRender = express.response.render;
+
+express.response.render = function (view, locals, cb) {
+    const defaultCallback = async (err, html) => {
+        if (err) this.req.next(err);
+        else this.send(await minify(html, minifyOptions));
+    };
+
+    nativeRender.call(this, view, locals, cb || defaultCallback);
+};
+
 const app = express();
 const PORT = env.PORT || 3000;
 const HOST = 'localhost';
@@ -135,20 +146,6 @@ app.use('/api', (req, res, next) => {
     if (req.isAuthenticated()) next();
     else res.status(FORBIDDEN).end();
 }, api);
-
-app.use((req, res, next) => {
-    const render = res.render;
-
-    res.render = (view, locals, cb) => {
-        const defaultCallback = async (err, html) => {
-            if (err) next(err);
-            else res.send(await minify(html, minifyOptions));
-        };
-
-        render.call(res, view, locals, cb || defaultCallback);
-    };
-    next();
-});
 
 app.use(express.static('public'));
 
