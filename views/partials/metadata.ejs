@@ -6,12 +6,51 @@
 <link rel="icon" href="/logo.svg" type="image/svg+xml">
 <title>FlashX | <%- title %></title>
 <style>
+  /* Navigation bar */
+  nav button {
+    all: unset;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  nav>ul {
+    display: flex;
+    background-color: #DDD;
+    padding: 0;
+    margin: 0;
+  }
+
   nav li {
     display: inline;
   }
 
-  nav>ul {
-    padding: 0;
+  nav li>* {
+    padding: 1em;
+  }
+
+  nav li>a {
+    display: inline-block;
+    text-decoration: none;
+    color: unset;
+  }
+
+  nav li>a:hover {
+    background-color: #f8f8f8;
+  }
+
+  #logout {
+    margin-left: auto;
+  }
+
+  #logout>button {
+    cursor: pointer;
+  }
+
+  #logout>button:hover {
+    background-color: #C00;
+    color: #EEE;
   }
 
 </style>
