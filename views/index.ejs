@@ -9,7 +9,45 @@
       flex-direction: column;
       background-color: lightgray;
       width: fit-content;
+      padding: 1.5em;
+      border-radius: 0.8em;
+      position: fixed;
+      top: 10em;
+      left: 32em;
+    }
+
+    label {
+      margin-bottom: 0.5em;
+    }
+
+    input {
+      all: unset;
+      background-color: whitesmoke;
       padding: 1em;
+      font-size: 1em;
+      border-radius: 0.5em;
+      border: none;
+    }
+
+    input:focus {
+      background-color: white;
+    }
+
+    .submit {
+      padding: 1em;
+      border-radius: 0.5em;
+      border: none;
+      background-color: #0072c6;
+      color: whitesmoke;
+      cursor: pointer;
+    }
+
+    .swap {
+      all: unset;
+      color: #00E;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-left: 0.5em;
     }
 
     input,
@@ -86,9 +124,10 @@
       <label for="loginPassword">Password</label>
       <input id="loginPassword" type="password" name="password"
           autocomplete="current-password" required>
-      <button>Log in</button>
+      <button class="submit">Log in</button>
       <p>No account?
-        <button type="button" onclick="swapForms(true)">Register</button>
+        <button class="swap" type="button"
+            onclick="swapForms(true)">Register</button>
       </p>
     </form>
 
@@ -139,9 +178,10 @@
           password.setCustomValidity(message);
         });
       </script>
-      <button>Sign up</button>
+      <button class="submit">Sign up</button>
       <p>Already registered?
-        <button type="button" onclick="swapForms(false)">Log in</button>
+        <button class="swap" type="button" onclick="swapForms(false)">Log
+          in</button>
       </p>
     </form>
 
