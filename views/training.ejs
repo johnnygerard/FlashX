@@ -8,106 +8,110 @@
 
 <body>
   <%- include('/nav', { authenticated }) %>
-  <div id="sessionStart">
-    <select>
-      <% for (const fset of fsets) { %>
-      <option label="<%= fset %>"></option>
-      <% } %>
-    </select>
-    <button type="button">Start a training session</button>
-  </div>
-  <div id="question" hidden>
-    <p></p> <!-- question -->
-    <button type="button">Answer</button>
-  </div>
-  <div id="answer" hidden>
-    <p></p> <!-- answer -->
-    <button id="fail" type="button">Fail</button>
-    <button id="success" type="button">Success</button>
-  </div>
-  <button id="cancel" type="button" hidden>Cancel session</button>
-  <p id="score" hidden></p>
-  <script type="module">
-    const sessionStart = document.getElementById('sessionStart');
-    const questionFrame = document.getElementById('question');
-    const answerFrame = document.getElementById('answer');
-    const fail = document.getElementById('fail');
-    const success = document.getElementById('success');
-    const scoreReport = document.getElementById('score');
-    const cancelButton = document.getElementById('cancel');
-    const CANCEL_ERR_MSG = 'Session canceled';
-    const nav = document.querySelector('nav');
-    const select = sessionStart.querySelector('select');
-    const startButton = sessionStart.querySelector('button');
-    const answerButton = questionFrame.querySelector('button');
-    const question = questionFrame.querySelector('p');
-    const answer = answerFrame.querySelector('p');
 
-    let res; // resolve
-    let rej; // reject
+  <main>
+    <div id="sessionStart">
+      <select>
+        <% for (const fset of fsets) { %>
+        <option label="<%= fset %>"></option>
+        <% } %>
+      </select>
+      <button type="button">Start a training session</button>
+    </div>
+    <div id="question" hidden>
+      <p></p> <!-- question -->
+      <button type="button">Answer</button>
+    </div>
+    <div id="answer" hidden>
+      <p></p> <!-- answer -->
+      <button id="fail" type="button">Fail</button>
+      <button id="success" type="button">Success</button>
+    </div>
+    <button id="cancel" type="button" hidden>Cancel session</button>
+    <p id="score" hidden></p>
+    <script type="module">
+      const sessionStart = document.getElementById('sessionStart');
+      const questionFrame = document.getElementById('question');
+      const answerFrame = document.getElementById('answer');
+      const fail = document.getElementById('fail');
+      const success = document.getElementById('success');
+      const scoreReport = document.getElementById('score');
+      const cancelButton = document.getElementById('cancel');
+      const CANCEL_ERR_MSG = 'Session canceled';
+      const nav = document.querySelector('nav');
+      const select = sessionStart.querySelector('select');
+      const startButton = sessionStart.querySelector('button');
+      const answerButton = questionFrame.querySelector('button');
+      const question = questionFrame.querySelector('p');
+      const answer = answerFrame.querySelector('p');
 
-    const hide = element => element.hidden = true;
-    const show = element => element.hidden = false;
+      let res; // resolve
+      let rej; // reject
 
-    fail.addEventListener('click', () => res(false));
-    success.addEventListener('click', () => res(true));
-    cancelButton.addEventListener('click', () => {
-      rej(Error(CANCEL_ERR_MSG));
-      hide(questionFrame);
-      hide(answerFrame);
-      hide(cancelButton);
-      show(nav);
-      show(sessionStart);
-    });
-    answerButton.addEventListener('click', () => {
-      hide(questionFrame);
-      show(answerFrame);
-    });
+      const hide = element => element.hidden = true;
+      const show = element => element.hidden = false;
 
-    const attach = handler =>
-      startButton.addEventListener('click', handler, { once: true });
+      fail.addEventListener('click', () => res(false));
+      success.addEventListener('click', () => res(true));
+      cancelButton.addEventListener('click', () => {
+        rej(Error(CANCEL_ERR_MSG));
+        hide(questionFrame);
+        hide(answerFrame);
+        hide(cancelButton);
+        show(nav);
+        show(sessionStart);
+      });
+      answerButton.addEventListener('click', () => {
+        hide(questionFrame);
+        show(answerFrame);
+      });
 
-    const handler = async event => {
-      try {
-        const response = await fetch(`/api/flashcard/${select.selectedIndex}`);
+      const attach = handler =>
+        startButton.addEventListener('click', handler, { once: true });
 
-        if (response.ok) {
-          const flashcards = await response.json();
-          let score = 0;
+      const handler = async event => {
+        try {
+          const response = await fetch(`/api/flashcard/${select.selectedIndex}`);
 
-          hide(scoreReport);
-          hide(sessionStart);
-          hide(nav);
-          show(cancelButton);
-          for (const flashcard of flashcards) {
-            question.innerText = flashcard.question;
-            answer.innerText = flashcard.answer;
-            show(questionFrame);
-            if (await new Promise((resolve, reject) => {
-              res = resolve;
-              rej = reject;
-            })) score++;
-            hide(answerFrame);
+          if (response.ok) {
+            const flashcards = await response.json();
+            let score = 0;
+
+            hide(scoreReport);
+            hide(sessionStart);
+            hide(nav);
+            show(cancelButton);
+            for (const flashcard of flashcards) {
+              question.innerText = flashcard.question;
+              answer.innerText = flashcard.answer;
+              show(questionFrame);
+              if (await new Promise((resolve, reject) => {
+                res = resolve;
+                rej = reject;
+              })) score++;
+              hide(answerFrame);
+            }
+            hide(cancelButton);
+            scoreReport.innerText = `Score: ${score}/${flashcards.length}`;
+            show(nav);
+            show(sessionStart);
+            show(scoreReport);
+          } else {
+            console.error(await response.text());
+            alert('Operation failed.');
           }
-          hide(cancelButton);
-          scoreReport.innerText = `Score: ${score}/${flashcards.length}`;
-          show(nav);
-          show(sessionStart);
-          show(scoreReport);
-        } else {
-          console.error(await response.text());
-          alert('Operation failed.');
+        } catch (err) {
+          if (err.message === CANCEL_ERR_MSG) return;
+          console.error(err);
+          alert('Network error');
+        } finally {
+          attach(handler);
         }
-      } catch (err) {
-        if (err.message === CANCEL_ERR_MSG) return;
-        console.error(err);
-        alert('Network error');
-      } finally {
-        attach(handler);
-      }
-    };
-    attach(handler);
-  </script>
+      };
+      attach(handler);
+    </script>
+  </main>
+
 </body>
 
 </html>

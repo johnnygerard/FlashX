@@ -9,54 +9,58 @@
 
 <body>
   <%- include('/nav', { authenticated }) %>
-  <h1>FlashX</h1>
-  <h2>Welcome <%= user %>!</h2>
-  <label>Name
-    <input required maxlength="256" id="name" name="name">
-  </label>
-  <button type="button" id="createFSet">Create a flashcard collection</button>
-  <script type="module">
-    const button = document.getElementById('createFSet');
-    const name = document.getElementById('name');
 
-    addClickListener(button, 'fset', 'POST', {}, name);
-  </script>
-  <% if (fsets.length) { %>
-  <ol id="fsets">
-    <% fsets.forEach((fset, index) => { %>
-    <li><a href="<%= index %>"><%= fset %></a></li>
-    <% }); %>
-  </ol>
-  <template id="delete"><button type="button">Delete</button></template>
-  <template id="rename">
-    <input required maxlength="256" name="name">
-    <button type="button">Rename</button>
-  </template>
-  <script type="module">
-    const deleteFragment = document.getElementById('delete').content;
-    const deleteButton = deleteFragment.firstElementChild;
+  <main>
+    <h1>FlashX</h1>
+    <h2>Welcome <%= user %>!</h2>
+    <label>Name
+      <input required maxlength="256" id="name" name="name">
+    </label>
+    <button type="button" id="createFSet">Create a flashcard collection</button>
+    <script type="module">
+      const button = document.getElementById('createFSet');
+      const name = document.getElementById('name');
 
-    const renameFragment = document.getElementById('rename').content;
-    const renameButton = renameFragment.querySelector('button');
-    const nameInput = renameFragment.querySelector('input');
+      addClickListener(button, 'fset', 'POST', {}, name);
+    </script>
+    <% if (fsets.length) { %>
+    <ol id="fsets">
+      <% fsets.forEach((fset, index) => { %>
+      <li><a href="<%= index %>"><%= fset %></a></li>
+      <% }); %>
+    </ol>
+    <template id="delete"><button type="button">Delete</button></template>
+    <template id="rename">
+      <input required maxlength="256" name="name">
+      <button type="button">Rename</button>
+    </template>
+    <script type="module">
+      const deleteFragment = document.getElementById('delete').content;
+      const deleteButton = deleteFragment.firstElementChild;
 
-    const listItems = document.getElementById('fsets').children;
+      const renameFragment = document.getElementById('rename').content;
+      const renameButton = renameFragment.querySelector('button');
+      const nameInput = renameFragment.querySelector('input');
 
-    Array.prototype.forEach.call(listItems, (li, index) => {
-      const deleteButtonClone = deleteButton.cloneNode(true);
-      const renameButtonClone = renameButton.cloneNode(true);
-      const nameInputClone = nameInput.cloneNode(true);
+      const listItems = document.getElementById('fsets').children;
 
-      addClickListener(deleteButtonClone, 'fset', 'DELETE', { index });
-      addClickListener(renameButtonClone, 'fset', 'PATCH', { index },
-        nameInputClone);
+      Array.prototype.forEach.call(listItems, (li, index) => {
+        const deleteButtonClone = deleteButton.cloneNode(true);
+        const renameButtonClone = renameButton.cloneNode(true);
+        const nameInputClone = nameInput.cloneNode(true);
 
-      li.appendChild(nameInputClone);
-      li.appendChild(renameButtonClone);
-      li.appendChild(deleteButtonClone);
-    });
-  </script>
-  <% } %>
+        addClickListener(deleteButtonClone, 'fset', 'DELETE', { index });
+        addClickListener(renameButtonClone, 'fset', 'PATCH', { index },
+          nameInputClone);
+
+        li.appendChild(nameInputClone);
+        li.appendChild(renameButtonClone);
+        li.appendChild(deleteButtonClone);
+      });
+    </script>
+    <% } %>
+  </main>
+
 </body>
 
 </html>

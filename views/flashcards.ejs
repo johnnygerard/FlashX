@@ -8,86 +8,90 @@
 
 <body>
   <%- include('/nav', { authenticated }) %>
-  <h1>FlashX</h1>
-  <h2>Flashcard collection "<%= fset.name %>"</h2>
 
-  <label>Question
-    <input required maxlength="256" id="createQ" name="question">
-  </label>
-  <label>Answer
-    <input required maxlength="256" id="createA" name="answer">
-  </label>
-  <button type="button" id="createFlashcard">Create a flashcard</button>
-  <script type="module">
-    const button = document.getElementById('createFlashcard');
-    const question = document.getElementById('createQ');
-    const answer = document.getElementById('createA');
-    const payload = { fset: +location.pathname.match(/\d+/)[0] };
+  <main>
+    <h1>FlashX</h1>
+    <h2>Flashcard collection "<%= fset.name %>"</h2>
 
-    addClickListener(button, 'flashcard', 'POST', payload, question, answer);
-  </script>
+    <label>Question
+      <input required maxlength="256" id="createQ" name="question">
+    </label>
+    <label>Answer
+      <input required maxlength="256" id="createA" name="answer">
+    </label>
+    <button type="button" id="createFlashcard">Create a flashcard</button>
+    <script type="module">
+      const button = document.getElementById('createFlashcard');
+      const question = document.getElementById('createQ');
+      const answer = document.getElementById('createA');
+      const payload = { fset: +location.pathname.match(/\d+/)[0] };
 
-  <% if (fset.flashcards.length) { %>
-  <dl id="flashcards">
-    <% for (const flashcard of fset.flashcards) { %>
-    <dt><%= flashcard.question %></dt>
-    <dd><%= flashcard.answer %></dd>
+      addClickListener(button, 'flashcard', 'POST', payload, question, answer);
+    </script>
+
+    <% if (fset.flashcards.length) { %>
+    <dl id="flashcards">
+      <% for (const flashcard of fset.flashcards) { %>
+      <dt><%= flashcard.question %></dt>
+      <dd><%= flashcard.answer %></dd>
+      <% } %>
+    </dl>
+    <template id="delete"><button type="button">Delete</button></template>
+    <template id="question">
+      <input required maxlength="256" name="question">
+      <button type="button">Update question</button>
+    </template>
+    <template id="answer">
+      <input required maxlength="256" name="answer">
+      <button type="button">Update answer</button>
+    </template>
+    <script type="module">
+      const flashcards = document.getElementById('flashcards');
+      const questions = flashcards.querySelectorAll('dt');
+      const answers = flashcards.querySelectorAll('dd');
+      const fset = +location.pathname.match(/\d+/)[0];
+
+      const deleteFragment = document.getElementById('delete').content;
+      const deleteButton = deleteFragment.firstElementChild;
+
+      const questionFragment = document.getElementById('question').content;
+      const questionInput = questionFragment.querySelector('input');
+      const questionButton = questionFragment.querySelector('button');
+
+      const answerFragment = document.getElementById('answer').content;
+      const answerInput = answerFragment.querySelector('input');
+      const answerButton = answerFragment.querySelector('button');
+
+      Array.prototype.forEach.call(questions, (question, index) => {
+        const deleteButtonClone = deleteButton.cloneNode(true);
+        const questionButtonClone = questionButton.cloneNode(true);
+        const questionInputClone = questionInput.cloneNode(true);
+        const payload = { index, fset };
+
+        addClickListener(deleteButtonClone, 'flashcard', 'DELETE', payload);
+        addClickListener(questionButtonClone, 'flashcard/question', 'PATCH',
+          payload, questionInputClone);
+
+        question.appendChild(questionInputClone);
+        question.appendChild(questionButtonClone);
+        question.appendChild(deleteButtonClone);
+      });
+
+      Array.prototype.forEach.call(answers, (answer, index) => {
+        const answerButtonClone = answerButton.cloneNode(true);
+        const answerInputClone = answerInput.cloneNode(true);
+        const payload = { index, fset };
+
+        addClickListener(answerButtonClone, 'flashcard/answer', 'PATCH',
+          payload, answerInputClone);
+
+        answer.appendChild(answerInputClone);
+        answer.appendChild(answerButtonClone);
+      });
+    </script>
     <% } %>
-  </dl>
-  <template id="delete"><button type="button">Delete</button></template>
-  <template id="question">
-    <input required maxlength="256" name="question">
-    <button type="button">Update question</button>
-  </template>
-  <template id="answer">
-    <input required maxlength="256" name="answer">
-    <button type="button">Update answer</button>
-  </template>
-  <script type="module">
-    const flashcards = document.getElementById('flashcards');
-    const questions = flashcards.querySelectorAll('dt');
-    const answers = flashcards.querySelectorAll('dd');
-    const fset = +location.pathname.match(/\d+/)[0];
+  </main>
 
-    const deleteFragment = document.getElementById('delete').content;
-    const deleteButton = deleteFragment.firstElementChild;
-
-    const questionFragment = document.getElementById('question').content;
-    const questionInput = questionFragment.querySelector('input');
-    const questionButton = questionFragment.querySelector('button');
-
-    const answerFragment = document.getElementById('answer').content;
-    const answerInput = answerFragment.querySelector('input');
-    const answerButton = answerFragment.querySelector('button');
-
-    Array.prototype.forEach.call(questions, (question, index) => {
-      const deleteButtonClone = deleteButton.cloneNode(true);
-      const questionButtonClone = questionButton.cloneNode(true);
-      const questionInputClone = questionInput.cloneNode(true);
-      const payload = { index, fset };
-
-      addClickListener(deleteButtonClone, 'flashcard', 'DELETE', payload);
-      addClickListener(questionButtonClone, 'flashcard/question', 'PATCH',
-        payload, questionInputClone);
-
-      question.appendChild(questionInputClone);
-      question.appendChild(questionButtonClone);
-      question.appendChild(deleteButtonClone);
-    });
-
-    Array.prototype.forEach.call(answers, (answer, index) => {
-      const answerButtonClone = answerButton.cloneNode(true);
-      const answerInputClone = answerInput.cloneNode(true);
-      const payload = { index, fset };
-
-      addClickListener(answerButtonClone, 'flashcard/answer', 'PATCH',
-        payload, answerInputClone);
-
-      answer.appendChild(answerInputClone);
-      answer.appendChild(answerButtonClone);
-    });
-  </script>
-  <% } %>
 </body>
 
 </html>
