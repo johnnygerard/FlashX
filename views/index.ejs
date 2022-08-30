@@ -32,6 +32,19 @@
       align-items: center;
     }
 
+    hgroup>p {
+      font-size: 1.2em;
+    }
+
+    main>ul>li {
+      margin-top: 0.4em;
+    }
+
+    main>ul>li::after {
+      content: ' \2714';
+      color: green;
+    }
+
   </style>
 </head>
 
@@ -41,12 +54,15 @@
   <main>
     <hgroup>
       <h1><img src="/logo.svg" alt="FlashX logo">FlashX</h1>
-      <p>Learn with flashcards!</p>
+      <p>Memorize easily with flashcards!</p>
     </hgroup>
 
+    <p>Once you are registered, you will be able to:</p>
+
     <ul>
-      <li>Build your own flashcard collections.</li>
-      <li>Start memorizing with a FlashX training session.</li>
+      <li>Write your own flashcards</li>
+      <li>Organize them into collections</li>
+      <li>Train your memory with active recall</li>
     </ul>
 
     <% if (!authenticated) { %>
