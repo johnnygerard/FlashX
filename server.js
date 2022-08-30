@@ -40,6 +40,7 @@ const KEY_BYTE_LENGTH = 14;
 const SALT_BYTE_LENGTH = 16;
 
 const minifyOptions = {
+    collapseInlineTagWhitespace: true,
     collapseWhitespace: true,
     minifyCSS: true,
     minifyJS: true,
