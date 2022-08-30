@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('/metadata', { title: 'Register' }) %>
+  <style>
+    img {
+      height: 1.5em;
+      margin-right: 0.4em;
+    }
+
+  </style>
+</head>
+
+<body>
+  <%- include('/nav', { authenticated }) %>
+
+  <main>
+    <h1><img src="logo.svg" alt="FlashX logo">FlashX</h1>
+
+    <% for (const { message } of flash) { %>
+    <p><%= message %></p>
+    <% } %>
+
+    <form action="/register" method="post" id="register">
+      <label for="username">Username</label>
+      <input id="username" name="username" autocomplete="username" required
+          maxlength="128" pattern="[!-~]*">
+      <script type="module">
+        const username = document.getElementById('username');
+
+        username.addEventListener('input', event => {
+          const validity = username.validity;
+          const message =
+            validity.tooLong ? 'Maximum length is 128' :
+              validity.patternMismatch ? `Forbidden:
+                spaces
+                control characters
+                non-ascii characters` : '';
+
+          username.setCustomValidity(message);
+        });
+      </script>
+      <label for="password">Password</label>
+      <input id="password" type="password" name="password"
+          autocomplete="new-password" minlength="11"
+          pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
+          maxlength="128" required>
+
+      <script type="module">
+        const password = document.getElementById('password');
+
+        password.addEventListener('input', event => {
+          const validity = password.validity;
+          const message =
+            validity.tooShort ? 'Minimum length is 11' :
+              validity.tooLong ? 'Maximum length is 128' :
+                validity.patternMismatch ? `Required:
+        1 small letter
+        1 capital letter
+        1 digit
+        1 symbol
+        
+        Forbidden:
+        spaces
+        control characters
+        non-ascii characters` : '';
+
+          password.setCustomValidity(message);
+        });
+      </script>
+      <button class="submit">Sign up</button>
+      <p>Already registered? <a href="/">Log in</a></p>
+    </form>
+  </main>
+
+</body>
+
+</html>
