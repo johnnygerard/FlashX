@@ -58,8 +58,8 @@
           autofocus>
 
       <label for="loginPassword">Password</label>
-      <input id="loginPassword" name="password" autocomplete="current-password"
-          required>
+      <input id="loginPassword" type="password" name="password"
+          autocomplete="current-password" required>
       <button>Log in</button>
       <p>No account?
         <button type="button" onclick="swapForms(true)">Register</button>
@@ -86,8 +86,8 @@
         });
       </script>
       <label for="registerPassword">Password</label>
-      <input id="registerPassword" name="password" autocomplete="new-password"
-          minlength="11"
+      <input id="registerPassword" type="password" name="password"
+          autocomplete="new-password" minlength="11"
           pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
           maxlength="128" required>
 
