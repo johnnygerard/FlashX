@@ -3,63 +3,16 @@
 
 <head>
   <%- include('/metadata', { title: 'Homepage' }) %>
+  <%- include('/formStyle') %>
   <style>
-    form {
+    hgroup>h1 {
       display: flex;
-      flex-direction: column;
-      background-color: lightgray;
-      width: fit-content;
-      padding: 1.5em;
-      border-radius: 0.8em;
-      position: fixed;
-      top: 10em;
-      left: 32em;
-    }
-
-    label {
-      margin-bottom: 0.5em;
-    }
-
-    input {
-      all: unset;
-      background-color: whitesmoke;
-      padding: 1em;
-      font-size: 1em;
-      border-radius: 0.5em;
-      border: none;
-    }
-
-    input:focus {
-      background-color: white;
-    }
-
-    .submit {
-      padding: 1em;
-      border-radius: 0.5em;
-      border: none;
-      background-color: #0072c6;
-      color: whitesmoke;
-      cursor: pointer;
-    }
-
-    input,
-    form>button {
-      margin-bottom: 2em;
-    }
-
-    form>p {
-      align-self: flex-start;
-      margin: 0;
+      align-items: center;
     }
 
     img {
       height: 1.5em;
       margin-right: 0.4em;
-    }
-
-    hgroup>h1 {
-      display: flex;
-      align-items: center;
     }
 
     hgroup>p {
@@ -73,10 +26,6 @@
     main>ul>li::after {
       content: ' \2714';
       color: green;
-    }
-
-    form>p>a {
-      margin-left: 0.5em;
     }
 
   </style>
@@ -112,7 +61,7 @@
       <label for="password">Password</label>
       <input id="password" type="password" name="password"
           autocomplete="current-password" required>
-      <button class="submit">Log in</button>
+      <button>Log in</button>
       <p>No account? <a href="register">Register</a></p>
     </form>
 
