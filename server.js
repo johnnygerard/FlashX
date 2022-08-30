@@ -161,6 +161,10 @@ app.get('/about', (req, res, next) => {
     });
 });
 
+app.get('/register', (req, res, next) => {
+    res.render('register', { authenticated: req.isAuthenticated() });
+});
+
 app.get('/account', isAuthenticated, (req, res, next) => {
     res.render('account', {
         user: req.user,
