@@ -42,14 +42,6 @@
       cursor: pointer;
     }
 
-    .swap {
-      all: unset;
-      color: #00E;
-      text-decoration: underline;
-      cursor: pointer;
-      margin-left: 0.5em;
-    }
-
     input,
     form>button {
       margin-bottom: 2em;
@@ -83,6 +75,10 @@
       color: green;
     }
 
+    form>p>a {
+      margin-left: 0.5em;
+    }
+
   </style>
 </head>
 
@@ -108,14 +104,6 @@
     <% for (const { message } of flash) { %>
     <p><%= message %></p>
     <% } %>
-    <script>
-      const swapForms = register => {
-        document.getElementById('login').style.display =
-          register ? 'none' : 'flex';
-        document.getElementById('register').style.display =
-          register ? 'flex' : 'none';
-      };
-    </script>
     <form action="/login" method="post" id="login">
       <label for="loginUsername">Username</label>
       <input id="loginUsername" name="username" autocomplete="username" required
@@ -125,64 +113,7 @@
       <input id="loginPassword" type="password" name="password"
           autocomplete="current-password" required>
       <button class="submit">Log in</button>
-      <p>No account?
-        <button class="swap" type="button"
-            onclick="swapForms(true)">Register</button>
-      </p>
-    </form>
-
-    <form action="/register" method="post" id="register" style="display: none">
-      <label for="registerUsername">Username</label>
-      <input id="registerUsername" name="username" autocomplete="username"
-          required maxlength="128" pattern="[!-~]*">
-      <script type="module">
-        const username = document.getElementById('registerUsername');
-
-        username.addEventListener('input', event => {
-          const validity = username.validity;
-          const message =
-            validity.tooLong ? 'Maximum length is 128' :
-              validity.patternMismatch ? `Forbidden:
-              spaces
-              control characters
-              non-ascii characters` : '';
-
-          username.setCustomValidity(message);
-        });
-      </script>
-      <label for="registerPassword">Password</label>
-      <input id="registerPassword" type="password" name="password"
-          autocomplete="new-password" minlength="11"
-          pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
-          maxlength="128" required>
-
-      <script type="module">
-        const password = document.getElementById('registerPassword');
-
-        password.addEventListener('input', event => {
-          const validity = password.validity;
-          const message =
-            validity.tooShort ? 'Minimum length is 11' :
-              validity.tooLong ? 'Maximum length is 128' :
-                validity.patternMismatch ? `Required:
-      1 small letter
-      1 capital letter
-      1 digit
-      1 symbol
-      
-      Forbidden:
-      spaces
-      control characters
-      non-ascii characters` : '';
-
-          password.setCustomValidity(message);
-        });
-      </script>
-      <button class="submit">Sign up</button>
-      <p>Already registered?
-        <button class="swap" type="button" onclick="swapForms(false)">Log
-          in</button>
-      </p>
+      <p>No account? <a href="register">Register</a></p>
     </form>
 
     <% } %>
