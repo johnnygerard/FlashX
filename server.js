@@ -20,7 +20,7 @@ const nativeRender = express.response.render;
 express.response.render = function (view, locals, cb) {
     const defaultCallback = async (err, html) => {
         if (err) this.req.next(err);
-        else this.send(await minify(html, minifyOptions));
+        else this.send(await minify(html, minifierOptions));
     };
 
     nativeRender.call(this, view, locals, cb || defaultCallback);
@@ -39,7 +39,7 @@ const KDF = 'sha3-256'; // key derivation function
 const KEY_BYTE_LENGTH = 14;
 const SALT_BYTE_LENGTH = 16;
 
-const minifyOptions = {
+const minifierOptions = {
     collapseInlineTagWhitespace: true,
     collapseWhitespace: true,
     minifyCSS: true,
