@@ -56,9 +56,6 @@
 
     <% if (!authenticated) { %>
 
-    <% for (const { message } of flash) { %>
-    <p><%= message %></p>
-    <% } %>
     <form action="/login" method="post">
       <label for="username">Username</label>
       <input id="username" name="username" autocomplete="username" required
@@ -67,6 +64,9 @@
       <label for="password">Password</label>
       <input id="password" type="password" name="password"
           autocomplete="current-password" required>
+      <% for (const { message } of flash) { %>
+      <p class="message"><strong><%= message %></strong></p>
+      <% } %>
       <button>Log in</button>
       <p>No account? <a href="register">Register</a></p>
     </form>

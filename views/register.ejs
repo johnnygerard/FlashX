@@ -29,10 +29,6 @@
   <main>
     <h1><img src="logo.svg" alt="FlashX logo">FlashX</h1>
 
-    <% for (const { message } of flash) { %>
-    <p><%= message %></p>
-    <% } %>
-
     <form action="/register" method="post">
       <label for="username">Username</label>
       <input id="username" name="username" autocomplete="username" required
@@ -80,6 +76,9 @@
           password.setCustomValidity(message);
         });
       </script>
+      <% for (const { message } of flash) { %>
+      <p class="message"><strong><%= message %></strong></p>
+      <% } %>
       <button>Create account</button>
       <p>Already registered? <a href="/">Log in</a></p>
     </form>
