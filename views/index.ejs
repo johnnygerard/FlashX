@@ -104,7 +104,7 @@
     <% for (const { message } of flash) { %>
     <p><%= message %></p>
     <% } %>
-    <form action="/login" method="post" id="login">
+    <form action="/login" method="post">
       <label for="username">Username</label>
       <input id="username" name="username" autocomplete="username" required
           autofocus>
