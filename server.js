@@ -31,7 +31,7 @@ const PORT = env.PORT || 3000;
 const HOST = 'localhost';
 const authenticatedRedirect = '/manager';
 const unauthenticatedRedirect = '/';
-const registrationFailureRedirect = '/';
+const registrationFailureRedirect = '/register';
 
 // values based on NIST recommendations
 const ITERATIONS = 1000;
@@ -74,9 +74,7 @@ passport.use(new LocalStrategy(async (username, password, done) => {
         const user = await users.findOne({ _id: username });
 
         if (!user) {
-            done(null, false, {
-                message: `This username (${username}) does not exist.`
-            });
+            done(null, false, { message: 'Nonexistent user.' });
             return;
         }
 
@@ -90,7 +88,7 @@ passport.use(new LocalStrategy(async (username, password, done) => {
         if (derivedKey.equals(user.derivedKey.buffer)) {
             done(null, user);
         } else {
-            done(null, false, { message: 'Your password is invalid.' });
+            done(null, false, { message: 'Wrong password.' });
         }
     } catch (err) {
         done(err);
@@ -246,7 +244,7 @@ app.post('/register', async (req, res, next) => {
 
     try {
         if (await users.findOne({ _id })) {
-            req.flash(`This username (${_id}) is not available.`);
+            req.flash('Username unavailable.');
             res.redirect(SEE_OTHER, registrationFailureRedirect);
             return;
         }
