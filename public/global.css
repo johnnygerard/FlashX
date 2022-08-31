@@ -3,6 +3,18 @@ html {
     --accent-secondary: whitesmoke;
 }
 
+.form {
+    background-color: lightgray;
+    width: fit-content;
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+.createButton {
+    background-color: #0A0;
+    color: var(--accent-secondary);
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--accent-secondary);
@@ -31,11 +43,6 @@ button {
     padding: 1em;
     border-radius: 0.5em;
     text-align: center;
-}
-
-.createButton {
-    background-color: #0A0;
-    color: var(--accent-secondary);
 }
 
 /* Logo */

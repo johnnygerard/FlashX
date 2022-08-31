@@ -6,13 +6,6 @@
   <%- include('/addClickListener') %>
   <base href="/collections/">
   <style>
-    #createFSet {
-      width: fit-content;
-      padding: 1em;
-      background-color: lightgray;
-      border-radius: 0.5em;
-    }
-
     .delete {
       background-color: #C00;
       color: var(--accent-secondary);
@@ -37,10 +30,6 @@
 
     #fsets>li {
       display: block;
-      width: fit-content;
-      padding: 1em;
-      background-color: lightgray;
-      border-radius: 0.5em;
       margin-bottom: 0.5em;
     }
 
@@ -70,7 +59,7 @@
   <main>
     <%- include('/logo') %>
     <h2>Welcome <%= user %>!</h2>
-    <div id="createFSet">
+    <div id="createFSet" class="form">
       <label for="name">Name</label>
       <input id="name" required autofocus maxlength="256" name="name" size="16">
       <button type="button" class="createButton">Add collection</button>
@@ -84,7 +73,7 @@
     <% if (fsets.length) { %>
     <ul id="fsets">
       <% fsets.forEach((fset, index) => { %>
-      <li><a href="<%= index %>"><%= fset %></a></li>
+      <li class="form"><a href="<%= index %>"><%= fset %></a></li>
       <% }); %>
     </ul>
     <template id="delete">
