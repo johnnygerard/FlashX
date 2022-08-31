@@ -29,7 +29,7 @@ express.response.render = function (view, locals, cb) {
 const app = express();
 const PORT = env.PORT || 3000;
 const HOST = 'localhost';
-const authenticatedRedirect = '/manager';
+const authenticatedRedirect = '/collections';
 const unauthenticatedRedirect = '/';
 const registrationFailureRedirect = '/register';
 
@@ -187,11 +187,11 @@ app.get('/training', isAuthenticated, async (req, res, next) => {
     }
 });
 
-app.get('/manager', isAuthenticated, async (req, res, next) => {
+app.get('/collections', isAuthenticated, async (req, res, next) => {
     try {
         const fsets = await getFSetNames(req.user);
 
-        res.render('flashcardManager', {
+        res.render('collections', {
             user: req.user,
             authenticated: true,
             fsets
@@ -201,7 +201,7 @@ app.get('/manager', isAuthenticated, async (req, res, next) => {
     }
 });
 
-app.get('/manager/:index', isAuthenticated, async (req, res, next) => {
+app.get('/collections/:index', isAuthenticated, async (req, res, next) => {
     const index = +req.params.index;
 
     if (!Number.isInteger(index) || index < 0) {
