@@ -5,6 +5,45 @@
   <%- include('/metadata', { title: 'Flashcard hub' }) %>
   <%- include('/addClickListener') %>
   <base href="/collections/">
+  <style>
+    #createFSet {
+      width: fit-content;
+      padding: 1em;
+      background-color: lightgray;
+      border-radius: 0.5em;
+    }
+
+    #createFSet>button {
+      background-color: #0A0;
+      color: var(--accent-secondary);
+      margin-left: 1em;
+      cursor: pointer;
+    }
+
+    #createFSet>label {
+      display: block;
+      margin-bottom: 0.5em;
+    }
+
+    #createFSet>input,
+    #createFSet>button {
+      border-radius: 0.5em;
+      padding: 1em;
+      border: none;
+    }
+
+    #createFSet>input {
+      all: unset;
+      background-color: var(--accent-secondary);
+      padding: 1em;
+      border-radius: 0.5em;
+    }
+
+    #createFSet>input:focus {
+      background-color: white;
+    }
+
+  </style>
 </head>
 
 <body>
@@ -13,12 +52,13 @@
   <main>
     <%- include('/logo') %>
     <h2>Welcome <%= user %>!</h2>
-    <label>Name
-      <input required maxlength="256" id="name" name="name">
-    </label>
-    <button type="button" id="createFSet">Create a flashcard collection</button>
+    <div id="createFSet">
+      <label for="name">Name</label>
+      <input id="name" required autofocus maxlength="256" name="name" size="16">
+      <button type="button">Add collection</button>
+    </div>
     <script type="module">
-      const button = document.getElementById('createFSet');
+      const button = document.querySelector('#createFSet>button');
       const name = document.getElementById('name');
 
       addClickListener(button, 'fset', 'POST', {}, name);
