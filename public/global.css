@@ -14,32 +14,32 @@ main {
 }
 
 /* Navigation bar */
-nav button {
+#logout>button {
     all: unset;
 }
 
-nav>ul {
+#nav {
     display: flex;
     background-color: var(--accent-primary);
     padding: 0;
     margin: 0;
 }
 
-nav li {
+#nav>li {
     display: inline;
 }
 
-nav li>* {
+#nav>li>* {
     padding: 1em;
     color: var(--accent-secondary);
 }
 
-nav li>a {
+#nav>li>a {
     display: inline-block;
     text-decoration: none;
 }
 
-nav li>a:hover {
+#nav>li>a:hover {
     background-color: var(--accent-secondary);
     color: var(--accent-primary);
 }
