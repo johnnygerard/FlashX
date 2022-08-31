@@ -5,20 +5,10 @@
   <%- include('/metadata', { title: 'Homepage' }) %>
   <%- include('/formStyle') %>
   <style>
-    hgroup>h1 {
-      display: flex;
-      align-items: center;
-    }
-
     form {
       position: fixed;
       top: 10em;
       left: 32em;
-    }
-
-    img {
-      height: 1.5em;
-      margin-right: 0.4em;
     }
 
     hgroup>p {
@@ -42,7 +32,7 @@
 
   <main>
     <hgroup>
-      <h1><img src="/logo.svg" alt="FlashX logo">FlashX</h1>
+      <%- include('/logo') %>
       <p>Memorize easily with flashcards!</p>
     </hgroup>
 

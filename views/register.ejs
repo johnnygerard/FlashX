@@ -5,16 +5,6 @@
   <%- include('/metadata', { title: 'Register' }) %>
   <%- include('/formStyle') %>
   <style>
-    h1 {
-      display: flex;
-      align-items: center;
-    }
-
-    img {
-      height: 1.5em;
-      margin-right: 0.4em;
-    }
-
     form {
       margin: auto;
       width: fit-content;
@@ -27,7 +17,7 @@
   <%- include('/nav', { authenticated }) %>
 
   <main>
-    <h1><img src="logo.svg" alt="FlashX logo">FlashX</h1>
+    <%- include('/logo') %>
 
     <form action="/register" method="post">
       <label for="username">Username</label>

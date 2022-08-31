@@ -13,6 +13,17 @@ main {
     margin: 1em;
 }
 
+/* Logo */
+#logo {
+    display: flex;
+    align-items: center;
+}
+
+#logo>img {
+    height: 1.5em;
+    margin-right: 0.4em;
+}
+
 /* Navigation bar */
 #logout>button {
     all: unset;
