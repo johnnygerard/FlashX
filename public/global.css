@@ -33,6 +33,11 @@ button {
     text-align: center;
 }
 
+.createButton {
+    background-color: #0A0;
+    color: var(--accent-secondary);
+}
+
 /* Logo */
 #logo {
     display: flex;

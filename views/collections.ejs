@@ -13,11 +13,6 @@
       border-radius: 0.5em;
     }
 
-    #createFSet>button {
-      background-color: #0A0;
-      color: var(--accent-secondary);
-    }
-
     .delete {
       background-color: #C00;
       color: var(--accent-secondary);
@@ -78,7 +73,7 @@
     <div id="createFSet">
       <label for="name">Name</label>
       <input id="name" required autofocus maxlength="256" name="name" size="16">
-      <button type="button">Add collection</button>
+      <button type="button" class="createButton">Add collection</button>
     </div>
     <script type="module">
       const button = document.querySelector('#createFSet>button');
