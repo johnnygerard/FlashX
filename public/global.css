@@ -15,6 +15,11 @@ html {
     color: var(--accent-secondary);
 }
 
+.delete {
+    background-color: #C00;
+    color: var(--accent-secondary);
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--accent-secondary);
