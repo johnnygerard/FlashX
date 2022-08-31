@@ -64,11 +64,11 @@
       addClickListener(button, 'fset', 'POST', {}, name);
     </script>
     <% if (fsets.length) { %>
-    <ol id="fsets">
+    <ul id="fsets">
       <% fsets.forEach((fset, index) => { %>
       <li><a href="<%= index %>"><%= fset %></a></li>
       <% }); %>
-    </ol>
+    </ul>
     <template id="delete"><button type="button">Delete</button></template>
     <template id="rename">
       <input required maxlength="256" name="name">
