@@ -1,6 +1,11 @@
+html {
+    --accent-primary: #0072c6;
+    --accent-secondary: whitesmoke;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: whitesmoke;
+    background-color: var(--accent-secondary);
     margin: 0;
 }
 
@@ -15,7 +20,7 @@ nav button {
 
 nav>ul {
     display: flex;
-    background-color: #0072c6;
+    background-color: var(--accent-primary);
     padding: 0;
     margin: 0;
 }
@@ -26,7 +31,7 @@ nav li {
 
 nav li>* {
     padding: 1em;
-    color: whitesmoke;
+    color: var(--accent-secondary);
 }
 
 nav li>a {
@@ -35,8 +40,8 @@ nav li>a {
 }
 
 nav li>a:hover {
-    background-color: whitesmoke;
-    color: #0072c6;
+    background-color: var(--accent-secondary);
+    color: var(--accent-primary);
 }
 
 #logout {
