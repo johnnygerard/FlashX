@@ -16,8 +16,20 @@
     #createFSet>button {
       background-color: #0A0;
       color: var(--accent-secondary);
+    }
+
+    .delete {
+      background-color: #C00;
+      color: var(--accent-secondary);
+    }
+
+    #createFSet>button,
+    #fsets>li>button {
       margin-left: 1em;
       cursor: pointer;
+      border-radius: 0.5em;
+      padding: 1em;
+      border: none;
     }
 
     #createFSet>label {
@@ -26,21 +38,49 @@
     }
 
     #createFSet>input,
-    #createFSet>button {
-      border-radius: 0.5em;
-      padding: 1em;
-      border: none;
-    }
-
-    #createFSet>input {
+    #fsets>li>input {
       all: unset;
       background-color: var(--accent-secondary);
-      padding: 1em;
       border-radius: 0.5em;
+      padding: 1em;
     }
 
-    #createFSet>input:focus {
+    #createFSet>input:focus,
+    #fsets>li>input:focus {
       background-color: white;
+    }
+
+    #fsets {
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    #fsets>li {
+      display: block;
+      width: fit-content;
+      padding: 1em;
+      background-color: lightgray;
+      border-radius: 0.5em;
+      margin-bottom: 0.5em;
+    }
+
+    #fsets>li>a {
+      all: unset;
+      padding: 1em;
+      cursor: pointer;
+      display: block;
+      background-color: var(--accent-primary);
+      color: var(--accent-secondary);
+      border-radius: 0.4em;
+      margin-bottom: 0.5em;
+      width: fit-content;
+    }
+
+    #fsets>li>a:hover {
+      background-color: var(--accent-secondary);
+      color: var(--accent-primary);
     }
 
   </style>
@@ -69,7 +109,8 @@
       <li><a href="<%= index %>"><%= fset %></a></li>
       <% }); %>
     </ul>
-    <template id="delete"><button type="button">Delete</button></template>
+    <template id="delete"><button type="button"
+          class="delete">Delete</button></template>
     <template id="rename">
       <input required maxlength="256" name="name">
       <button type="button">Rename</button>
