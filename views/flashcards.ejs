@@ -4,6 +4,48 @@
 <head>
   <%- include('/metadata', { title: 'Flashcards' }) %>
   <%- include('/addClickListener') %>
+  <style>
+    #createFlashcard {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #createFlashcard>input {
+      margin-bottom: 1.5em;
+    }
+
+    #createFlashcard>label {
+      margin-bottom: 0.5em;
+    }
+
+    #flashcards>div {
+      margin-bottom: 1em;
+    }
+
+    #flashcards input {
+      margin: 0 1em;
+    }
+
+    dt,
+    dd {
+      margin: 0;
+    }
+
+    dt {
+      border-bottom: 1px solid var(--accent-secondary);
+      padding-bottom: 1em;
+    }
+
+    dd {
+      border-top: 1px solid var(--accent-secondary);
+      padding-top: 1em;
+    }
+
+    .delete {
+      margin-left: 1em;
+    }
+
+  </style>
 </head>
 
 <body>
@@ -13,15 +55,15 @@
     <%- include('/logo') %>
     <h2>Flashcard collection "<%= fset.name %>"</h2>
 
-    <label>Question
-      <input required maxlength="256" id="createQ" name="question">
-    </label>
-    <label>Answer
-      <input required maxlength="256" id="createA" name="answer">
-    </label>
-    <button type="button" id="createFlashcard">Create a flashcard</button>
+    <div id="createFlashcard" class="form">
+      <label for="createQ">Question</label>
+      <input id="createQ" name="question" autofocus required maxlength="256">
+      <label for="createA">Answer</label>
+      <input id="createA" name="answer" required maxlength="256">
+      <button type="button" class="createButton">Add flashcard</button>
+    </div>
     <script type="module">
-      const button = document.getElementById('createFlashcard');
+      const button = document.querySelector('#createFlashcard>button');
       const question = document.getElementById('createQ');
       const answer = document.getElementById('createA');
       const payload = { fset: +location.pathname.match(/\d+/)[0] };
@@ -32,18 +74,20 @@
     <% if (fset.flashcards.length) { %>
     <dl id="flashcards">
       <% for (const flashcard of fset.flashcards) { %>
-      <dt><%= flashcard.question %></dt>
-      <dd><%= flashcard.answer %></dd>
+      <div class="form">
+        <dt><%= flashcard.question %></dt>
+        <dd><%= flashcard.answer %></dd>
+      </div>
       <% } %>
     </dl>
-    <template id="delete"><button type="button">Delete</button></template>
+    <template id="delete"><button type="button" class="delete">Delete</button></template>
     <template id="question">
       <input required maxlength="256" name="question">
-      <button type="button">Update question</button>
+      <button type="button">Update Q</button>
     </template>
     <template id="answer">
       <input required maxlength="256" name="answer">
-      <button type="button">Update answer</button>
+      <button type="button">Update A</button>
     </template>
     <script type="module">
       const flashcards = document.getElementById('flashcards');
