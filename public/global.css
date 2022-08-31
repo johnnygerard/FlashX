@@ -13,6 +13,26 @@ main {
     margin: 1em;
 }
 
+input {
+    all: unset;
+    background-color: var(--accent-secondary);
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+input:focus {
+    background-color: white;
+}
+
+button {
+    all: unset;
+    background-color: var(--accent-secondary);
+    cursor: pointer;
+    padding: 1em;
+    border-radius: 0.5em;
+    text-align: center;
+}
+
 /* Logo */
 #logo {
     display: flex;
@@ -25,10 +45,6 @@ main {
 }
 
 /* Navigation bar */
-#logout>button {
-    all: unset;
-}
-
 #nav {
     display: flex;
     background-color: var(--accent-primary);
@@ -60,7 +76,8 @@ main {
 }
 
 #logout>button {
-    cursor: pointer;
+    border-radius: 0;
+    background-color: var(--accent-primary);
 }
 
 #logout>button:hover {
