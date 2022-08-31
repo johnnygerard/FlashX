@@ -1,0 +1,53 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: whitesmoke;
+    margin: 0;
+}
+
+main {
+    margin: 1em;
+}
+
+/* Navigation bar */
+nav button {
+    all: unset;
+}
+
+nav>ul {
+    display: flex;
+    background-color: #0072c6;
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    display: inline;
+}
+
+nav li>* {
+    padding: 1em;
+    color: whitesmoke;
+}
+
+nav li>a {
+    display: inline-block;
+    text-decoration: none;
+}
+
+nav li>a:hover {
+    background-color: whitesmoke;
+    color: #0072c6;
+}
+
+#logout {
+    margin-left: auto;
+}
+
+#logout>button {
+    cursor: pointer;
+}
+
+#logout>button:hover {
+    background-color: #C00;
+    color: white;
+}
