@@ -10,7 +10,7 @@ html {
     border-radius: 0.5em;
 }
 
-.createButton {
+.positiveAction {
     background-color: #0A0;
     color: var(--accent-secondary);
 }
