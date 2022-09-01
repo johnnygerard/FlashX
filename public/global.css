@@ -15,6 +15,14 @@ html {
     color: var(--accent-secondary);
 }
 
+.positiveAction:hover,
+.positiveAction:focus-visible {
+    background-color: var(--accent-secondary);
+    color: #0A0;
+    outline: 2px solid #0A0;
+    outline-offset: -2px;
+}
+
 .delete {
     background-color: #C00;
     color: var(--accent-secondary);
