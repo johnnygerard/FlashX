@@ -50,6 +50,10 @@ button {
     text-align: center;
 }
 
+button:focus-visible {
+    outline: 2px solid black;
+}
+
 /* Logo */
 #logo {
     display: flex;
@@ -83,9 +87,11 @@ button {
     text-decoration: none;
 }
 
-#nav>li>a:hover {
+#nav>li>a:hover,
+#nav>li>a:focus-visible {
     background-color: var(--accent-secondary);
     color: var(--accent-primary);
+    outline: none;
 }
 
 #logout {
@@ -97,7 +103,9 @@ button {
     background-color: var(--accent-primary);
 }
 
-#logout>button:hover {
+#logout>button:hover,
+#logout>button:focus-visible {
     background-color: #C00;
     color: white;
+    outline: none;
 }
