@@ -28,6 +28,27 @@ html {
     color: var(--accent-secondary);
 }
 
+.delete:hover,
+.delete:focus-visible {
+    color: #C00;
+    background-color: var(--accent-secondary);
+    outline: 2px solid #C00;
+    outline-offset: -2px;
+}
+
+.link {
+    color: var(--accent-secondary);
+    background-color: var(--accent-primary);
+}
+
+.link:hover,
+.link:focus-visible {
+    background-color: var(--accent-secondary);
+    color: var(--accent-primary);
+    outline: 2px solid var(--accent-primary);
+    outline-offset: -2px;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--accent-secondary);
@@ -58,8 +79,18 @@ button {
     text-align: center;
 }
 
-button:focus-visible {
+button:focus-visible,
+button:hover {
     outline: 2px solid black;
+    outline-offset: -2px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 /* Logo */
