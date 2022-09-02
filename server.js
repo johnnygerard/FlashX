@@ -102,6 +102,17 @@ passport.deserializeUser((id, done) => {
     done(null, id);
 });
 
+if (env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1);
+    app.use((req, res, next) => {
+        if (req.secure) next();
+        else {
+            console.error('unencrypted request forwarded by proxy');
+            res.status(FORBIDDEN).end('HTTPS required');
+        }
+    });
+}
+
 app.set('query parser', query => {
     const parser = new URLSearchParams(query);
     const params = {};
