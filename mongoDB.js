@@ -6,11 +6,10 @@ import connectMongodbSession from 'connect-mongodb-session';
 if (env.NODE_ENV !== 'production')
     await import('dotenv/config');
 
-const DB_USER = encodeURIComponent(env.DB_USER);
 const DB_PASSWORD = encodeURIComponent(env.DB_PASSWORD);
 
 // defaults: admin database, port 27017
-const AUTHORITY = `${DB_USER}:${DB_PASSWORD}@${env.DB_HOST}`;
+const AUTHORITY = `express:${DB_PASSWORD}@${env.DB_HOST}`;
 const URI = `mongodb+srv://${AUTHORITY}/?retryWrites=true&w=majority`;
 
 const client = await MongoClient.connect(URI, {
