@@ -28,7 +28,6 @@ express.response.render = function (view, locals, cb) {
 
 const app = express();
 const PORT = env.PORT || 3000;
-const HOST = 'localhost';
 const authenticatedRedirect = '/collections';
 const unauthenticatedRedirect = '/';
 const registrationFailureRedirect = '/register';
@@ -306,6 +305,14 @@ app.delete('/logOut', (req, res, next) => {
         res.status(NO_CONTENT).end();
 });
 
-app.listen(PORT, HOST, () => {
-    console.log(`Server listening at: http://${HOST}:${PORT}`);
-});
+if (env.NODE_ENV === 'production') {
+    app.listen(PORT, () => {
+        console.log(`Server listening on port ${PORT}`);
+    });
+} else {
+    const HOST = 'localhost';
+
+    app.listen(PORT, HOST, () => {
+        console.log(`Server listening at http://${HOST}:${PORT}`);
+    });
+}
