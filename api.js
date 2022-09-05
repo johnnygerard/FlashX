@@ -201,6 +201,6 @@ router.patch('/flashcard/answer', async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-})
+});
 
 export default router;
