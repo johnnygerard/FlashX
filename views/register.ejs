@@ -44,13 +44,8 @@
           pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
           maxlength="128" required>
 
-      <label for="confirm">Confirm password</label>
-      <input id="confirm" type="password" name="confirm"
-          autocomplete="new-password" required>
-
       <script type="module">
         const password = document.getElementById('password');
-        const confirm = document.getElementById('confirm');
 
         password.addEventListener('input', event => {
           const validity = password.validity;
@@ -70,15 +65,7 @@
 
           password.setCustomValidity(message);
         });
-
-        confirm.addEventListener('input', event => {
-          const message = password.value === confirm.value ?
-            '' : 'Password mismatch';
-
-          confirm.setCustomValidity(message);
-        });
       </script>
-
       <% for (const { message } of flash) { %>
       <p class="message"><strong><%= message %></strong></p>
       <% } %>

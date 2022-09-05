@@ -244,8 +244,7 @@ app.post('/register', async (req, res, next) => {
     const _id = req.body.username;
 
     if (!usernameIsValid(_id) ||
-        !passwordIsValid(req.body.password) ||
-        req.body.password !== req.body.confirm) {
+        !passwordIsValid(req.body.password)) {
         console.error('Server side validation failure');
         console.error(req.body);
         res.sendStatus(BAD_REQUEST);
