@@ -15,7 +15,6 @@
       <button type="button">Log out</button>
       <script type="module">
         const button = document.querySelector('#logout>button');
-        let ok = false;
 
         const addClickListener = handler =>
           button.addEventListener('click', handler, { once: true });
@@ -24,17 +23,13 @@
           try {
             const response = await fetch('/logOut', { method: 'DELETE' });
 
-            if (response.ok) {
-              ok = true;
-              location.pathname = '/';
-            } else {
-              alert('Logout operation failed.');
-            }
+            if (response.ok) location.pathname = '/';
+            else throw new HTTPError;
           } catch (err) {
             console.error(err);
-            alert('Network error');
-          } finally {
-            if (!ok) addClickListener(handler);
+            alert(err instanceof HTTPError ?
+              'Operation failed.' : 'Network error');
+            addClickListener(handler);
           }
         };
         addClickListener(handler);

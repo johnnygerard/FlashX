@@ -16,7 +16,6 @@
     <script type="module">
       const target = document.getElementById('deleteAccount');
       const logoutButton = document.querySelector('#logout>button');
-      class HTTPError extends Error { name = HTTPError.name }
 
       const addClickListener = handler =>
         target.addEventListener('click', handler, { once: true });

@@ -175,13 +175,12 @@
             show(nav);
             show(sessionStart);
             show(scoreReport);
-          } else {
-            alert('Operation failed.');
-          }
+          } else throw new HTTPError;
         } catch (err) {
           if (err.message === CANCEL_ERR_MSG) return;
           console.error(err);
-          alert('Network error');
+          alert(err instanceof HTTPError ?
+            'Operation failed.' : 'Network error');
         } finally {
           attach(handler);
         }
