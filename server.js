@@ -305,6 +305,17 @@ app.delete('/logOut', (req, res, next) => {
         res.status(NO_CONTENT).end();
 });
 
+app.delete('/account', async (req, res, next) => {
+    if (req.isAuthenticated()) {
+        try {
+            await users.deleteOne({ _id: req.user });
+            res.status(NO_CONTENT).end();
+        } catch (err) {
+            next(err);
+        }
+    } else res.status(FORBIDDEN).end();
+})
+
 if (env.NODE_ENV === 'production') {
     app.listen(PORT, () => {
         console.log(`Server listening on port ${PORT}`);
