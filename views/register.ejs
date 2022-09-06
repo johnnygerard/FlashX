@@ -10,6 +10,40 @@
       width: fit-content;
     }
 
+    #togglePwd {
+      all: unset;
+      cursor: pointer;
+      padding: 0.5em 1em;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+
+    #togglePwd:focus-visible {
+      outline: 2px solid black;
+      outline-offset: -0.5em;
+      border-radius: 1em;
+    }
+
+    #togglePwd>img {
+      height: 2em;
+      width: 2em;
+    }
+
+    #togglePwd>img:not([hidden]) {
+      display: block;
+    }
+
+    #pwdContainer {
+      margin-bottom: 2em;
+      position: relative;
+    }
+
+    #password {
+      padding-right: 4em;
+    }
+
   </style>
 </head>
 
@@ -39,13 +73,23 @@
         });
       </script>
       <label for="password">Password</label>
-      <input id="password" type="password" name="password"
-          autocomplete="new-password" minlength="11"
-          pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
-          maxlength="128" required>
-
+      <div id="pwdContainer">
+        <input id="password" type="password" name="password"
+            autocomplete="new-password" minlength="11"
+            pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
+            maxlength="128" required>
+        <button id="togglePwd" type="button">
+          <img src="eye-icon-show-32px.png" alt="show password" width="32"
+              height="32">
+          <img src="eye-icon-hide-32px.png" alt="hide password" width="32"
+              height="32" hidden>
+        </button>
+      </div>
       <script type="module">
         const password = document.getElementById('password');
+        const togglePwd = document.getElementById('togglePwd');
+        const eyeIconShow = togglePwd.querySelector(':not([hidden])');
+        const eyeIconHide = togglePwd.querySelector('[hidden]');
 
         password.addEventListener('input', event => {
           const validity = password.validity;
@@ -64,6 +108,14 @@
         non-ascii characters` : '';
 
           password.setCustomValidity(message);
+        });
+
+        togglePwd.addEventListener('click', event => {
+          const hidden = password.type === 'password';
+
+          password.type = hidden ? 'text' : 'password';
+          eyeIconShow.style.display = hidden ? 'none' : 'block';
+          eyeIconHide.style.display = hidden ? 'block' : 'none';
         });
       </script>
       <% for (const { message } of flash) { %>
