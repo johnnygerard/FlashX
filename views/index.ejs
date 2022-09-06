@@ -4,6 +4,7 @@
 <head>
   <%- include('/metadata', { title: 'Homepage' }) %>
   <%- include('/formStyle') %>
+  <%- include('/password') %>
   <style>
     form {
       position: fixed;
@@ -52,8 +53,10 @@
           autofocus>
 
       <label for="password">Password</label>
-      <input id="password" type="password" name="password"
-          autocomplete="current-password" required>
+      <x-password>
+        <input slot="input" id="password" type="password" name="password"
+            autocomplete="current-password" required>
+      </x-password>
       <% for (const { message } of flash) { %>
       <p class="message"><strong><%= message %></strong></p>
       <% } %>
