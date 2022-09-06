@@ -1,60 +1,53 @@
-<!DOCTYPE html>
-<html lang="en-US">
+<%- include('/metadata', { title: 'Register' }) %>
+<%- include('/formStyle') %>
+<%- include('/password') %>
+<style>
+  form {
+    margin: auto;
+    width: fit-content;
+  }
 
-<head>
-  <%- include('/metadata', { title: 'Register' }) %>
-  <%- include('/formStyle') %>
-  <%- include('/password') %>
-  <style>
-    form {
-      margin: auto;
-      width: fit-content;
-    }
+</style>
 
-  </style>
-</head>
+<%- include('/nav', { authenticated }) %>
+<main>
+  <%- include('/logo') %>
 
-<body>
-  <%- include('/nav', { authenticated }) %>
+  <form action="/register" method="post" class="form">
+    <label for="username">Username</label>
+    <input id="username" name="username" autocomplete="username" required
+        autofocus maxlength="128" pattern="[!-~]*">
+    <script type="module">
+      const username = document.getElementById('username');
 
-  <main>
-    <%- include('/logo') %>
-
-    <form action="/register" method="post" class="form">
-      <label for="username">Username</label>
-      <input id="username" name="username" autocomplete="username" required
-          autofocus maxlength="128" pattern="[!-~]*">
-      <script type="module">
-        const username = document.getElementById('username');
-
-        username.addEventListener('input', event => {
-          const validity = username.validity;
-          const message =
-            validity.tooLong ? 'Maximum length is 128' :
-              validity.patternMismatch ? `Forbidden:
+      username.addEventListener('input', event => {
+        const validity = username.validity;
+        const message =
+          validity.tooLong ? 'Maximum length is 128' :
+            validity.patternMismatch ? `Forbidden:
                 spaces
                 control characters
                 non-ascii characters` : '';
 
-          username.setCustomValidity(message);
-        });
-      </script>
-      <label for="password">Password</label>
-      <x-password>
-        <input id="password" type="password" name="password" slot="input"
-            autocomplete="new-password" minlength="11"
-            pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
-            maxlength="128" required>
-      </x-password>
-      <script type="module">
-        const password = document.getElementById('password');
+        username.setCustomValidity(message);
+      });
+    </script>
+    <label for="password">Password</label>
+    <x-password>
+      <input id="password" type="password" name="password" slot="input"
+          autocomplete="new-password" minlength="11"
+          pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
+          maxlength="128" required>
+    </x-password>
+    <script type="module">
+      const password = document.getElementById('password');
 
-        password.addEventListener('input', event => {
-          const validity = password.validity;
-          const message =
-            validity.tooShort ? 'Minimum length is 11' :
-              validity.tooLong ? 'Maximum length is 128' :
-                validity.patternMismatch ? `Required:
+      password.addEventListener('input', event => {
+        const validity = password.validity;
+        const message =
+          validity.tooShort ? 'Minimum length is 11' :
+            validity.tooLong ? 'Maximum length is 128' :
+              validity.patternMismatch ? `Required:
         1 small letter
         1 capital letter
         1 digit
@@ -65,17 +58,13 @@
         control characters
         non-ascii characters` : '';
 
-          password.setCustomValidity(message);
-        });
-      </script>
-      <% for (const { message } of flash) { %>
-      <p class="message"><strong><%= message %></strong></p>
-      <% } %>
-      <button class="positiveAction">Create account</button>
-      <p id="link">Already registered? <a href="/">Log in</a></p>
-    </form>
-  </main>
-
-</body>
-
-</html>
+        password.setCustomValidity(message);
+      });
+    </script>
+    <% for (const { message } of flash) { %>
+    <p class="message"><strong><%= message %></strong></p>
+    <% } %>
+    <button class="positiveAction">Create account</button>
+    <p id="link">Already registered? <a href="/">Log in</a></p>
+  </form>
+</main>

@@ -1,48 +1,37 @@
-<!DOCTYPE html>
-<html lang="en-US">
+<%- include('/metadata', { title: 'Account' }) %>
 
-<head>
-  <%- include('/metadata', { title: 'Account' }) %>
-</head>
+<%- include('/nav', { authenticated }) %>
+<main>
+  <%- include('/logo') %>
+  <h2>Welcome <%= user %>!</h2>
+  <button id="deleteAccount" type="button" class="delete">Delete
+    account</button>
+  <script type="module">
+    const target = document.getElementById('deleteAccount');
+    const logoutButton = document.querySelector('#logout>button');
 
-<body>
-  <%- include('/nav', { authenticated }) %>
+    const addClickListener = handler =>
+      target.addEventListener('click', handler, { once: true });
 
-  <main>
-    <%- include('/logo') %>
-    <h2>Welcome <%= user %>!</h2>
-    <button id="deleteAccount" type="button" class="delete">Delete
-      account</button>
-    <script type="module">
-      const target = document.getElementById('deleteAccount');
-      const logoutButton = document.querySelector('#logout>button');
-
-      const addClickListener = handler =>
-        target.addEventListener('click', handler, { once: true });
-
-      const handler = async event => {
-        const msg = 'Erase all my data now';
-        const result = prompt(`This action is irreversible!
+    const handler = async event => {
+      const msg = 'Erase all my data now';
+      const result = prompt(`This action is irreversible!
 To confirm enter this message: ${msg}`);
 
-        if (result === msg) {
-          try {
-            const response = await fetch('/account', { method: 'DELETE' });
+      if (result === msg) {
+        try {
+          const response = await fetch('/account', { method: 'DELETE' });
 
-            if (response.ok) logoutButton.click();
-            else throw new HTTPError;
-          } catch (err) {
-            console.error(err);
-            alert(err instanceof HTTPError ?
-              'Operation failed.' : 'Network error');
-            addClickListener(handler);
-          }
-        } else addClickListener(handler);
-      }
-      addClickListener(handler);
-    </script>
-  </main>
-
-</body>
-
-</html>
+          if (response.ok) logoutButton.click();
+          else throw new HTTPError;
+        } catch (err) {
+          console.error(err);
+          alert(err instanceof HTTPError ?
+            'Operation failed.' : 'Network error');
+          addClickListener(handler);
+        }
+      } else addClickListener(handler);
+    }
+    addClickListener(handler);
+  </script>
+</main>

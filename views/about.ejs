@@ -1,105 +1,94 @@
-<!DOCTYPE html>
-<html lang="en-US">
+<%- include('/metadata', { title: 'About' }) %>
+<style>
+  #author {
+    display: flex;
+  }
 
-<head>
-  <%- include('/metadata', { title: 'About' }) %>
-  <style>
-    #author {
-      display: flex;
-    }
+  #author>img {
+    margin-right: 1em;
+  }
 
-    #author>img {
-      margin-right: 1em;
-    }
+  #author>div>p {
+    margin: 0;
+  }
 
-    #author>div>p {
-      margin: 0;
-    }
+  #authorInfo {
+    display: flex;
+    flex-direction: column;
+  }
 
-    #authorInfo {
-      display: flex;
-      flex-direction: column;
-    }
+  #authorInfo>p:first-child {
+    margin-bottom: 1em;
+  }
 
-    #authorInfo>p:first-child {
-      margin-bottom: 1em;
-    }
+  #links {
+    padding: 0;
+    display: flex;
+    margin: auto 0 0 0;
+  }
 
-    #links {
-      padding: 0;
-      display: flex;
-      margin: auto 0 0 0;
-    }
+  #links>li {
+    display: inline;
+    margin-right: 1em;
+  }
 
-    #links>li {
-      display: inline;
-      margin-right: 1em;
-    }
+  #links img {
+    display: block;
+  }
 
-    #links img {
-      display: block;
-    }
+</style>
 
-  </style>
-</head>
-
-<body>
-  <%- include('/nav', { authenticated }) %>
-
-  <main>
-    <%- include('/logo') %>
-    <h2>Mission</h2>
-    <p>Facilitate learning through the use of flashcards.</p>
-    <h2>Author</h2>
-    <div id="author">
-      <img src="author.jpg" alt="author" width="97" height="115">
-      <div id="authorInfo">
-        <p>Johnny Gérard</p>
-        <p>Software Developer</p>
-        <ul id="links">
-          <li>
-            <a href="https://www.linkedin.com/in/johnnygerard">
-              <img src="LinkedIn-Logo-256px.png" alt="LinkedIn logo" height="32"
-                  width="32">
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/johnnygerard">
-              <img src="GitHub-Mark-32px.png" alt="GitHub mark" height="32"
-                  width="32">
-            </a>
-          </li>
-        </ul>
-      </div>
+<%- include('/nav', { authenticated }) %>
+<main>
+  <%- include('/logo') %>
+  <h2>Mission</h2>
+  <p>Facilitate learning through the use of flashcards.</p>
+  <h2>Author</h2>
+  <div id="author">
+    <img src="author.jpg" alt="author" width="97" height="115">
+    <div id="authorInfo">
+      <p>Johnny Gérard</p>
+      <p>Software Developer</p>
+      <ul id="links">
+        <li>
+          <a href="https://www.linkedin.com/in/johnnygerard">
+            <img src="LinkedIn-Logo-256px.png" alt="LinkedIn logo" height="32"
+                width="32">
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/johnnygerard">
+            <img src="GitHub-Mark-32px.png" alt="GitHub mark" height="32"
+                width="32">
+          </a>
+        </li>
+      </ul>
     </div>
-    <h2>Software</h2>
-    <p>FlashX is a web application and a GitHub open-source project.</p>
-    <p>To report a bug or request a feature,
-      <a href="<%- repo %>/issues/new">open an issue</a>.
-    </p>
-    <p><a href="<%- repo %>">Source code</a></p>
-    <p><a href="<%- repo %>#readme">README</a></p>
-    <h2>Credits</h2>
-    <p>Built with
-      <a href="https://code.visualstudio.com">Visual Studio Code</a>
-    </p>
-    <p>Hosted on <a href="https://azure.microsoft.com">Azure</a> and
-      <a href="https://www.mongodb.com/atlas">MongoDB Atlas</a>
-    </p>
-    <p>Logo made with
-      <a href="https://www.adobe.com/products/illustrator.html">
-        Adobe Illustrator
-      </a>
-    </p>
-    <p>Eye icons created by
-      <a href="https://www.flaticon.com/authors/mattbadal">mattbadal</a>
-      from
-      <a href="https://www.flaticon.com/">Flaticon</a>
-    </p>
-    <h2>Copyright</h2>
-    <p>&copy; 2022 Johnny Gérard</p>
-  </main>
-
-</body>
-
-</html>
+  </div>
+  <h2>Software</h2>
+  <p>FlashX is a web application and a GitHub open-source project.</p>
+  <p>To report a bug or request a feature,
+    <a href="<%- repo %>/issues/new">open an issue</a>.
+  </p>
+  <p><a href="<%- repo %>">Source code</a></p>
+  <p><a href="<%- repo %>#readme">README</a></p>
+  <h2>Credits</h2>
+  <p>Built with
+    <a href="https://code.visualstudio.com">Visual Studio Code</a>
+  </p>
+  <p>Hosted on <a href="https://azure.microsoft.com">Azure</a> and
+    <a href="https://www.mongodb.com/atlas">MongoDB Atlas</a>
+  </p>
+  <p>Logo made with
+    <a href="https://www.adobe.com/products/illustrator.html">
+      Adobe Illustrator
+    </a>
+  </p>
+  <p>Eye icons created by
+    <a href="https://www.flaticon.com/authors/mattbadal">mattbadal</a>
+    from
+    <a href="https://www.flaticon.com/">Flaticon</a>
+  </p>
+  <h2>Copyright</h2>
+  <p>&copy; 2022 Johnny Gérard</p>
+</main>

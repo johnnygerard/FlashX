@@ -1,72 +1,61 @@
-<!DOCTYPE html>
-<html lang="en-US">
+<%- include('/metadata', { title: 'Homepage' }) %>
+<%- include('/formStyle') %>
+<%- include('/password') %>
+<style>
+  form {
+    position: fixed;
+    top: 10em;
+    left: 32em;
+  }
 
-<head>
-  <%- include('/metadata', { title: 'Homepage' }) %>
-  <%- include('/formStyle') %>
-  <%- include('/password') %>
-  <style>
-    form {
-      position: fixed;
-      top: 10em;
-      left: 32em;
-    }
+  hgroup>p {
+    font-size: 1.2em;
+  }
 
-    hgroup>p {
-      font-size: 1.2em;
-    }
+  main>ul>li {
+    margin-top: 0.4em;
+  }
 
-    main>ul>li {
-      margin-top: 0.4em;
-    }
+  main>ul>li::after {
+    content: ' \2714';
+    color: green;
+  }
 
-    main>ul>li::after {
-      content: ' \2714';
-      color: green;
-    }
+</style>
 
-  </style>
-</head>
+<%- include('/nav', { authenticated }) %>
+<main>
+  <hgroup>
+    <%- include('/logo') %>
+    <p>Memorize easily with flashcards!</p>
+  </hgroup>
 
-<body>
-  <%- include('/nav', { authenticated }) %>
+  <p>Once registered you will be able to:</p>
 
-  <main>
-    <hgroup>
-      <%- include('/logo') %>
-      <p>Memorize easily with flashcards!</p>
-    </hgroup>
+  <ul>
+    <li>Write your own flashcards</li>
+    <li>Organize them into collections</li>
+    <li>Train your memory with active recall</li>
+  </ul>
 
-    <p>Once registered you will be able to:</p>
+  <% if (!authenticated) { %>
 
-    <ul>
-      <li>Write your own flashcards</li>
-      <li>Organize them into collections</li>
-      <li>Train your memory with active recall</li>
-    </ul>
+  <form action="/login" method="post" class="form">
+    <label for="username">Username</label>
+    <input id="username" name="username" autocomplete="username" required
+        autofocus>
 
-    <% if (!authenticated) { %>
-
-    <form action="/login" method="post" class="form">
-      <label for="username">Username</label>
-      <input id="username" name="username" autocomplete="username" required
-          autofocus>
-
-      <label for="password">Password</label>
-      <x-password>
-        <input slot="input" id="password" type="password" name="password"
-            autocomplete="current-password" required>
-      </x-password>
-      <% for (const { message } of flash) { %>
-      <p class="message"><strong><%= message %></strong></p>
-      <% } %>
-      <button class="link">Log in</button>
-      <p id="link">No account? <a href="register">Register</a></p>
-    </form>
-
+    <label for="password">Password</label>
+    <x-password>
+      <input slot="input" id="password" type="password" name="password"
+          autocomplete="current-password" required>
+    </x-password>
+    <% for (const { message } of flash) { %>
+    <p class="message"><strong><%= message %></strong></p>
     <% } %>
-  </main>
+    <button class="link">Log in</button>
+    <p id="link">No account? <a href="register">Register</a></p>
+  </form>
 
-</body>
-
-</html>
+  <% } %>
+</main>
