@@ -2,7 +2,8 @@ export { router as default };
 import express from 'express';
 import { NO_CONTENT } from './httpStatusCodes.js';
 import { users } from './mongoDB.js';
-import { handleValidationFailure } from './validation.js';
+import { handleValidationFailure, passwordIsValid } from './validation.js';
+import { hash } from './password.js';
 
 const router = express.Router();
 
@@ -194,6 +195,36 @@ router.patch('/flashcard/answer', async (req, res, next) => {
         });
 
         res.status(NO_CONTENT).end();
+    } catch (err) {
+        next(err);
+    }
+});
+
+// Update password
+router.put('/password', async (req, res, next) => {
+    const { currentPwd, newPwd } = req.body;
+
+    if (typeof currentPwd !== 'string'
+        || currentPwd === newPwd
+        || !passwordIsValid(newPwd)) {
+        handleValidationFailure(req, res);
+        return;
+    }
+
+    try {
+        const user = await users.findOne({ _id: req.user });
+        let derivedKey = await hash(currentPwd, user.salt.buffer);
+
+        if (!derivedKey.equals(user.derivedKey.buffer)) {
+            res.flash('Wrong password.');
+            res.sendStatus(NO_CONTENT).end();
+            return;
+        }
+
+        derivedKey = await hash(newPwd, user.salt.buffer);
+        await users.updateOne({ _id: req.user }, { $set: { derivedKey } });
+        res.flash('Password successfully updated!');
+        res.sendStatus(NO_CONTENT).end();
     } catch (err) {
         next(err);
     }
