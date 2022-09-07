@@ -1,14 +1,10 @@
+export { router as default };
 import express from 'express';
-import { BAD_REQUEST, NO_CONTENT } from './httpStatusCodes.js';
+import { NO_CONTENT } from './httpStatusCodes.js';
 import { users } from './mongoDB.js';
+import { handleValidationFailure } from './validation.js';
 
 const router = express.Router();
-const handleValidationFailure = (req, res) => {
-    console.error('Server side validation failure');
-    console.error(req.method, req.originalUrl);
-    console.error(req.body);
-    res.status(BAD_REQUEST).end();
-};
 
 class Flashcard {
     constructor(question, answer) {
@@ -202,5 +198,3 @@ router.patch('/flashcard/answer', async (req, res, next) => {
         next(err);
     }
 });
-
-export default router;
