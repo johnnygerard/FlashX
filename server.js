@@ -1,6 +1,5 @@
 import express from 'express';
 import session from 'express-session';
-import crypto from 'crypto';
 import { env } from 'process';
 import { users, sessionStore, SESSION_LIFETIME } from './mongoDB.js';
 import passport from 'passport';
@@ -9,8 +8,13 @@ import ejs from 'ejs';
 import flash from 'flash';
 import api from './api.js';
 import { minify } from 'html-minifier-terser';
-import { BAD_REQUEST, FORBIDDEN, NO_CONTENT, SEE_OTHER }
-    from './httpStatusCodes.js';
+import {
+    handleValidationFailure, usernameIsValid, passwordIsValid
+} from './validation.js';
+import {
+    FORBIDDEN, NO_CONTENT, SEE_OTHER
+} from './httpStatusCodes.js';
+import { hash, makeSalt, verify } from './password.js';
 
 if (env.NODE_ENV !== 'production')
     await import('dotenv/config');
@@ -32,12 +36,6 @@ const authenticatedRedirect = '/collections';
 const unauthenticatedRedirect = '/';
 const registrationFailureRedirect = '/register';
 
-// values based on NIST recommendations
-const ITERATIONS = 1000;
-const KDF = 'sha3-256'; // key derivation function
-const KEY_BYTE_LENGTH = 14;
-const SALT_BYTE_LENGTH = 16;
-
 const minifierOptions = {
     collapseWhitespace: true,
     minifyCSS: true,
@@ -52,54 +50,9 @@ const isAuthenticated = (req, res, next) => {
     else res.redirect(SEE_OTHER, unauthenticatedRedirect);
 };
 
-const usernameRegExp = /^[!-~]{1,128}$/;
-const passwordRegExp = RegExp([
-    /^(?=[^]*?\d)/,
-    /(?=[^]*?[a-z])/,
-    /(?=[^]*?[A-Z])/,
-    /(?=[^]*?[!-/:-@[-`{-~])/,
-    /[!-~]{11,128}$/,
-].reduce((previous, current) => previous + current.source, ''));
-
-const usernameIsValid = username =>
-    typeof username === 'string' && usernameRegExp.test(username);
-
-const passwordIsValid = password =>
-    typeof password === 'string' && passwordRegExp.test(password);
-
-passport.use(new LocalStrategy(async (username, password, done) => {
-    try {
-        const user = await users.findOne({ _id: username });
-
-        if (!user) {
-            done(null, false, { message: 'Nonexistent user.' });
-            return;
-        }
-
-        const derivedKey = await new Promise((resolve, reject) => {
-            crypto.pbkdf2(password, user.salt.buffer, ITERATIONS,
-                KEY_BYTE_LENGTH, KDF, (err, derivedKey) => {
-                    if (err) reject(err); else resolve(derivedKey);
-                });
-        });
-
-        if (derivedKey.equals(user.derivedKey.buffer)) {
-            done(null, user);
-        } else {
-            done(null, false, { message: 'Wrong password.' });
-        }
-    } catch (err) {
-        done(err);
-    }
-}));
-
-passport.serializeUser((user, done) => {
-    done(null, user._id);
-});
-
-passport.deserializeUser((id, done) => {
-    done(null, id);
-});
+passport.use(new LocalStrategy(verify));
+passport.serializeUser((user, done) => done(null, user._id));
+passport.deserializeUser((id, done) => done(null, id));
 
 if (env.NODE_ENV === 'production') {
     app.set('trust proxy', 1);
@@ -214,10 +167,7 @@ app.get('/collections/:index', isAuthenticated, async (req, res, next) => {
     const index = +req.params.index;
 
     if (!Number.isInteger(index) || index < 0) {
-        console.error('Server side validation failure');
-        console.error(req.method, req.originalUrl);
-        console.error(req.params);
-        res.status(BAD_REQUEST).end();
+        handleValidationFailure(req, res);
         return;
     }
 
@@ -243,11 +193,8 @@ app.get('/collections/:index', isAuthenticated, async (req, res, next) => {
 app.post('/register', async (req, res, next) => {
     const _id = req.body.username;
 
-    if (!usernameIsValid(_id) ||
-        !passwordIsValid(req.body.password)) {
-        console.error('Server side validation failure');
-        console.error(req.body);
-        res.sendStatus(BAD_REQUEST);
+    if (!usernameIsValid(_id) || !passwordIsValid(req.body.password)) {
+        handleValidationFailure(req, res);
         return;
     }
 
@@ -258,19 +205,8 @@ app.post('/register', async (req, res, next) => {
             return;
         }
 
-        const salt = await new Promise((resolve, reject) => {
-            crypto.randomBytes(SALT_BYTE_LENGTH, (err, salt) => {
-                if (err) reject(err); else resolve(salt);
-            });
-        });
-
-        const derivedKey = await new Promise((resolve, reject) => {
-            crypto.pbkdf2(req.body.password, salt, ITERATIONS, KEY_BYTE_LENGTH,
-                KDF, (err, derivedKey) => {
-                    if (err) reject(err); else resolve(derivedKey);
-                });
-        });
-
+        const salt = await makeSalt();
+        const derivedKey = await hash(req.body.password, salt);
         const user = {
             _id,
             salt,
