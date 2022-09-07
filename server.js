@@ -1,20 +1,24 @@
+import { env } from 'process';
+import { minify } from 'html-minifier-terser';
 import express from 'express';
 import session from 'express-session';
-import { env } from 'process';
-import { users, sessionStore, SESSION_LIFETIME } from './mongoDB.js';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
-import ejs from 'ejs';
 import flash from 'flash';
+import ejs from 'ejs';
 import api from './api.js';
-import { minify } from 'html-minifier-terser';
+import { users, sessionStore, SESSION_LIFETIME } from './mongoDB.js';
+import { hash, makeSalt, verify } from './password.js';
 import {
-    handleValidationFailure, usernameIsValid, passwordIsValid
+    handleValidationFailure,
+    usernameIsValid,
+    passwordIsValid
 } from './validation.js';
 import {
-    FORBIDDEN, NO_CONTENT, SEE_OTHER
+    FORBIDDEN,
+    NO_CONTENT,
+    SEE_OTHER
 } from './httpStatusCodes.js';
-import { hash, makeSalt, verify } from './password.js';
 
 if (env.NODE_ENV !== 'production')
     await import('dotenv/config');
