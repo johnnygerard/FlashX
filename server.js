@@ -79,6 +79,7 @@ app.set('query parser', query => {
     return params;
 });
 app.set('view engine', 'ejs');
+app.disable('x-powered-by');
 const viewOptions = { root: 'views/partials' };
 app.engine('ejs', (path, data, cb) => {
     ejs.renderFile(path, data, viewOptions, cb);
@@ -116,6 +117,10 @@ app.use(express.static('public'));
 
 app.get('/', (req, res, next) => {
     res.render('index', { authenticated: req.isAuthenticated() });
+});
+
+app.get('/cookie-notice', (req, res, next) => {
+    res.render('cookieNotice', { authenticated: req.isAuthenticated() });
 });
 
 app.get('/about', (req, res, next) => {
