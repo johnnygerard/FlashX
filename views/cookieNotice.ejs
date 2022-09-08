@@ -1,10 +1,26 @@
 <%- include('/metadata', { title: 'Cookie notice' }) %>
+<style>
+  hgroup>p {
+    display: flex;
+    align-items: center;
+  }
+
+  hgroup>p>img {
+    height: 1em;
+    width: 1em;
+    margin-right: 0.4em;
+  }
+
+</style>
 
 <%- include('/nav', { authenticated }) %>
 <main>
   <hgroup>
     <%- include('/logo') %>
-    <p>Cookie notice</p>
+    <p>
+      <img src="cookies.png" alt="cookies" width="32" height="32">
+      Cookie notice
+    </p>
   </hgroup>
   <p>There are no third-party cookies currently in use.</p>
   <p>This website uses only one cookie named "connect.sid".
