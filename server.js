@@ -79,6 +79,8 @@ app.set('query parser', query => {
     return params;
 });
 app.set('view engine', 'ejs');
+app.enable('case sensitive routing');
+app.enable('strict routing');
 app.disable('x-powered-by');
 const viewOptions = { root: 'views/partials' };
 app.engine('ejs', (path, data, cb) => {
