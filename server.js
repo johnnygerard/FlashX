@@ -54,6 +54,13 @@ const isAuthenticated = (req, res, next) => {
     else res.redirect(SEE_OTHER, unauthenticatedRedirect);
 };
 
+const getFSetNames = async _id => {
+    const options = { projection: { _id: 0, fsets: '$fsets.name' } };
+
+    const doc = await users.findOne({ _id }, options);
+    return doc.fsets;
+};
+
 passport.use(new LocalStrategy(verify));
 passport.serializeUser((user, done) => done(null, user._id));
 passport.deserializeUser((id, done) => done(null, id));
@@ -142,13 +149,6 @@ app.get('/account', isAuthenticated, (req, res, next) => {
         authenticated: true
     });
 });
-
-const getFSetNames = async _id => {
-    const options = { projection: { _id: 0, fsets: '$fsets.name' } };
-
-    const doc = await users.findOne({ _id }, options);
-    return doc.fsets;
-};
 
 app.get('/training', isAuthenticated, async (req, res, next) => {
     try {
