@@ -1,0 +1,50 @@
+<%- include('/metadata', { title: 'About' }) %>
+<style>
+  hgroup>p {
+    font-weight: bold;
+    font-size: 1.5em;
+    margin: 0.67em 0;
+  }
+
+  .bad {
+    color: red;
+    font-weight: bold;
+  }
+
+  th {
+    font-weight: unset;
+    display: list-item;
+  }
+
+  table {
+    text-align: left;
+    border-spacing: 1em 0;
+    margin-left: 1em;
+  }
+
+</style>
+
+<%- include('/nav', { authenticated }) %>
+<main>
+  <hgroup>
+    <%- include('/logo') %>
+    <p>404 Not Found</p>
+  </hgroup>
+  <p>The page you tried to access does not exist.</p>
+  <p>In order to find your page, do not edit the original link.</p>
+  <p>More specifically do not:</p>
+  <table>
+    <tr>
+      <th>Add a slash at the end</th>
+      <td>/about<span class="bad">/</span></td>
+    </tr>
+    <tr>
+      <th>Change the letter case</th>
+      <td>/<span class="bad">A</span>bout</td>
+    </tr>
+    <tr>
+      <th>Mistype</th>
+      <td>/abo<span class="bad">r</span>t</td>
+    </tr>
+  </table>
+</main>

@@ -16,6 +16,7 @@ import {
 } from './validation.js';
 import {
     FORBIDDEN,
+    NOT_FOUND,
     NO_CONTENT,
     SEE_OTHER
 } from './httpStatusCodes.js';
@@ -199,6 +200,11 @@ app.get('/collections/:index', isAuthenticated, async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+});
+
+app.get(/^/, (req, res, next) => {
+    res.status(NOT_FOUND);
+    res.render('pageNotFound', { authenticated: req.isAuthenticated() });
 });
 
 app.post('/register', async (req, res, next) => {
