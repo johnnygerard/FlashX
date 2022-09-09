@@ -133,6 +133,10 @@ app.get('/cookie-notice', (req, res, next) => {
     res.render('cookieNotice', { authenticated: req.isAuthenticated() });
 });
 
+app.get('/privacy-policy', (req, res, next) => {
+    res.render('privacyPolicy', { authenticated: req.isAuthenticated() });
+});
+
 app.get('/about', (req, res, next) => {
     res.render('about', {
         authenticated: req.isAuthenticated(),

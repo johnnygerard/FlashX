@@ -1,0 +1,58 @@
+<%- include('/metadata', { title: 'Privacy policy' }) %>
+<style>
+  hgroup>p {
+    display: flex;
+    align-items: center;
+  }
+
+</style>
+
+<%- include('/nav', { authenticated }) %>
+<main>
+  <hgroup>
+    <%- include('/logo') %>
+    <p>Privacy policy</p>
+  </hgroup>
+  <h3>Means of data storage</h3>
+  <p>This website uses MongoDB Atlas to store user data.<br>
+    The database infrastructure is supplied by Microsoft Azure.</p>
+  <h3>Data collected</h3>
+  <ul>
+    <li>Account creation date and time</li>
+    <li>Password hash (read Additional notes for more info)</li>
+  </ul>
+  <h3>Data sent by the user</h3>
+  <ul>
+    <li>Username</li>
+    <li>Flashcard collections</li>
+  </ul>
+  <h3>Data residency</h3>
+  <p>All user data is stored in a GDPR-compliant database located in the
+    Netherlands.</p>
+  <h3>Backup and data replication</h3>
+  <p>There is no data backup, neither automated nor manual.<br>
+    This means previous data cannot be recovered if it was accidentally deleted
+    or modified by the user.</p>
+  <p>The database is replicated 3 times. It is a feature of MongoDB Atlas.<br>
+    Data replication might seem similar to data backup but has different
+    purposes.<br>
+    It mainly provides server availibility and data disaster recovery.<br>
+    For example if a database server is unavailable or damaged, the replicated
+    servers can be used as a fallback.</p>
+  <h3>Additional notes</h3>
+  <p>The user password is not stored anywhere and consequently cannot be
+    recovered.<br>
+    The password hash is computed once at account creation time or when a
+    password is updated.<br>
+    It is used to authenticate the user at each login attempt.</p>
+  <h3>External links</h3>
+  <ul>
+    <li><a
+          href="https://azure.microsoft.com/en-us/explore/trusted-cloud/compliance/">Azure
+        compliance</a></li>
+    <li><a href="https://www.mongodb.com/cloud/trust#compliance">MongoDB
+        compliance</a></li>
+    <li><a href="https://gdpr.eu/what-is-gdpr/">What is GDPR?</a></li>
+  </ul>
+</main>
+<%- include('/footer') %>
