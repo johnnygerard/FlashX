@@ -137,6 +137,10 @@ app.get('/privacy-policy', (req, res, next) => {
     res.render('privacyPolicy', { authenticated: req.isAuthenticated() });
 });
 
+app.get('/disclaimer', (req, res, next) => {
+    res.render('disclaimer', { authenticated: req.isAuthenticated() });
+});
+
 app.get('/about', (req, res, next) => {
     res.render('about', {
         authenticated: req.isAuthenticated(),
