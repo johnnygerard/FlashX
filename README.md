@@ -3,6 +3,9 @@ FlashX is a flashcard web application.
 
 Visit the website at this address: [flashx.azurewebsites.net](https://flashx.azurewebsites.net)
 
+The first page load might take a while because the app is idled out when there is no activity.  
+This happens because I currently use a free version (F1) which is the lowest tier of the Azure App Service Plan.
+
 Users must create an account to get started.  
 As indicated by the domain name, the website is hosted on [Microsoft Azure](https://azure.microsoft.com/en-us/).
 
