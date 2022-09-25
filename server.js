@@ -92,16 +92,6 @@ app.use(flash(), (req, res, next) => {
         req.session.flash = [];
     next();
 });
-app.use('/api', (req, res, next) => {
-    if (req.isAuthenticated()) next();
-    else res.status(FORBIDDEN).end();
-}, api);
-
-app.use(express.static(STATIC_DIR));
-
-app.get(/^/, (req, res, next) => {
-    res.sendFile(STATIC_DIR + '/index.html', { root: cwd() });
-});
 
 app.post('/register', async (req, res, next) => {
     const _id = req.body.username;
@@ -144,6 +134,17 @@ app.post('/logIn', passport.authenticate('local', {
     failureRedirect: unauthenticatedRedirect,
     failureFlash: true
 }));
+
+app.use('/api', (req, res, next) => {
+    if (req.isAuthenticated()) next();
+    else res.status(FORBIDDEN).end();
+}, api);
+
+app.use(express.static(STATIC_DIR));
+
+app.get(/^/, (req, res, next) => {
+    res.sendFile(STATIC_DIR + '/index.html', { root: cwd() });
+});
 
 app.delete('/logOut', (req, res, next) => {
     if (req.isAuthenticated())
