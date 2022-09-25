@@ -150,26 +150,6 @@ app.get(/^/, (req, res, next) => {
     res.sendFile(STATIC_DIR + '/index.html', { root: cwd() });
 });
 
-app.delete('/logOut', (req, res, next) => {
-    if (req.isAuthenticated())
-        req.session.destroy(err => {
-            if (err) next(err); else res.status(NO_CONTENT).end();
-        });
-    else
-        res.status(NO_CONTENT).end();
-});
-
-app.delete('/account', async (req, res, next) => {
-    if (req.isAuthenticated()) {
-        try {
-            await users.deleteOne({ _id: req.user });
-            res.status(NO_CONTENT).end();
-        } catch (err) {
-            next(err);
-        }
-    } else res.status(FORBIDDEN).end();
-})
-
 if (env.NODE_ENV === 'production') {
     app.listen(PORT, () => {
         console.log(`Server listening on port ${PORT}`);
