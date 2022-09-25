@@ -4,7 +4,7 @@
   "description": "Flashcard web application",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon"
+    "start": "nodemon -r dotenv/config"
   },
   "type": "module",
   "repository": "github:johnnygerard/FlashX",

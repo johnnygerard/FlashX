@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { env, cwd } from 'node:process';
 import express from 'express';
 import session from 'express-session';
