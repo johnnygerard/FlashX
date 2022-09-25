@@ -3,9 +3,6 @@ import { env } from 'process';
 import session from 'express-session';
 import connectMongodbSession from 'connect-mongodb-session';
 
-if (env.NODE_ENV !== 'production')
-    await import('dotenv/config');
-
 const DB_PASSWORD = encodeURIComponent(env.DB_PASSWORD);
 
 // defaults: admin database, port 27017

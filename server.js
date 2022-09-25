@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { env, cwd } from 'node:process';
 import express from 'express';
 import session from 'express-session';
@@ -16,9 +17,6 @@ import {
     INTERNAL_SERVER_ERROR,
     NO_CONTENT,
 } from './httpStatusCodes.js';
-
-if (env.NODE_ENV !== 'production')
-    await import('dotenv/config');
 
 const app = express();
 const PORT = env.PORT || 3000;
