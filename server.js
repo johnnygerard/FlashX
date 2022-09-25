@@ -4,17 +4,12 @@ import session from 'express-session';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import api from './api.js';
-import { users, sessionStore, SESSION_LIFETIME } from './mongoDB.js';
-import { hash, makeSalt, verify } from './password.js';
-import {
-    handleValidationFailure,
-    usernameIsValid,
-    passwordIsValid
-} from './validation.js';
+import publicAPI from './publicAPI.js';
+import { sessionStore, SESSION_LIFETIME } from './mongoDB.js';
+import { verify } from './password.js';
 import {
     FORBIDDEN,
     INTERNAL_SERVER_ERROR,
-    NO_CONTENT,
 } from './httpStatusCodes.js';
 
 const app = express();
@@ -69,52 +64,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.post('/api/register', async (req, res, next) => {
-    const _id = req.body.username;
-
-    if (!usernameIsValid(_id) || !passwordIsValid(req.body.password)) {
-        handleValidationFailure(req, res);
-        return;
-    }
-
-    try {
-        if (await users.findOne({ _id })) {
-            res.status(FORBIDDEN).send('Username unavailable.');
-            return;
-        }
-
-        const salt = await makeSalt();
-        const derivedKey = await hash(req.body.password, salt);
-        const user = {
-            _id,
-            salt,
-            derivedKey,
-            fsets: [],
-            registrationDate: new Date
-        };
-
-        await users.insertOne(user);
-        req.logIn(user, err => {
-            if (err) next(err); else res.status(NO_CONTENT).end();
-        });
-    } catch (err) {
-        next(err);
-    }
-});
-
-app.post('/api/logIn', (req, res, next) => {
-    passport.authenticate('local', (err, user, info, status) => {
-        if (err) {
-            next(err); return;
-        }
-        if (user)
-            req.logIn(user, err => {
-                if (err) next(err); else res.status(NO_CONTENT).end();
-            });
-        else res.status(FORBIDDEN).send(info.message);
-    })(req, res, next);
-});
-
+app.use('/api', publicAPI);
 app.use('/api', (req, res, next) => {
     if (req.isAuthenticated()) next(); else res.status(FORBIDDEN).end();
 }, api);
