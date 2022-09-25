@@ -117,8 +117,7 @@ app.post('/api/logIn', (req, res, next) => {
 });
 
 app.use('/api', (req, res, next) => {
-    if (req.isAuthenticated()) next();
-    else res.status(FORBIDDEN).end();
+    if (req.isAuthenticated()) next(); else res.status(FORBIDDEN).end();
 }, api);
 
 app.use(express.static(STATIC_DIR));
