@@ -103,8 +103,7 @@ app.post('/api/register', async (req, res, next) => {
 
     try {
         if (await users.findOne({ _id })) {
-            req.flash('Username unavailable.');
-            res.redirect(SEE_OTHER, registrationFailureRedirect);
+            res.status(FORBIDDEN).send('Username unavailable.');
             return;
         }
 
@@ -120,8 +119,7 @@ app.post('/api/register', async (req, res, next) => {
 
         await users.insertOne(user);
         req.logIn(user, err => {
-            if (err) next(err);
-            else res.redirect(SEE_OTHER, authenticatedRedirect);
+            if (err) next(err); else res.status(NO_CONTENT).end();
         });
     } catch (err) {
         next(err);
