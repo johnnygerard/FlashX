@@ -1,4 +1,4 @@
-import { env } from 'process';
+import { env, cwd } from 'node:process';
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
@@ -25,6 +25,7 @@ if (env.NODE_ENV !== 'production')
 
 const app = express();
 const PORT = env.PORT || 3000;
+const STATIC_DIR = 'client/dist/flash-x';
 const authenticatedRedirect = '/collections';
 const unauthenticatedRedirect = '/';
 const registrationFailureRedirect = '/register';
@@ -102,96 +103,10 @@ app.use('/api', (req, res, next) => {
     else res.status(FORBIDDEN).end();
 }, api);
 
-app.use(express.static('public'));
-
-app.get('/', (req, res, next) => {
-    res.render('index', { authenticated: req.isAuthenticated() });
-});
-
-app.get('/cookie-notice', (req, res, next) => {
-    res.render('cookieNotice', { authenticated: req.isAuthenticated() });
-});
-
-app.get('/privacy-policy', (req, res, next) => {
-    res.render('privacyPolicy', { authenticated: req.isAuthenticated() });
-});
-
-app.get('/disclaimer', (req, res, next) => {
-    res.render('disclaimer', { authenticated: req.isAuthenticated() });
-});
-
-app.get('/about', (req, res, next) => {
-    res.render('about', {
-        authenticated: req.isAuthenticated(),
-        repo: 'https://github.com/johnnygerard/FlashX'
-    });
-});
-
-app.get('/register', (req, res, next) => {
-    res.render('register', { authenticated: req.isAuthenticated() });
-});
-
-app.get('/account', isAuthenticated, (req, res, next) => {
-    res.render('account', {
-        user: req.user,
-        authenticated: true
-    });
-});
-
-app.get('/training', isAuthenticated, async (req, res, next) => {
-    try {
-        const fsets = await getFSetNames(req.user);
-
-        res.render('training', { authenticated: true, fsets });
-    } catch (err) {
-        next(err);
-    }
-});
-
-app.get('/collections', isAuthenticated, async (req, res, next) => {
-    try {
-        const fsets = await getFSetNames(req.user);
-
-        res.render('collections', {
-            user: req.user,
-            authenticated: true,
-            fsets
-        });
-    } catch (err) {
-        next(err);
-    }
-});
-
-app.get('/collections/:index', isAuthenticated, async (req, res, next) => {
-    const index = +req.params.index;
-
-    if (!Number.isInteger(index) || index < 0) {
-        handleValidationFailure(req, res);
-        return;
-    }
-
-    const pipeline = [
-        { $match: { _id: req.user } },
-        { $project: { _id: 0, fsets: 1 } },
-        { $project: { fset: { $arrayElemAt: ['$fsets', index] } } }
-    ];
-
-    try {
-        const doc = await users.aggregate(pipeline).next();
-
-        res.render('flashcards', {
-            user: req.user,
-            authenticated: true,
-            fset: doc.fset
-        });
-    } catch (err) {
-        next(err);
-    }
-});
+app.use(express.static(STATIC_DIR));
 
 app.get(/^/, (req, res, next) => {
-    res.status(NOT_FOUND);
-    res.render('pageNotFound', { authenticated: req.isAuthenticated() });
+    res.sendFile(STATIC_DIR + '/index.html', { root: cwd() });
 });
 
 app.post('/register', async (req, res, next) => {
