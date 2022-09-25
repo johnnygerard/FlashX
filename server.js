@@ -14,9 +14,7 @@ import {
 } from './validation.js';
 import {
     FORBIDDEN,
-    NOT_FOUND,
     NO_CONTENT,
-    SEE_OTHER
 } from './httpStatusCodes.js';
 
 if (env.NODE_ENV !== 'production')
@@ -25,21 +23,6 @@ if (env.NODE_ENV !== 'production')
 const app = express();
 const PORT = env.PORT || 3000;
 const STATIC_DIR = 'client/dist/flash-x';
-const authenticatedRedirect = '/collections';
-const unauthenticatedRedirect = '/';
-const registrationFailureRedirect = '/register';
-
-const isAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) next();
-    else res.redirect(SEE_OTHER, unauthenticatedRedirect);
-};
-
-const getFSetNames = async _id => {
-    const options = { projection: { _id: 0, fsets: '$fsets.name' } };
-
-    const doc = await users.findOne({ _id }, options);
-    return doc.fsets;
-};
 
 passport.use(new LocalStrategy(verify));
 passport.serializeUser((user, done) => done(null, user._id));
