@@ -93,7 +93,7 @@ app.use(flash(), (req, res, next) => {
     next();
 });
 
-app.post('/register', async (req, res, next) => {
+app.post('/api/register', async (req, res, next) => {
     const _id = req.body.username;
 
     if (!usernameIsValid(_id) || !passwordIsValid(req.body.password)) {
@@ -128,7 +128,7 @@ app.post('/register', async (req, res, next) => {
     }
 });
 
-app.post('/logIn', passport.authenticate('local', {
+app.post('/api/logIn', passport.authenticate('local', {
     successRedirect: authenticatedRedirect,
     successFlash: true,
     failureRedirect: unauthenticatedRedirect,
