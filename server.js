@@ -20,12 +20,13 @@ import {
 const app = express();
 const PORT = env.PORT || 3000;
 const STATIC_DIR = 'client/dist/flash-x';
+const PRODUCTION = env.NODE_ENV === 'production';
 
 passport.use(new LocalStrategy(verify));
 passport.serializeUser((user, done) => done(null, user._id));
 passport.deserializeUser((id, done) => done(null, id));
 
-if (env.NODE_ENV === 'production') {
+if (PRODUCTION) {
     app.set('trust proxy', 1);
     app.use((req, res, next) => {
         if (req.secure) next();
@@ -57,7 +58,7 @@ app.use(session({
         path: '/',
         maxAge: SESSION_LIFETIME,
         httpOnly: true,
-        secure: env.NODE_ENV === 'production',
+        secure: PRODUCTION,
         sameSite: 'lax'
     },
     resave: false,
@@ -129,7 +130,7 @@ app.use((err, req, res, next) => {
     res.status(INTERNAL_SERVER_ERROR).end();
 });
 
-if (env.NODE_ENV === 'production') {
+if (PRODUCTION) {
     app.listen(PORT, () => {
         console.log(`Server listening on port ${PORT}`);
     });
