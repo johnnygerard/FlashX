@@ -4,7 +4,6 @@ import session from 'express-session';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import flash from 'flash';
-import ejs from 'ejs';
 import api from './api.js';
 import { users, sessionStore, SESSION_LIFETIME } from './mongoDB.js';
 import { hash, makeSalt, verify } from './password.js';
@@ -66,14 +65,9 @@ app.set('query parser', query => {
 
     return params;
 });
-app.set('view engine', 'ejs');
 app.enable('case sensitive routing');
 app.enable('strict routing');
 app.disable('x-powered-by');
-const viewOptions = { root: 'views/partials' };
-app.engine('ejs', (path, data, cb) => {
-    ejs.renderFile(path, data, viewOptions, cb);
-});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
