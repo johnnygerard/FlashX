@@ -126,12 +126,18 @@ app.post('/api/register', async (req, res, next) => {
     }
 });
 
-app.post('/api/logIn', passport.authenticate('local', {
-    successRedirect: authenticatedRedirect,
-    successFlash: true,
-    failureRedirect: unauthenticatedRedirect,
-    failureFlash: true
-}));
+app.post('/api/logIn', (req, res, next) => {
+    passport.authenticate('local', (err, user, info, status) => {
+        if (err) {
+            next(err); return;
+        }
+        if (user)
+            req.logIn(user, err => {
+                if (err) next(err); else res.status(NO_CONTENT).end();
+            });
+        else res.status(FORBIDDEN).send(info.message);
+    })(req, res, next);
+});
 
 app.use('/api', (req, res, next) => {
     if (req.isAuthenticated()) next();
