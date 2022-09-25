@@ -1,0 +1,35 @@
+<header>
+  <nav>
+    <ul id="nav">
+      <li><a routerLink="/">Home</a></li>
+
+      <ng-container *ngIf="auth.authenticated">
+        <li><a routerLink="/collections">Collections</a></li>
+        <li><a routerLink="/training">Training</a></li>
+        <li><a routerLink="/account">Account</a></li>
+      </ng-container>
+
+      <li><a routerLink="/about">About</a></li>
+
+      <li id="logout" *ngIf="auth.authenticated">
+        <button type="button">Log out</button>
+      </li>
+
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<footer>
+  <nav>
+    <ul id="footerNav">
+      <li><a routerLink="/cookie-notice">Cookie notice</a></li>
+      <li><a routerLink="/privacy-policy">Privacy policy</a></li>
+      <li><a routerLink="/disclaimer">Disclaimer</a></li>
+    </ul>
+  </nav>
+  <p id="copyright"><small>&copy; 2022 Johnny Gérard</small></p>
+</footer>
