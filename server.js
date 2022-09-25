@@ -3,7 +3,7 @@ import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
-import api from './api.js';
+import protectedAPI from './protectedAPI.js';
 import publicAPI from './publicAPI.js';
 import { sessionStore, SESSION_LIFETIME } from './mongoDB.js';
 import { verify } from './password.js';
@@ -67,7 +67,7 @@ app.use(passport.session());
 app.use('/api', publicAPI);
 app.use('/api', (req, res, next) => {
     if (req.isAuthenticated()) next(); else res.status(FORBIDDEN).end();
-}, api);
+}, protectedAPI);
 
 app.use(express.static(STATIC_DIR));
 
