@@ -230,13 +230,13 @@ router.put('/password', async (req, res, next) => {
     }
 });
 
-app.delete('/logOut', (req, res, next) => {
+router.delete('/logOut', (req, res, next) => {
     req.session.destroy(err => {
         if (err) next(err); else res.status(NO_CONTENT).end();
     });
 });
 
-app.delete('/account', async (req, res, next) => {
+router.delete('/account', async (req, res, next) => {
     try {
         await users.deleteOne({ _id: req.user });
         res.status(NO_CONTENT).end();
