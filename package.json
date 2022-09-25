@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Flashcard web application",
   "main": "server.js",
-  "scripts": {},
+  "scripts": {
+    "start": "nodemon"
+  },
   "type": "module",
   "repository": "github:johnnygerard/FlashX",
   "author": "Johnny Gérard",
