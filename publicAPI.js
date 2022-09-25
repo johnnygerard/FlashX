@@ -56,3 +56,7 @@ router.post('/logIn', (req, res, next) => {
         else res.status(FORBIDDEN).send(info.message);
     })(req, res, next);
 });
+
+router.get('/authStatus', (req, res, next) => {
+    res.send(req.isAuthenticated());
+});
