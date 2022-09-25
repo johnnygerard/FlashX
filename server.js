@@ -13,6 +13,7 @@ import {
 } from './validation.js';
 import {
     FORBIDDEN,
+    INTERNAL_SERVER_ERROR,
     NO_CONTENT,
 } from './httpStatusCodes.js';
 
@@ -124,6 +125,11 @@ app.use(express.static(STATIC_DIR));
 
 app.get(/^/, (req, res, next) => {
     res.sendFile(STATIC_DIR + '/index.html', { root: cwd() });
+});
+
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(INTERNAL_SERVER_ERROR).end();
 });
 
 if (env.NODE_ENV === 'production') {
