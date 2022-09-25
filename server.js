@@ -3,7 +3,6 @@ import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
-import flash from 'flash';
 import api from './api.js';
 import { users, sessionStore, SESSION_LIFETIME } from './mongoDB.js';
 import { hash, makeSalt, verify } from './password.js';
@@ -70,11 +69,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash(), (req, res, next) => {
-    if (req.session.flash.length)
-        req.session.flash = [];
-    next();
-});
 
 app.post('/api/register', async (req, res, next) => {
     const _id = req.body.username;
