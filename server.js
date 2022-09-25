@@ -1,5 +1,4 @@
 import { env } from 'process';
-import { minify } from 'html-minifier-terser';
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
@@ -24,31 +23,11 @@ import {
 if (env.NODE_ENV !== 'production')
     await import('dotenv/config');
 
-const nativeRender = express.response.render;
-
-express.response.render = function (view, locals, cb) {
-    const defaultCallback = async (err, html) => {
-        if (err) this.req.next(err);
-        else this.send(await minify(html, minifierOptions));
-    };
-
-    nativeRender.call(this, view, locals, cb || defaultCallback);
-};
-
 const app = express();
 const PORT = env.PORT || 3000;
 const authenticatedRedirect = '/collections';
 const unauthenticatedRedirect = '/';
 const registrationFailureRedirect = '/register';
-
-const minifierOptions = {
-    collapseWhitespace: true,
-    minifyCSS: true,
-    minifyJS: true,
-    removeAttributeQuotes: true,
-    removeComments: true,
-    removeOptionalTags: true,
-};
 
 const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) next();
