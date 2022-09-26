@@ -8,8 +8,6 @@ import { AuthService } from './auth.service';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    title = 'FlashX';
-
     constructor(private http: HttpClientModule, protected auth: AuthService) { }
 
 }
