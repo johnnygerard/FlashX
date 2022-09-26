@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LogoComponent } from './logo/logo.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
-        LogoComponent
+        LogoComponent,
+        NotFoundComponent
     ],
     schemas: [NO_ERRORS_SCHEMA],
     imports: [
