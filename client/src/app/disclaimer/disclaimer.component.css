@@ -1,0 +1,8 @@
+hgroup>p {
+    display: flex;
+    align-items: center;
+}
+
+p {
+    max-width: 600px;
+}

@@ -9,6 +9,7 @@ import { LogoComponent } from './logo/logo.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CookieNoticeComponent } from './cookie-notice/cookie-notice.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 
 @NgModule({
     declarations: [
@@ -17,7 +18,8 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
         LogoComponent,
         NotFoundComponent,
         CookieNoticeComponent,
-        PrivacyPolicyComponent
+        PrivacyPolicyComponent,
+        DisclaimerComponent
     ],
     schemas: [NO_ERRORS_SCHEMA],
     imports: [

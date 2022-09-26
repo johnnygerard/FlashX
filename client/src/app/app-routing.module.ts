@@ -1,12 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CookieNoticeComponent } from './cookie-notice/cookie-notice.component';
+import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', component: HomeComponent, title: 'FlashX' },
+    {
+        path: 'disclaimer',
+        pathMatch: 'full',
+        component: DisclaimerComponent,
+        title: 'Disclaimer'
+    },
     {
         path: 'cookie-notice',
         pathMatch: 'full',
