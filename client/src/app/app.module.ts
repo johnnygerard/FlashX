@@ -10,6 +10,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { CookieNoticeComponent } from './cookie-notice/cookie-notice.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
     declarations: [
@@ -19,7 +20,8 @@ import { DisclaimerComponent } from './disclaimer/disclaimer.component';
         NotFoundComponent,
         CookieNoticeComponent,
         PrivacyPolicyComponent,
-        DisclaimerComponent
+        DisclaimerComponent,
+        AboutComponent
     ],
     schemas: [NO_ERRORS_SCHEMA],
     imports: [

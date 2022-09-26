@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AboutComponent } from './about/about.component';
 import { CookieNoticeComponent } from './cookie-notice/cookie-notice.component';
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { HomeComponent } from './home/home.component';
@@ -8,6 +9,12 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', component: HomeComponent, title: 'FlashX' },
+    {
+        path: 'about',
+        pathMatch: 'full',
+        component: AboutComponent,
+        title: 'About'
+    },
     {
         path: 'disclaimer',
         pathMatch: 'full',

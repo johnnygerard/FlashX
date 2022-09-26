@@ -1,0 +1,35 @@
+#author {
+    display: flex;
+}
+
+#author>img {
+    margin-right: 1em;
+}
+
+#author>div>p {
+    margin: 0;
+}
+
+#authorInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+#authorInfo>p:first-child {
+    margin-bottom: 1em;
+}
+
+#links {
+    padding: 0;
+    display: flex;
+    margin: auto 0 0 0;
+}
+
+#links>li {
+    display: inline;
+    margin-right: 1em;
+}
+
+#links img {
+    display: block;
+}
