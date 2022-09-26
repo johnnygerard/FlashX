@@ -15,7 +15,7 @@
   <label [class.invalid]="username.touched && username.errors?.['required']"
       for="username">Username</label>
   <input id="username" name="username" autocomplete="username" required
-      autofocus [(ngModel)]="credentials.username" #username="ngModel">
+      [(ngModel)]="credentials.username" #username="ngModel">
 
   <label [class.invalid]="password.touched && password.errors?.['required']"
       for="password">Password</label>
