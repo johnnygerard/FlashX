@@ -12,13 +12,16 @@
 </ul>
 
 <form *ngIf="!auth.authenticated" #f="ngForm" (ngSubmit)="logIn()" class="form">
-  <label for="username">Username</label>
+  <label [class.invalid]="username.touched && username.errors?.['required']"
+      for="username">Username</label>
   <input id="username" name="username" autocomplete="username" required
-      autofocus [(ngModel)]="username">
+      autofocus [(ngModel)]="credentials.username" #username="ngModel">
 
-  <label for="password">Password</label>
-  <input id="password" type="password" name="password" [(ngModel)]="password"
-      autocomplete="current-password" required>
+  <label [class.invalid]="password.touched && password.errors?.['required']"
+      for="password">Password</label>
+  <input id="password" type="password" name="password"
+      [(ngModel)]="credentials.password" autocomplete="current-password"
+      required #password="ngModel">
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
   <button class="link" [disabled]="f.invalid">Log in</button>
   <p id="link">No account? <a routerLink="register">Register</a></p>

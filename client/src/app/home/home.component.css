@@ -35,3 +35,11 @@ form>button {
     color: red;
     margin: 0 0 0.5em 0;
 }
+
+.invalid {
+    color: red;
+}
+
+.invalid::after {
+    content: ' (required)';
+}

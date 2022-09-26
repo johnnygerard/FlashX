@@ -12,9 +12,11 @@ import { AuthService } from '../auth.service';
 })
 export class HomeComponent {
     protected message = '';
-    protected username = '';
-    protected password = '';
     protected locked = false;
+    protected readonly credentials = {
+        username: '',
+        password: ''
+    }
 
     constructor(
         private readonly http: HttpClient,
@@ -26,10 +28,7 @@ export class HomeComponent {
         if (this.locked) return;
         this.locked = true;
 
-        const params = new HttpParams().appendAll({
-            username: this.username,
-            password: this.password
-        });
+        const params = new HttpParams().appendAll(this.credentials);
 
         const complete = () => {
             this.auth.authenticated = true;
