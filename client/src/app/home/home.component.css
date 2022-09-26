@@ -1,0 +1,42 @@
+form {
+    position: fixed;
+    top: 10em;
+    left: 32em;
+}
+
+ul>li {
+    margin-top: 0.4em;
+}
+
+ul>li::after {
+    content: ' \2714';
+    color: green;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form>label {
+    margin-bottom: 0.5em;
+}
+
+form>button {
+    background-color: var(--accent-primary);
+    color: var(--accent-secondary);
+}
+
+form>input,
+form>button {
+    margin-bottom: 2em;
+}
+
+#link {
+    margin: 0;
+}
+
+.message {
+    color: red;
+    margin: 0 0 0.5em 0;
+}

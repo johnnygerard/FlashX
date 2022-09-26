@@ -1,1 +1,25 @@
-<p>home works!</p>
+<hgroup>
+  <app-logo></app-logo>
+  <p>Memorize easily with flashcards!</p>
+</hgroup>
+
+<p>Once registered you will be able to:</p>
+
+<ul>
+  <li>Write your own flashcards</li>
+  <li>Organize them into collections</li>
+  <li>Train your memory with active recall</li>
+</ul>
+
+<form *ngIf="!auth.authenticated" #f="ngForm" (ngSubmit)="logIn()" class="form">
+  <label for="username">Username</label>
+  <input id="username" name="username" autocomplete="username" required
+      autofocus [(ngModel)]="username">
+
+  <label for="password">Password</label>
+  <input id="password" type="password" name="password" [(ngModel)]="password"
+      autocomplete="current-password" required>
+  <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
+  <button class="link" [disabled]="f.invalid">Log in</button>
+  <p id="link">No account? <a routerLink="register">Register</a></p>
+</form>
