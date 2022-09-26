@@ -19,7 +19,8 @@ export class HomeComponent {
     constructor(
         private readonly http: HttpClient,
         private readonly router: Router,
-        protected readonly auth: AuthService) { }
+        protected readonly auth: AuthService
+    ) { }
 
     logIn(): void {
         if (this.locked) return;
