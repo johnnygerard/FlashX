@@ -31,7 +31,6 @@ export class HomeComponent {
         });
 
         const complete = () => {
-            this.message = '';
             this.auth.authenticated = true;
             this.router.navigateByUrl('/training');
         };
