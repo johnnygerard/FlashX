@@ -22,11 +22,6 @@ form>label {
     margin-bottom: 0.5em;
 }
 
-form>button {
-    background-color: var(--accent-primary);
-    color: var(--accent-secondary);
-}
-
 form>input,
 form>button {
     margin-bottom: 2em;
