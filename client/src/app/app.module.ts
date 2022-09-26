@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LogoComponent } from './logo/logo.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { CookieNoticeComponent } from './cookie-notice/cookie-notice.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
         LogoComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        CookieNoticeComponent
     ],
     schemas: [NO_ERRORS_SCHEMA],
     imports: [
