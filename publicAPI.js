@@ -1,5 +1,6 @@
 export { router as default };
 import express from 'express';
+import passport from 'passport';
 import { FORBIDDEN, NO_CONTENT } from './httpStatusCodes.js';
 import { users } from './mongoDB.js';
 import { hash, makeSalt } from './password.js';
