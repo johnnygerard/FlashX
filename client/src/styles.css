@@ -53,6 +53,7 @@ html {
 }
 
 body {
+    height: 100vh;
     font-family: 'Roboto', sans-serif;
     background-color: var(--accent-secondary);
     margin: 0;

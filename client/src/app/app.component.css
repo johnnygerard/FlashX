@@ -44,10 +44,6 @@
 }
 
 /* Footer */
-body {
-    height: 100vh;
-}
-
 footer {
     position: sticky;
     top: 100vh;
