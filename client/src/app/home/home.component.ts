@@ -11,10 +11,10 @@ import { AuthService } from '../auth.service';
     styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-    message = '';
-    username = '';
-    password = '';
-    locked = false;
+    protected message = '';
+    protected username = '';
+    protected password = '';
+    protected locked = false;
 
     constructor(
         private readonly http: HttpClient,
