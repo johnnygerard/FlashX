@@ -11,6 +11,7 @@ import { CookieNoticeComponent } from './cookie-notice/cookie-notice.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { AboutComponent } from './about/about.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { AboutComponent } from './about/about.component';
         CookieNoticeComponent,
         PrivacyPolicyComponent,
         DisclaimerComponent,
-        AboutComponent
+        AboutComponent,
+        RegisterComponent
     ],
     schemas: [NO_ERRORS_SCHEMA],
     imports: [

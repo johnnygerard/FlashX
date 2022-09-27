@@ -1,0 +1,40 @@
+form {
+    margin: auto;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+form>label {
+    margin-bottom: 0.5em;
+}
+
+label[for='password'] {
+    margin-top: 2em;
+}
+
+form>button {
+    margin: 2em 0;
+}
+
+#link {
+    margin: 0;
+}
+
+.message {
+    color: red;
+    margin: 0 0 0.5em 0;
+}
+
+.validation {
+    font-size: small;
+    margin-bottom: 0;
+}
+
+.required {
+    color: red;
+}
+
+.required::after {
+    content: ' (required)';
+}

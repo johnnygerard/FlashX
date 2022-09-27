@@ -6,9 +6,16 @@ import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', component: HomeComponent, title: 'FlashX' },
+    {
+        path: 'register',
+        pathMatch: 'full',
+        component: RegisterComponent,
+        title: 'Register'
+    },
     {
         path: 'about',
         pathMatch: 'full',
