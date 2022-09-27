@@ -1,6 +1,6 @@
 export { router as default };
 import express from 'express';
-import { NO_CONTENT } from './httpStatusCodes.js';
+import { FORBIDDEN, NO_CONTENT } from './httpStatusCodes.js';
 import { users } from './mongoDB.js';
 import { handleValidationFailure, passwordIsValid } from './validation.js';
 import { hash } from './password.js';
@@ -216,14 +216,12 @@ router.put('/password', async (req, res, next) => {
         let derivedKey = await hash(currentPwd, user.salt.buffer);
 
         if (!derivedKey.equals(user.derivedKey.buffer)) {
-            res.flash('Wrong password.');
-            res.sendStatus(NO_CONTENT).end();
+            res.sendStatus(FORBIDDEN).send('Wrong password.');
             return;
         }
 
         derivedKey = await hash(newPwd, user.salt.buffer);
         await users.updateOne({ _id: req.user }, { $set: { derivedKey } });
-        res.flash('Password successfully updated!');
         res.sendStatus(NO_CONTENT).end();
     } catch (err) {
         next(err);
@@ -243,4 +241,8 @@ router.delete('/account', async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+});
+
+router.get('/account', (req, res, next) => {
+    res.send(req.user);
 });
