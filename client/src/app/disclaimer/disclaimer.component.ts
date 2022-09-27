@@ -1,8 +1,7 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-disclaimer',
-    encapsulation: ViewEncapsulation.ShadowDom,
     templateUrl: './disclaimer.component.html',
     styleUrls: ['./disclaimer.component.css']
 })

@@ -1,8 +1,7 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-privacy-policy',
-    encapsulation: ViewEncapsulation.ShadowDom,
     templateUrl: './privacy-policy.component.html',
     styleUrls: ['./privacy-policy.component.css']
 })

@@ -1,12 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { retry } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Component({
     selector: 'app-root',
-    encapsulation: ViewEncapsulation.ShadowDom,
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
