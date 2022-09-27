@@ -1,3 +1,7 @@
+main {
+    margin: 1em;
+}
+
 /* Navigation bar */
 #nav {
     display: flex;

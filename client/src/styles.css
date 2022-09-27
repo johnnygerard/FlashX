@@ -59,10 +59,6 @@ body {
     margin: 0;
 }
 
-main {
-    margin: 1em;
-}
-
 input {
     all: unset;
     background-color: var(--accent-secondary);
