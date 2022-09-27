@@ -12,6 +12,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { AboutComponent } from './about/about.component';
 import { RegisterComponent } from './register/register.component';
+import { AccountComponent } from './account/account.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { RegisterComponent } from './register/register.component';
         PrivacyPolicyComponent,
         DisclaimerComponent,
         AboutComponent,
-        RegisterComponent
+        RegisterComponent,
+        AccountComponent
     ],
     schemas: [NO_ERRORS_SCHEMA],
     imports: [

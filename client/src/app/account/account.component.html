@@ -1,0 +1,32 @@
+<app-logo></app-logo>
+<h2>Welcome {{username}}!</h2>
+<form class="form" (ngSubmit)="modifyPwd()" #f="ngForm">
+  <label
+      [class.required]="currentPwd.touched && currentPwd.errors?.['required']"
+      for="currentPwd">Current password</label>
+  <input id="currentPwd" name="currentPwd" type="password"
+      autocomplete="current-password" required
+      [(ngModel)]="credentials.currentPwd" #currentPwd="ngModel">
+  <label [class.required]="newPwd.touched && newPwd.errors?.['required']"
+      for="newPwd">New password</label>
+  <input id="newPwd" name="newPwd" type="password" autocomplete="new-password"
+      pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
+      minlength="11" maxlength="128" required [(ngModel)]="credentials.newPwd"
+      #newPwd="ngModel">
+  <p *ngIf="newPwd.errors?.['minlength']" class="validation">
+    <strong>Minimum 11 characters</strong>
+  </p>
+  <p *ngIf="newPwd.errors?.['pattern']" class="validation">
+    <strong>One digit</strong><br>
+    <strong>One symbol</strong><br>
+    <strong>One small letter</strong><br>
+    <strong>One capital letter</strong><br>
+  </p>
+  <button id="updatePwd" [disabled]="f.invalid">Update</button>
+  <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
+  <p class="successMessage" *ngIf="successMessage">
+    <strong>{{successMessage}}</strong>
+  </p>
+</form>
+<button id="deleteAccount" type="button" class="delete"
+    (click)="deleteAccount()">Delete account</button>

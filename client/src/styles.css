@@ -98,3 +98,27 @@ hgroup>p {
     font-size: 1.5em;
     margin: 0.67em 0;
 }
+
+/* Forms */
+.message {
+    color: red;
+    margin: 0.5em 0 0 0;
+}
+
+.successMessage {
+    color: green;
+    margin: 0.5em 0 0 0;
+}
+
+.validation {
+    font-size: small;
+    margin-bottom: 0;
+}
+
+.required {
+    color: red;
+}
+
+.required::after {
+    content: ' (required)';
+}

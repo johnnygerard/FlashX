@@ -1,0 +1,17 @@
+#deleteAccount {
+    display: block;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+}
+
+.form>label {
+    margin-bottom: 0.5em;
+}
+
+.form>input {
+    margin-bottom: 2em;
+}
