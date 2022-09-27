@@ -1,5 +1,7 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { retry } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -8,6 +10,31 @@ import { AuthService } from './auth.service';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    constructor(private http: HttpClientModule, protected auth: AuthService) { }
+    private locked = false;
+
+    constructor(
+        private readonly http: HttpClient,
+        private readonly router: Router,
+        protected readonly auth: AuthService
+    ) { }
+
+    protected logOut(): void {
+        if (this.locked) return;
+        this.locked = true;
+
+        const complete = () => {
+            this.auth.authenticated = false;
+            this.router.navigateByUrl('/');
+        };
+
+        const error = (err: HttpErrorResponse) => {
+            console.error(err);
+            alert('Unexpected error');
+            this.locked = false;
+        };
+
+        this.http.delete('/api/logOut').pipe(retry(2))
+            .subscribe({ complete, error });
+    }
 
 }
