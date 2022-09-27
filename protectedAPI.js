@@ -1,6 +1,6 @@
 export { router as default };
 import express from 'express';
-import { FORBIDDEN, NO_CONTENT } from './httpStatusCodes.js';
+import { FORBIDDEN, NO_CONTENT, OK } from './httpStatusCodes.js';
 import { users } from './mongoDB.js';
 import { handleValidationFailure, passwordIsValid } from './validation.js';
 import { hash } from './password.js';
@@ -222,7 +222,7 @@ router.put('/password', async (req, res, next) => {
 
         derivedKey = await hash(newPwd, user.salt.buffer);
         await users.updateOne({ _id: req.user }, { $set: { derivedKey } });
-        res.sendStatus(NO_CONTENT).end();
+        res.sendStatus(OK).send('Password successfully updated!');
     } catch (err) {
         next(err);
     }
