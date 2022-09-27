@@ -216,13 +216,13 @@ router.put('/password', async (req, res, next) => {
         let derivedKey = await hash(currentPwd, user.salt.buffer);
 
         if (!derivedKey.equals(user.derivedKey.buffer)) {
-            res.sendStatus(FORBIDDEN).send('Wrong password.');
+            res.status(FORBIDDEN).send('Wrong password.');
             return;
         }
 
         derivedKey = await hash(newPwd, user.salt.buffer);
         await users.updateOne({ _id: req.user }, { $set: { derivedKey } });
-        res.sendStatus(OK).send('Password successfully updated!');
+        res.status(OK).send('Password successfully updated!');
     } catch (err) {
         next(err);
     }
