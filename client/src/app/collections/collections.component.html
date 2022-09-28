@@ -1,0 +1,21 @@
+<hgroup>
+  <app-logo></app-logo>
+  <p>Collections</p>
+</hgroup>
+<form id="createFSet" class="form" (ngSubmit)="addFSet()" #f="ngForm">
+  <label for="name">Name</label>
+  <input id="name" required maxlength="256" name="name" size="16"
+      [(ngModel)]="fsetName" #name="ngModel">
+  <button class="positiveAction" [disabled]="f.invalid">Add collection</button>
+</form>
+<ul id="fsets" *ngIf="fsets.length">
+  <li *ngFor="let fset of fsets; index as i">
+    <form class="form" (ngSubmit)="renameFSet(i)" #f="ngForm">
+      <a routerLink="{{i}}">{{fset}}</a>
+      <input required maxlength="256" name="name" [(ngModel)]="newFSets[i]">
+      <button [disabled]="f.invalid">Rename</button>
+      <button type="button" class="delete"
+          (click)="deleteFSet(i)">Delete</button>
+    </form>
+  </li>
+</ul>

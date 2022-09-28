@@ -13,6 +13,7 @@ import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { AboutComponent } from './about/about.component';
 import { RegisterComponent } from './register/register.component';
 import { AccountComponent } from './account/account.component';
+import { CollectionsComponent } from './collections/collections.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { AccountComponent } from './account/account.component';
         DisclaimerComponent,
         AboutComponent,
         RegisterComponent,
-        AccountComponent
+        AccountComponent,
+        CollectionsComponent
     ],
     schemas: [NO_ERRORS_SCHEMA],
     imports: [
