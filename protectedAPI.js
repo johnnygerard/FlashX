@@ -48,7 +48,8 @@ router.route('/fset').post(async (req, res, next) => {
     }
     // Rename a flashcard set
 }).patch(async (req, res, next) => {
-    const { name, index } = req.body;
+    const { name } = req.body;
+    const index = +req.body.index;
 
     if (typeof name !== 'string' ||
         !Number.isInteger(index) || index < 0) {
@@ -66,7 +67,7 @@ router.route('/fset').post(async (req, res, next) => {
     }
     // Delete a flashcard set
 }).delete(async (req, res, next) => {
-    const { index } = req.body;
+    const index = +req.body.index;
     const filter = { _id: req.user };
 
     if (!Number.isInteger(index) || index < 0) {
