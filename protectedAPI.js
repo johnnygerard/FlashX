@@ -7,6 +7,13 @@ import { hash } from './password.js';
 
 const router = express.Router();
 
+const getFSetNames = async _id => {
+    const options = { projection: { _id: 0, fsets: '$fsets.name' } };
+
+    const doc = await users.findOne({ _id }, options);
+    return doc.fsets;
+};
+
 class Flashcard {
     constructor(question, answer) {
         this.question = question;
@@ -245,4 +252,43 @@ router.delete('/account', async (req, res, next) => {
 
 router.get('/account', (req, res, next) => {
     res.send(req.user);
+});
+
+router.get('/training', async (req, res, next) => {
+    try {
+        res.send(await getFSetNames(req.user));
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.get('/collections', async (req, res, next) => {
+    try {
+        res.send(await getFSetNames(req.user));
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.get('/collections/:index', async (req, res, next) => {
+    const index = +req.params.index;
+
+    if (!Number.isInteger(index) || index < 0) {
+        handleValidationFailure(req, res);
+        return;
+    }
+
+    const pipeline = [
+        { $match: { _id: req.user } },
+        { $project: { _id: 0, fsets: 1 } },
+        { $project: { fset: { $arrayElemAt: ['$fsets', index] } } }
+    ];
+
+    try {
+        const doc = await users.aggregate(pipeline).next();
+
+        res.send(doc.fset);
+    } catch (err) {
+        next(err);
+    }
 });
