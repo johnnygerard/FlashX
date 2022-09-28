@@ -135,31 +135,6 @@ router.route('/flashcard').post(async (req, res, next) => {
     }
 });
 
-// Read flashcards
-router.get('/flashcard/:index', async (req, res, next) => {
-    const index = +req.params.index;
-
-    if (!Number.isInteger(index) || index < 0) {
-        handleValidationFailure(req, res);
-        return;
-    }
-
-    const pipeline = [
-        { $match: { _id: req.user } },
-        { $project: { _id: 0, fsets: 1 } },
-        { $project: { fset: { $arrayElemAt: ['$fsets', index] } } },
-        { $project: { flashcards: '$fset.flashcards' } }
-    ];
-
-    try {
-        const doc = await users.aggregate(pipeline).next();
-
-        res.send(doc.flashcards);
-    } catch (err) {
-        next(err);
-    }
-});
-
 // Update question
 router.patch('/flashcard/question', async (req, res, next) => {
     const { fset, index, question } = req.body;
