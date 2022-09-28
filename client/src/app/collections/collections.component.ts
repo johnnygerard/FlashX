@@ -11,7 +11,6 @@ import { AuthService } from '../auth.service';
 })
 export class CollectionsComponent implements OnInit {
     protected fsets: string[] = [];
-    protected newFSets: string[] = [];
     protected fsetName = '';
     private locked = false;
 
@@ -22,10 +21,7 @@ export class CollectionsComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        const next = (value: string[]) => {
-            this.fsets = value
-            this.newFSets = Array(value.length);
-        };
+        const next = (value: string[]) => this.fsets = value;
         const error = (err: HttpErrorResponse) => {
             if (err.status === 403) {
                 this.auth.authenticated = false;
@@ -49,7 +45,6 @@ export class CollectionsComponent implements OnInit {
 
         const complete = () => {
             this.fsets.push(name);
-            this.newFSets.push('');
             this.fsetName = '';
             this.locked = false;
         };
@@ -69,15 +64,13 @@ export class CollectionsComponent implements OnInit {
         });
     }
 
-    protected renameFSet(index: number): void {
+    protected renameFSet(name: string, index: number): void {
         if (this.locked) return;
         this.locked = true;
 
-        const name = this.newFSets[index];
         const params = new HttpParams().appendAll({ name, index });
 
         const complete = () => {
-            this.newFSets[index] = '';
             this.fsets[index] = name;
             this.locked = false;
         };
@@ -105,7 +98,6 @@ export class CollectionsComponent implements OnInit {
 
         const complete = () => {
             this.fsets.splice(index, 1);
-            this.newFSets.splice(index, 1);
             this.locked = false;
         };
 

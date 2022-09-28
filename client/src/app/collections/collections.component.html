@@ -10,9 +10,9 @@
 </form>
 <ul id="fsets" *ngIf="fsets.length">
   <li *ngFor="let fset of fsets; index as i">
-    <form class="form" (ngSubmit)="renameFSet(i)" #f="ngForm">
+    <form class="form" (ngSubmit)="renameFSet(name.value, i)" #f="ngForm">
       <a routerLink="{{i}}">{{fset}}</a>
-      <input required maxlength="256" name="name" [(ngModel)]="newFSets[i]">
+      <input required maxlength="256" name="name" #name>
       <button [disabled]="f.invalid">Rename</button>
       <button type="button" class="delete"
           (click)="deleteFSet(i)">Delete</button>
