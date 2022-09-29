@@ -87,7 +87,8 @@ router.route('/fset').post(async (req, res, next) => {
 
 // Create flashcard
 router.route('/flashcard').post(async (req, res, next) => {
-    const { fset, question, answer } = req.body;
+    const { question, answer } = req.body;
+    const fset = +req.body.fset;
 
     if (!Number.isInteger(fset) || fset < 0 ||
         typeof question !== 'string' ||
@@ -110,7 +111,8 @@ router.route('/flashcard').post(async (req, res, next) => {
 
     // Delete flashcard
 }).delete(async (req, res, next) => {
-    const { fset, index } = req.body;
+    const fset = +req.body.fset;
+    const index = +req.body.index;
     const flashcards = `fsets.${fset}.flashcards`;
     const filter = { _id: req.user };
 
@@ -137,7 +139,9 @@ router.route('/flashcard').post(async (req, res, next) => {
 
 // Update question
 router.patch('/flashcard/question', async (req, res, next) => {
-    const { fset, index, question } = req.body;
+    const { question } = req.body;
+    const fset = +req.body.fset;
+    const index = +req.body.index;
 
     if (!Number.isInteger(fset) || fset < 0 ||
         !Number.isInteger(index) || index < 0 ||
@@ -161,7 +165,9 @@ router.patch('/flashcard/question', async (req, res, next) => {
 
 // Update answer
 router.patch('/flashcard/answer', async (req, res, next) => {
-    const { fset, index, answer } = req.body;
+    const { answer } = req.body;
+    const fset = +req.body.fset;
+    const index = +req.body.index;
 
     if (!Number.isInteger(fset) || fset < 0 ||
         !Number.isInteger(index) || index < 0 ||
