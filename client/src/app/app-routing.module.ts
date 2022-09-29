@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './about/about.component';
 import { AccountComponent } from './account/account.component';
+import { CollectionComponent } from './collection/collection.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { CookieNoticeComponent } from './cookie-notice/cookie-notice.component';
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
@@ -12,6 +13,12 @@ import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', component: HomeComponent, title: 'FlashX' },
+    {
+        path: 'collections/:index',
+        pathMatch: 'full',
+        component: CollectionComponent,
+        title: 'Collection'
+    },
     {
         path: 'collections',
         pathMatch: 'full',

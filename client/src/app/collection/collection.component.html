@@ -1,0 +1,31 @@
+<hgroup>
+  <app-logo></app-logo>
+  <p>Flashcard collection "{{fset.name}}"</p>
+</hgroup>
+
+<form id="createFlashcard" class="form" (ngSubmit)="addFlashcard()" #f="ngForm">
+  <label for="createQ">Question</label>
+  <input id="createQ" name="question" required maxlength="256"
+      [(ngModel)]="flashcard.question">
+  <label for="createA">Answer</label>
+  <input id="createA" name="answer" required maxlength="256"
+      [(ngModel)]="flashcard.answer">
+  <button class="positiveAction" [disabled]="f.invalid">Add flashcard</button>
+</form>
+
+<dl id="flashcards" *ngIf="fset.flashcards.length">
+  <div class="form" *ngFor="let flashcard of fset.flashcards; index as i">
+    <dt>{{flashcard.question}}
+      <input required maxlength="256" name="question" #question>
+      <button type="button" (click)="updateQuestion(question.value, i)">
+        Update Q</button>
+      <button type="button" class="delete"
+          (click)="deleteFlashcard(i)">Delete</button>
+    </dt>
+    <dd>{{flashcard.answer}}
+      <input required maxlength="256" name="answer" #answer>
+      <button type="button" (click)="updateAnswer(answer.value, i)">Update
+        A</button>
+    </dd>
+  </div>
+</dl>

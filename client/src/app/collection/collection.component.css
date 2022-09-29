@@ -1,0 +1,39 @@
+#createFlashcard {
+    display: flex;
+    flex-direction: column;
+}
+
+#createFlashcard>input {
+    margin-bottom: 1.5em;
+}
+
+#createFlashcard>label {
+    margin-bottom: 0.5em;
+}
+
+#flashcards>div {
+    margin-bottom: 1em;
+}
+
+#flashcards input {
+    margin: 0 1em;
+}
+
+dt,
+dd {
+    margin: 0;
+}
+
+dt {
+    border-bottom: 1px solid var(--accent-secondary);
+    padding-bottom: 1em;
+}
+
+dd {
+    border-top: 1px solid var(--accent-secondary);
+    padding-top: 1em;
+}
+
+.delete {
+    margin-left: 1em;
+}

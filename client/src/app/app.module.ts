@@ -14,6 +14,7 @@ import { AboutComponent } from './about/about.component';
 import { RegisterComponent } from './register/register.component';
 import { AccountComponent } from './account/account.component';
 import { CollectionsComponent } from './collections/collections.component';
+import { CollectionComponent } from './collection/collection.component';
 
 @NgModule({
     declarations: [
@@ -27,7 +28,8 @@ import { CollectionsComponent } from './collections/collections.component';
         AboutComponent,
         RegisterComponent,
         AccountComponent,
-        CollectionsComponent
+        CollectionsComponent,
+        CollectionComponent
     ],
     schemas: [NO_ERRORS_SCHEMA],
     imports: [
