@@ -15,6 +15,7 @@ import { RegisterComponent } from './register/register.component';
 import { AccountComponent } from './account/account.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { CollectionComponent } from './collection/collection.component';
+import { TrainingComponent } from './training/training.component';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { CollectionComponent } from './collection/collection.component';
         RegisterComponent,
         AccountComponent,
         CollectionsComponent,
-        CollectionComponent
+        CollectionComponent,
+        TrainingComponent
     ],
     schemas: [NO_ERRORS_SCHEMA],
     imports: [

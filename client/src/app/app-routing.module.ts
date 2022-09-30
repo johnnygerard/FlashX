@@ -10,9 +10,16 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { RegisterComponent } from './register/register.component';
+import { TrainingComponent } from './training/training.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', component: HomeComponent, title: 'FlashX' },
+    {
+        path: 'training',
+        pathMatch: 'full',
+        component: TrainingComponent,
+        title: 'Training'
+    },
     {
         path: 'collections/:index',
         pathMatch: 'full',

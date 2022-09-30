@@ -1,0 +1,69 @@
+#sessionStart {
+    margin: auto;
+}
+
+#sessionStart>select {
+    margin-right: 1em;
+    padding: 0.5em;
+    border-radius: 0.4em;
+    border: none;
+}
+
+#sessionStart>select:focus-visible {
+    outline: 1px solid black;
+}
+
+#flashcard {
+    margin: auto;
+    width: fit-content;
+}
+
+.side {
+    text-align: center;
+}
+
+.side>p,
+.side>label {
+    display: block;
+    background-color: var(--accent-secondary);
+}
+
+.side>label {
+    border-bottom: 2px solid black;
+    padding: 0.4em;
+    border-radius: 0.5em 0.5em 0 0;
+    margin-bottom: 2em;
+}
+
+.side>p {
+    margin: 0 0 2em 0;
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+#score {
+    margin: 1em auto;
+    width: fit-content;
+}
+
+#success {
+    margin-right: 1em;
+}
+
+:host {
+    position: relative;
+}
+
+#cancel {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#cancel:hover,
+#cancel:focus-visible {
+    color: #C00;
+    background-color: white;
+    outline: 2px solid #C00;
+    outline-offset: -2px;
+}

@@ -1,0 +1,27 @@
+<app-logo></app-logo>
+<h2 *ngIf="started">{{fset.name}} collection</h2>
+<div id="sessionStart" class="form" [hidden]="started">
+  <select #s>
+    <option label="{{fsetName}}" *ngFor="let fsetName of fsetNames"></option>
+  </select>
+  <button type="button" class="positiveAction" (click)="init(s.selectedIndex)">
+    Start session</button>
+</div>
+<div id="flashcard" [hidden]="!started">
+  <div id="question" class="form side" [hidden]="!isQuestion">
+    <label>Question</label>
+    <p>{{question}}</p>
+    <button type="button" class="link" (click)="getAnswer()">Answer</button>
+  </div>
+  <div id="answer" class="form side" [hidden]="isQuestion">
+    <label>Answer</label>
+    <p>{{answer}}</p>
+    <button id="success" type="button" class="positiveAction"
+        (click)="updateScore(1)">Success</button>
+    <button id="fail" type="button" class="delete"
+        (click)="updateScore(0)">Fail</button>
+  </div>
+  <button id="cancel" type="button" (click)="cancel()">Cancel</button>
+</div>
+<p id="score" [hidden]="scoreHidden">
+  Score: {{score}}/{{fset.flashcards.length}}</p>
