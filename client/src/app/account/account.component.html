@@ -3,14 +3,14 @@
 <form class="form" (ngSubmit)="modifyPwd()" #f="ngForm">
   <label
       [class.required]="currentPwd.touched && currentPwd.errors?.['required']"
-      for="currentPwd">Current password</label>
+      for="currentPwd">Current</label>
   <app-password (toggleEvent)="pwd1.type = $event ? 'password' : 'text'">
     <input id="currentPwd" name="currentPwd" type="password"
         autocomplete="current-password" required #pwd1
         [(ngModel)]="credentials.currentPwd" #currentPwd="ngModel">
   </app-password>
   <label [class.required]="newPwd.touched && newPwd.errors?.['required']"
-      for="newPwd">New password</label>
+      for="newPwd">New</label>
   <app-password (toggleEvent)="pwd2.type = $event ? 'password' : 'text'">
     <input id="newPwd" name="newPwd" type="password" autocomplete="new-password"
         pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
@@ -26,7 +26,7 @@
     <strong>One small letter</strong><br>
     <strong>One capital letter</strong><br>
   </p>
-  <button id="updatePwd" [disabled]="f.invalid">Update</button>
+  <button id="updatePwd" [disabled]="f.invalid">Change password</button>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
   <p class="successMessage" *ngIf="successMessage">
     <strong>{{successMessage}}</strong>
