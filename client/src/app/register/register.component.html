@@ -7,11 +7,13 @@
       #username="ngModel">
   <label [class.required]="password.touched && password.errors?.['required']"
       for="password">Password</label>
-  <input id="password" type="password" name="password"
-      autocomplete="new-password" minlength="11"
-      pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
-      maxlength="128" required [(ngModel)]="credentials.password"
-      #password="ngModel">
+  <app-password (toggleEvent)="pwd.type = $event ? 'password' : 'text'">
+    <input id="password" type="password" name="password" #pwd
+        autocomplete="new-password" minlength="11"
+        pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
+        maxlength="128" required [(ngModel)]="credentials.password"
+        #password="ngModel">
+  </app-password>
   <p *ngIf="password.errors?.['minlength']" class="validation">
     <strong>Minimum 11 characters</strong>
   </p>

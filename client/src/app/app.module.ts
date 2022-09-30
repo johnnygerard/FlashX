@@ -16,6 +16,7 @@ import { AccountComponent } from './account/account.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { CollectionComponent } from './collection/collection.component';
 import { TrainingComponent } from './training/training.component';
+import { PasswordComponent } from './password/password.component';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { TrainingComponent } from './training/training.component';
         AccountComponent,
         CollectionsComponent,
         CollectionComponent,
-        TrainingComponent
+        TrainingComponent,
+        PasswordComponent
     ],
     schemas: [NO_ERRORS_SCHEMA],
     imports: [

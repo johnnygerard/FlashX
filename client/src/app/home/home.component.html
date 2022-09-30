@@ -19,9 +19,11 @@
 
   <label [class.invalid]="password.touched && password.errors?.['required']"
       for="password">Password</label>
-  <input id="password" type="password" name="password"
-      [(ngModel)]="credentials.password" autocomplete="current-password"
-      required #password="ngModel">
+  <app-password (toggleEvent)="pwd.type = $event ? 'password' : 'text'">
+    <input id="password" type="password" name="password"
+        [(ngModel)]="credentials.password" #pwd autocomplete="current-password"
+        required #password="ngModel">
+  </app-password>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
   <button class="link" [disabled]="f.invalid">Log in</button>
   <p id="link">No account? <a routerLink="register">Register</a></p>

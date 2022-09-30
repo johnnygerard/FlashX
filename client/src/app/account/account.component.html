@@ -4,15 +4,19 @@
   <label
       [class.required]="currentPwd.touched && currentPwd.errors?.['required']"
       for="currentPwd">Current password</label>
-  <input id="currentPwd" name="currentPwd" type="password"
-      autocomplete="current-password" required
-      [(ngModel)]="credentials.currentPwd" #currentPwd="ngModel">
+  <app-password (toggleEvent)="pwd1.type = $event ? 'password' : 'text'">
+    <input id="currentPwd" name="currentPwd" type="password"
+        autocomplete="current-password" required #pwd1
+        [(ngModel)]="credentials.currentPwd" #currentPwd="ngModel">
+  </app-password>
   <label [class.required]="newPwd.touched && newPwd.errors?.['required']"
       for="newPwd">New password</label>
-  <input id="newPwd" name="newPwd" type="password" autocomplete="new-password"
-      pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
-      minlength="11" maxlength="128" required [(ngModel)]="credentials.newPwd"
-      #newPwd="ngModel">
+  <app-password (toggleEvent)="pwd2.type = $event ? 'password' : 'text'">
+    <input id="newPwd" name="newPwd" type="password" autocomplete="new-password"
+        pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
+        minlength="11" maxlength="128" required [(ngModel)]="credentials.newPwd"
+        #newPwd="ngModel" #pwd2>
+  </app-password>
   <p *ngIf="newPwd.errors?.['minlength']" class="validation">
     <strong>Minimum 11 characters</strong>
   </p>
