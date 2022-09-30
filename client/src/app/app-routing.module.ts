@@ -1,5 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Injectable, NgModule } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import {
+    RouterModule, RouterStateSnapshot, Routes, TitleStrategy
+} from '@angular/router';
 import { AboutComponent } from './about/about.component';
 import { AccountComponent } from './account/account.component';
 import { CollectionComponent } from './collection/collection.component';
@@ -71,7 +74,27 @@ const routes: Routes = [
     { path: '**', component: NotFoundComponent, title: '404 Not Found' }
 ];
 
+@Injectable({ providedIn: 'root' })
+export class TemplatePageTitleStrategy extends TitleStrategy {
+    constructor(private readonly title: Title) {
+        super();
+    }
+
+    updateTitle(snapshot: RouterStateSnapshot): void {
+        let fullTitle = 'FlashX';
+        const title = this.buildTitle(snapshot);
+
+        if (title !== fullTitle)
+            fullTitle += ' | ' + title;
+
+        this.title.setTitle(fullTitle);
+    }
+}
+
 @NgModule({
+    providers: [
+        { provide: TitleStrategy, useClass: TemplatePageTitleStrategy }
+    ],
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
 })
