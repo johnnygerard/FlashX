@@ -1,15 +1,15 @@
 <app-logo></app-logo>
 <h2>Welcome {{username}}!</h2>
-<form class="form" (ngSubmit)="modifyPwd()" #f="ngForm">
+<form class="form" (ngSubmit)="modifyPwd(form)" #form="ngForm">
   <label
-      [class.required]="currentPwd.touched && currentPwd.errors?.['required']"
+      [class.required]="form.submitted && currentPwd.errors?.['required']"
       for="currentPwd">Current</label>
   <app-password (toggleEvent)="pwd1.type = $event ? 'password' : 'text'">
     <input id="currentPwd" name="currentPwd" type="password"
         autocomplete="current-password" required #pwd1
         [(ngModel)]="credentials.currentPwd" #currentPwd="ngModel">
   </app-password>
-  <label [class.required]="newPwd.touched && newPwd.errors?.['required']"
+  <label [class.required]="form.submitted && newPwd.errors?.['required']"
       for="newPwd">New</label>
   <app-password (toggleEvent)="pwd2.type = $event ? 'password' : 'text'">
     <input id="newPwd" name="newPwd" type="password" autocomplete="new-password"
@@ -26,7 +26,7 @@
     <strong>One small letter</strong><br>
     <strong>One capital letter</strong><br>
   </p>
-  <button id="updatePwd" [disabled]="f.invalid">Change password</button>
+  <button id="updatePwd">Change password</button>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
   <p class="successMessage" *ngIf="successMessage">
     <strong>{{successMessage}}</strong>

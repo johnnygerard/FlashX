@@ -2,6 +2,7 @@ import {
     HttpClient, HttpErrorResponse, HttpParams
 } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
@@ -24,8 +25,8 @@ export class HomeComponent {
         protected readonly auth: AuthService
     ) { }
 
-    logIn(): void {
-        if (this.locked) return;
+    logIn(form: NgForm): void {
+        if (this.locked || form.invalid) return;
         this.locked = true;
 
         const params = new HttpParams().appendAll(this.credentials);

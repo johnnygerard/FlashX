@@ -1,11 +1,11 @@
 <app-logo></app-logo>
-<form #f="ngForm" class="form" (ngSubmit)="register()">
-  <label [class.required]="username.touched && username.errors?.['required']"
+<form #form="ngForm" class="form" (ngSubmit)="register(form)">
+  <label [class.required]="form.submitted && username.errors?.['required']"
       for="username">Username</label>
   <input id="username" name="username" autocomplete="username" required
       maxlength="128" pattern="[!-~]*" [(ngModel)]="credentials.username"
       #username="ngModel">
-  <label [class.required]="password.touched && password.errors?.['required']"
+  <label [class.required]="form.submitted && password.errors?.['required']"
       for="password">Password</label>
   <app-password (toggleEvent)="pwd.type = $event ? 'password' : 'text'">
     <input id="password" type="password" name="password" #pwd
@@ -24,6 +24,6 @@
     <strong>One capital letter</strong><br>
   </p>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
-  <button class="positiveAction" [disabled]="f.invalid">Create account</button>
+  <button class="positiveAction">Create account</button>
   <p id="link">Already registered? <a routerLink>Log in</a></p>
 </form>

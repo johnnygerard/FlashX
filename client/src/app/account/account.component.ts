@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { retry } from 'rxjs';
 import { AuthService } from '../auth.service';
@@ -33,8 +34,8 @@ export class AccountComponent implements OnInit {
         }).pipe(retry(2)).subscribe({ next, error: this.error });
     }
 
-    protected modifyPwd(): void {
-        if (this.locked) return;
+    protected modifyPwd(form: NgForm): void {
+        if (this.locked || form.invalid) return;
         this.locked = true;
 
         this.message = '';

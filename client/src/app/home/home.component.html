@@ -11,13 +11,14 @@
   <li>Train your memory with active recall</li>
 </ul>
 
-<form *ngIf="!auth.authenticated" #f="ngForm" (ngSubmit)="logIn()" class="form">
-  <label [class.invalid]="username.touched && username.errors?.['required']"
+<form *ngIf="!auth.authenticated" #form="ngForm" (ngSubmit)="logIn(form)"
+    class="form">
+  <label [class.invalid]="form.submitted && username.errors?.['required']"
       for="username">Username</label>
   <input id="username" name="username" autocomplete="username" required
       [(ngModel)]="credentials.username" #username="ngModel">
 
-  <label [class.invalid]="password.touched && password.errors?.['required']"
+  <label [class.invalid]="form.submitted && password.errors?.['required']"
       for="password">Password</label>
   <app-password (toggleEvent)="pwd.type = $event ? 'password' : 'text'">
     <input id="password" type="password" name="password"
@@ -25,6 +26,6 @@
         required #password="ngModel">
   </app-password>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
-  <button class="link" [disabled]="f.invalid">Log in</button>
+  <button class="link">Log in</button>
   <p id="link">No account? <a routerLink="register">Register</a></p>
 </form>
