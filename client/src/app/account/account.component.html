@@ -1,8 +1,7 @@
 <app-logo></app-logo>
 <h2>Welcome {{username}}!</h2>
 <form class="form" (ngSubmit)="modifyPwd(form)" #form="ngForm">
-  <label
-      [class.required]="form.submitted && currentPwd.errors?.['required']"
+  <label [class.required]="form.submitted && currentPwd.errors?.['required']"
       for="currentPwd">Current</label>
   <app-password (toggleEvent)="pwd1.type = $event ? 'password' : 'text'">
     <input id="currentPwd" name="currentPwd" type="password"
@@ -13,18 +12,26 @@
       for="newPwd">New</label>
   <app-password (toggleEvent)="pwd2.type = $event ? 'password' : 'text'">
     <input id="newPwd" name="newPwd" type="password" autocomplete="new-password"
-        pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
-        minlength="11" maxlength="128" required [(ngModel)]="credentials.newPwd"
-        #newPwd="ngModel" #pwd2>
+        pattern="[!-~]*" appPasswordValidator minlength="11" maxlength="128"
+        required [(ngModel)]="credentials.newPwd" #newPwd="ngModel" #pwd2>
   </app-password>
   <p *ngIf="newPwd.errors?.['minlength']" class="validation">
-    <strong>Minimum 11 characters</strong>
+    <strong>Min length: 11</strong>
   </p>
   <p *ngIf="newPwd.errors?.['pattern']" class="validation">
-    <strong>One digit</strong><br>
-    <strong>One symbol</strong><br>
-    <strong>One small letter</strong><br>
-    <strong>One capital letter</strong><br>
+    <strong>No spaces, non-ascii or control characters</strong>
+  </p>
+  <p *ngIf="newPwd.errors?.['digit']" class="validation">
+    <strong>One digit</strong>
+  </p>
+  <p *ngIf="newPwd.errors?.['lowercase']" class="validation">
+    <strong>One small letter</strong>
+  </p>
+  <p *ngIf="newPwd.errors?.['uppercase']" class="validation">
+    <strong>One capital letter</strong>
+  </p>
+  <p *ngIf="newPwd.errors?.['symbol']" class="validation">
+    <strong>One symbol</strong>
   </p>
   <button id="updatePwd">Change password</button>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>

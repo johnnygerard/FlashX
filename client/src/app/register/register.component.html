@@ -5,23 +5,34 @@
   <input id="username" name="username" autocomplete="username" required
       maxlength="128" pattern="[!-~]*" [(ngModel)]="credentials.username"
       #username="ngModel">
+  <p *ngIf="username.errors?.['pattern']" class="validation">
+    <strong>No spaces, non-ascii or control characters</strong>
+  </p>
   <label [class.required]="form.submitted && password.errors?.['required']"
       for="password">Password</label>
   <app-password (toggleEvent)="pwd.type = $event ? 'password' : 'text'">
     <input id="password" type="password" name="password" #pwd
-        autocomplete="new-password" minlength="11"
-        pattern="(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-/:-@[-`{-~])[!-~]*"
-        maxlength="128" required [(ngModel)]="credentials.password"
-        #password="ngModel">
+        autocomplete="new-password" minlength="11" appPasswordValidator
+        maxlength="128" pattern="[!-~]*" required
+        [(ngModel)]="credentials.password" #password="ngModel">
   </app-password>
   <p *ngIf="password.errors?.['minlength']" class="validation">
-    <strong>Minimum 11 characters</strong>
+    <strong>Min length: 11</strong>
   </p>
   <p *ngIf="password.errors?.['pattern']" class="validation">
-    <strong>One digit</strong><br>
-    <strong>One symbol</strong><br>
-    <strong>One small letter</strong><br>
-    <strong>One capital letter</strong><br>
+    <strong>No spaces, non-ascii or control characters</strong>
+  </p>
+  <p *ngIf="password.errors?.['digit']" class="validation">
+    <strong>One digit</strong>
+  </p>
+  <p *ngIf="password.errors?.['lowercase']" class="validation">
+    <strong>One small letter</strong>
+  </p>
+  <p *ngIf="password.errors?.['uppercase']" class="validation">
+    <strong>One capital letter</strong>
+  </p>
+  <p *ngIf="password.errors?.['symbol']" class="validation">
+    <strong>One symbol</strong>
   </p>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
   <button class="positiveAction">Create account</button>

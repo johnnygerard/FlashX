@@ -17,6 +17,7 @@ import { CollectionsComponent } from './collections/collections.component';
 import { CollectionComponent } from './collection/collection.component';
 import { TrainingComponent } from './training/training.component';
 import { PasswordComponent } from './password/password.component';
+import { PasswordValidatorDirective } from './password-validator.directive';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import { PasswordComponent } from './password/password.component';
         CollectionsComponent,
         CollectionComponent,
         TrainingComponent,
-        PasswordComponent
+        PasswordComponent,
+        PasswordValidatorDirective
     ],
     schemas: [NO_ERRORS_SCHEMA],
     imports: [
