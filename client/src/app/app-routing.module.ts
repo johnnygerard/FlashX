@@ -16,7 +16,7 @@ import { RegisterComponent } from './register/register.component';
 import { TrainingComponent } from './training/training.component';
 
 const routes: Routes = [
-    { path: '', pathMatch: 'full', component: HomeComponent, title: 'FlashX' },
+    { path: '', pathMatch: 'full', component: HomeComponent },
     {
         path: 'training',
         pathMatch: 'full',
@@ -76,18 +76,17 @@ const routes: Routes = [
 
 @Injectable({ providedIn: 'root' })
 export class TemplatePageTitleStrategy extends TitleStrategy {
+    private readonly appName = 'FlashX';
+
     constructor(private readonly title: Title) {
         super();
     }
 
     updateTitle(snapshot: RouterStateSnapshot): void {
-        let fullTitle = 'FlashX';
         const title = this.buildTitle(snapshot);
+        const newTitle = title ? `${this.appName} | ${title}` : this.appName;
 
-        if (title !== fullTitle)
-            fullTitle += ' | ' + title;
-
-        this.title.setTitle(fullTitle);
+        this.title.setTitle(newTitle);
     }
 }
 
