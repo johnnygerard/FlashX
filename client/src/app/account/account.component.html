@@ -5,7 +5,7 @@
       for="currentPwd">Current</label>
   <app-password (toggleEvent)="pwd1.type = $event ? 'password' : 'text'">
     <input id="currentPwd" name="currentPwd" type="password"
-        autocomplete="current-password" required #pwd1
+        autocomplete="current-password" required #pwd1 appAutofocus
         [(ngModel)]="credentials.currentPwd" #currentPwd="ngModel">
   </app-password>
   <label [class.required]="form.submitted && newPwd.errors?.['required']"

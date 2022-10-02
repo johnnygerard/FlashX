@@ -18,6 +18,7 @@ import { CollectionComponent } from './collection/collection.component';
 import { TrainingComponent } from './training/training.component';
 import { PasswordComponent } from './password/password.component';
 import { PasswordValidatorDirective } from './password-validator.directive';
+import { AutofocusDirective } from './autofocus.directive';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { PasswordValidatorDirective } from './password-validator.directive';
         CollectionComponent,
         TrainingComponent,
         PasswordComponent,
-        PasswordValidatorDirective
+        PasswordValidatorDirective,
+        AutofocusDirective
     ],
     schemas: [NO_ERRORS_SCHEMA],
     imports: [

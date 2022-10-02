@@ -5,7 +5,7 @@
 
 <form id="createFlashcard" class="form" (ngSubmit)="addFlashcard()" #f="ngForm">
   <label for="createQ">Question</label>
-  <input id="createQ" name="question" required maxlength="256"
+  <input id="createQ" name="question" required maxlength="256" appAutofocus
       [(ngModel)]="flashcard.question">
   <label for="createA">Answer</label>
   <input id="createA" name="answer" required maxlength="256"

@@ -4,7 +4,7 @@
       for="username">Username</label>
   <input id="username" name="username" autocomplete="username" required
       maxlength="128" pattern="[!-~]*" [(ngModel)]="credentials.username"
-      #username="ngModel">
+      #username="ngModel" appAutofocus>
   <p *ngIf="username.errors?.['pattern']" class="validation">
     <strong>No spaces, non-ascii or control characters</strong>
   </p>

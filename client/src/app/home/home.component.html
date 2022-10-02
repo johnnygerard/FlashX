@@ -16,7 +16,7 @@
   <label [class.invalid]="form.submitted && username.errors?.['required']"
       for="username">Username</label>
   <input id="username" name="username" autocomplete="username" required
-      [(ngModel)]="credentials.username" #username="ngModel">
+      [(ngModel)]="credentials.username" #username="ngModel" appAutofocus>
 
   <label [class.invalid]="form.submitted && password.errors?.['required']"
       for="password">Password</label>

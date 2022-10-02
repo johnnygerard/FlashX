@@ -1,7 +1,7 @@
 <app-logo></app-logo>
 <h2 *ngIf="started">{{fset.name}} collection</h2>
 <div id="sessionStart" class="form" [hidden]="started">
-  <select #s>
+  <select #s appAutofocus>
     <option label="{{fsetName}}" *ngFor="let fsetName of fsetNames"></option>
   </select>
   <button type="button" class="positiveAction" (click)="init(s.selectedIndex)">
