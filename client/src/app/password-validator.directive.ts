@@ -28,11 +28,13 @@ export class PasswordValidatorDirective implements Validator {
 
         if (value) {
             const errors: ValidationErrors = {};
+            let valid = true;
 
             for (const key in this.regExps)
-                errors[key] = !this.regExps[key].test(value);
+                if (errors[key] = !this.regExps[key].test(value))
+                    valid = false;
 
-            return errors;
+            return valid ? null : errors;
         }
         return null;
     }
