@@ -112,7 +112,14 @@ hgroup>p {
 
 .validation {
     font-size: small;
-    margin-bottom: 0;
+}
+
+.validation>p {
+    margin: 0;
+}
+
+.validation>p:first-child {
+    margin-top: 2em;
 }
 
 .required {

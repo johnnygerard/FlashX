@@ -42,3 +42,7 @@ form>input {
 .invalid::after {
     content: ' (required)';
 }
+
+form>button {
+    margin-top: 2em;
+}

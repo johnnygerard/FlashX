@@ -22,7 +22,7 @@ router.post('/register', async (req, res, next) => {
 
     try {
         if (await users.findOne({ _id })) {
-            res.status(FORBIDDEN).send('Username unavailable.');
+            res.status(FORBIDDEN).send('Username unavailable');
             return;
         }
 

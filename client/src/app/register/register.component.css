@@ -13,10 +13,14 @@ label[for='password'] {
     margin-top: 2em;
 }
 
-form>button {
-    margin: 2em 0;
+#link {
+    margin: 2em 0 0 0;
 }
 
-#link {
-    margin: 0;
+.message {
+    margin: 1em 0 0 0;
+}
+
+button.positiveAction {
+    margin-top: 2em;
 }
