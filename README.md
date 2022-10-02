@@ -10,11 +10,10 @@ Users must create an account to get started.
 As indicated by the domain name, the website is hosted on [Microsoft Azure](https://azure.microsoft.com/en-us/).
 
 ## Architecture
-FlashX is a dynamic multi-page application.
+FlashX is a single-page application that uses the [MEAN](https://www.mongodb.com/mean-stack) stack.
 
 ### Front-end
-The HTML is rendered dynamically thanks to the [EJS template engine](https://ejs.co/).  
-The rest is pure CSS and JavaScript.
+HTML, CSS and TypeScript using the [Angular](https://angular.io/) web framework.
 
 ### Back-end
 The back-end has two main components:  
@@ -33,13 +32,11 @@ Currently there is only one authentication strategy: username and password.
 More authentication strategies will be added later.
 
 ## Project Status
-The current version is 1.0.0.  
-This first version of FlashX is very limited.  
+The current version is 2.0.0.  
+This version of FlashX is still very limited.  
 Notably there is no testing and no mobile responsive design.  
 
-Initially I wanted to build FlashX using the popular MEAN stack.  
-It felt too complicated, which is why I chose to build a traditional MPA instead.  
-I plan to migrate the front-end to Angular at a later time.  
+Version 1.0.0 used [EJS](https://ejs.co/) for the front-end.  
 
 ## Copyright
 © 2022 Johnny Gérard
