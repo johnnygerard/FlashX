@@ -205,7 +205,7 @@ router.put('/password', async (req, res, next) => {
         let derivedKey = await hash(currentPwd, user.salt.buffer);
 
         if (!derivedKey.equals(user.derivedKey.buffer)) {
-            res.status(FORBIDDEN).send('Wrong password.');
+            res.status(FORBIDDEN).send('Wrong password');
             return;
         }
 

@@ -15,3 +15,11 @@
 .form>input {
     margin-bottom: 2em;
 }
+
+app-password:first-of-type {
+    margin-bottom: 2em;
+}
+
+form>button {
+    margin-top: 2em;
+}

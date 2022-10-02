@@ -102,12 +102,12 @@ hgroup>p {
 /* Forms */
 .message {
     color: red;
-    margin: 0.5em 0 0 0;
+    margin: 1em 0 0 0;
 }
 
 .successMessage {
     color: green;
-    margin: 0.5em 0 0 0;
+    margin: 1em 0 0 0;
 }
 
 .validation {
