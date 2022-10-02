@@ -25,7 +25,7 @@
         [(ngModel)]="credentials.password" #pwd autocomplete="current-password"
         required #password="ngModel">
   </app-password>
-  <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
   <button class="link">Log in</button>
+  <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
   <p id="link">No account? <a routerLink="register">Register</a></p>
 </form>

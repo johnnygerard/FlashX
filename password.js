@@ -20,14 +20,14 @@ const verify = async (username, password, done) => {
         const user = await users.findOne({ _id: username });
 
         if (!user) {
-            done(null, false, { message: 'Nonexistent user.' });
+            done(null, false, { message: 'Nonexistent user' });
             return;
         }
 
         const derivedKey = await hash(password, user.salt.buffer);
 
         if (derivedKey.equals(user.derivedKey.buffer)) done(null, user);
-        else done(null, false, { message: 'Wrong password.' });
+        else done(null, false, { message: 'Wrong password' });
     } catch (err) {
         done(err);
     }
