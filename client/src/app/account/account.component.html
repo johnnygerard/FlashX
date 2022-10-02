@@ -1,14 +1,14 @@
 <app-logo></app-logo>
 <h2>Welcome {{username}}!</h2>
 <form class="form" (ngSubmit)="modifyPwd(form)" #form="ngForm">
-  <label [class.required]="form.submitted && currentPwd.errors?.['required']"
+  <label [class.required]="submitted && currentPwd.errors?.['required']"
       for="currentPwd">Current</label>
   <app-password (toggleEvent)="pwd1.type = $event ? 'password' : 'text'">
     <input id="currentPwd" name="currentPwd" type="password"
         autocomplete="current-password" required #pwd1 appAutofocus
         [(ngModel)]="credentials.currentPwd" #currentPwd="ngModel">
   </app-password>
-  <label [class.required]="form.submitted && newPwd.errors?.['required']"
+  <label [class.required]="submitted && newPwd.errors?.['required']"
       for="newPwd">New</label>
   <app-password (toggleEvent)="pwd2.type = $event ? 'password' : 'text'">
     <input id="newPwd" name="newPwd" type="password" autocomplete="new-password"
