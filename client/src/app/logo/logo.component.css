@@ -1,9 +1,9 @@
-h1 {
+.heading {
     display: flex;
     align-items: center;
 }
 
-img {
+.logo {
     height: 1.5em;
     margin-right: 0.4em;
 }

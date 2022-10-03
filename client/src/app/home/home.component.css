@@ -15,14 +15,15 @@
     flex-direction: column;
 }
 
-.username-label {
+.login-label {
     display: flex;
     flex-direction: column;
+    margin-bottom: 2em;
 }
 
 .login-field {
     display: block;
-    margin: 0.5em 0 2em 0;
+    margin-top: 0.5em;
 }
 
 .register-link {
@@ -32,12 +33,4 @@
 .message {
     color: red;
     margin: 1em 0 0 0;
-}
-
-.invalid {
-    color: red;
-}
-
-.invalid::after {
-    content: ' (required)';
 }

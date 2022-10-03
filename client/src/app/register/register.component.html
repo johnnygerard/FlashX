@@ -1,21 +1,28 @@
 <app-logo></app-logo>
-<form #form="ngForm" class="form" (ngSubmit)="register(form)">
-  <label [class.required]="form.submitted && username.errors?.['required']"
-      for="username">Username</label>
-  <input id="username" name="username" autocomplete="username" required
-      maxlength="128" pattern="[!-~]*" [(ngModel)]="credentials.username"
-      #username="ngModel" appAutofocus>
+<form class="register-form form" #form="ngForm" (ngSubmit)="register(form)">
+  <label class="first register-form-label">
+    <span [class.required]="form.submitted && username.errors?.['required']">
+      Username
+    </span>
+    <input class="register-field" name="username" autocomplete="username"
+        required maxlength="128" pattern="[!-~]*"
+        [(ngModel)]="credentials.username" #username="ngModel" appAutofocus>
+  </label>
+
   <p *ngIf="username.errors?.['pattern']" class="validation">
     <strong>No spaces, non-ascii or control characters</strong>
   </p>
-  <label [class.required]="form.submitted && password.errors?.['required']"
-      for="password">Password</label>
-  <app-password (toggleEvent)="pwd.type = $event ? 'password' : 'text'">
-    <input id="password" type="password" name="password" #pwd
-        autocomplete="new-password" minlength="11" appPasswordValidator
-        maxlength="128" pattern="[!-~]*" required
-        [(ngModel)]="credentials.password" #password="ngModel">
-  </app-password>
+  <label class="register-form-label">
+    <span [class.required]="form.submitted && password.errors?.['required']">
+      Password
+    </span>
+    <app-password class="register-field"
+        (toggleEvent)="pwd.type = $event ? 'password' : 'text'">
+      <input type="password" name="password" #pwd autocomplete="new-password"
+          minlength="11" appPasswordValidator maxlength="128" pattern="[!-~]*"
+          required [(ngModel)]="credentials.password" #password="ngModel">
+    </app-password>
+  </label>
   <div class="validation">
     <p *ngIf="password.errors?.['minlength']">
       <strong>Min length: 11</strong>
@@ -36,7 +43,7 @@
       <strong>One symbol</strong>
     </p>
   </div>
-  <button class="positiveAction">Create account</button>
+  <button class="register positiveAction">Create account</button>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
-  <p id="link">Already registered? <a routerLink>Log in</a></p>
+  <p class="login-link">Already registered? <a routerLink>Log in</a></p>
 </form>

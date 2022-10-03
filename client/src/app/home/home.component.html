@@ -13,14 +13,18 @@
 
 <form class="login form" *ngIf="!auth.authenticated" #form="ngForm"
     (ngSubmit)="logIn(form)">
-  <label class="username-label"
-      [class.invalid]="form.submitted && username.errors?.['required']">Username
+  <label class="login-label">
+    <span [class.required]="form.submitted && username.errors?.['required']">
+      Username
+    </span>
     <input class="login-field" name="username" autocomplete="username" required
         [(ngModel)]="credentials.username" #username="ngModel" appAutofocus>
   </label>
 
-  <label
-      [class.invalid]="form.submitted && password.errors?.['required']">Password
+  <label class="login-label">
+    <span [class.required]="form.submitted && password.errors?.['required']">
+      Password
+    </span>
     <app-password class="login-field"
         (toggleEvent)="pwd.type = $event ? 'password' : 'text'">
       <input type="password" name="password" [(ngModel)]="credentials.password"
