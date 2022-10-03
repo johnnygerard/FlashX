@@ -1,39 +1,36 @@
-#createFlashcard {
+.add-flashcard {
     display: flex;
     flex-direction: column;
 }
 
-#createFlashcard>input {
-    margin-bottom: 1.5em;
+.add-flashcard-input {
+    margin: 0.5em 0 1.5em 0;
+    display: block;
 }
 
-#createFlashcard>label {
-    margin-bottom: 0.5em;
-}
-
-#flashcards>div {
+.flashcard {
     margin-bottom: 1em;
 }
 
-#flashcards input {
+.flashcard-input {
     margin: 0 1em;
 }
 
-dt,
-dd {
+.flashcard-question,
+.flashcard-answer {
     margin: 0;
 }
 
-dt {
+.flashcard-question {
     border-bottom: 1px solid var(--accent-secondary);
     padding-bottom: 1em;
 }
 
-dd {
+.flashcard-answer {
     border-top: 1px solid var(--accent-secondary);
     padding-top: 1em;
 }
 
-.delete {
+.flashcard-delete {
     margin-left: 1em;
 }
