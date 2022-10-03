@@ -1,8 +1,3 @@
-hgroup>p {
-    display: flex;
-    align-items: center;
-}
-
-p {
+.text {
     max-width: 600px;
 }

@@ -1,9 +1,9 @@
-hgroup>p {
+.subheading {
     display: flex;
     align-items: center;
 }
 
-hgroup>p>img {
+.subheading-img {
     height: 1em;
     width: 1em;
     margin-right: 0.4em;
