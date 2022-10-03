@@ -1,26 +1,26 @@
-#createFSet>button,
-#fsets button {
-    margin-left: 1em;
+.add-fset {
+    display: flex;
+    flex-direction: column;
 }
 
-#createFSet>label {
+.fset-name {
     display: block;
-    margin-bottom: 0.5em;
+    margin: 0.5em 0 2em 0;
 }
 
-#fsets {
+.fsets {
     padding: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-#fsets>li {
+.fset {
     display: block;
     margin-bottom: 0.5em;
 }
 
-#fsets a {
+.fset-link {
     all: unset;
     padding: 1em;
     cursor: pointer;
@@ -32,8 +32,8 @@
     width: fit-content;
 }
 
-#fsets a:hover,
-#fsets a:focus-visible {
+.fset-link:hover,
+.fset-link:focus-visible {
     background-color: var(--accent-secondary);
     color: var(--accent-primary);
     outline: 2px solid var(--accent-primary);
