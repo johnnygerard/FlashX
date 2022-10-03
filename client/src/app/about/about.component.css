@@ -1,35 +1,35 @@
-#author {
+.author {
     display: flex;
 }
 
-#author>img {
+.author-img {
     margin-right: 1em;
 }
 
-#author>div>p {
-    margin: 0;
-}
-
-#authorInfo {
+.author-details {
     display: flex;
     flex-direction: column;
 }
 
-#authorInfo>p:first-child {
+.author-title {
+    margin: 0;
+}
+
+.author-subtitle {
     margin-bottom: 1em;
 }
 
-#links {
+.author-links {
     padding: 0;
     display: flex;
     margin: auto 0 0 0;
 }
 
-#links>li {
+.author-link {
     display: inline;
     margin-right: 1em;
 }
 
-#links img {
+.author-link-img {
     display: block;
 }
