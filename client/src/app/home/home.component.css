@@ -1,32 +1,31 @@
-form {
-    position: fixed;
-    top: 10em;
-    left: 32em;
-}
-
-ul>li {
+.ability {
     margin-top: 0.4em;
 }
 
-ul>li::after {
+.ability::after {
     content: ' \2714';
     color: green;
 }
 
-form {
+.login {
+    position: fixed;
+    top: 10em;
+    left: 32em;
     display: flex;
     flex-direction: column;
 }
 
-form>label {
-    margin-bottom: 0.5em;
+.username-label {
+    display: flex;
+    flex-direction: column;
 }
 
-form>input {
-    margin-bottom: 2em;
+.login-field {
+    display: block;
+    margin: 0.5em 0 2em 0;
 }
 
-#link {
+.register-link {
     margin: 2em 0 0 0;
 }
 
@@ -41,8 +40,4 @@ form>input {
 
 .invalid::after {
     content: ' (required)';
-}
-
-form>button {
-    margin-top: 2em;
 }
