@@ -1,25 +1,22 @@
-#deleteAccount {
-    display: block;
-}
-
 .form {
     display: flex;
     flex-direction: column;
     margin-bottom: 1em;
 }
 
-.form>label {
-    margin-bottom: 0.5em;
+.password {
+    display: block;
+    margin-top: 0.5em;
 }
 
-.form>input {
+.first-password {
     margin-bottom: 2em;
 }
 
-app-password:first-of-type {
-    margin-bottom: 2em;
-}
-
-form>button {
+.update-pwd {
     margin-top: 2em;
+}
+
+.delete-account {
+    display: block;
 }
