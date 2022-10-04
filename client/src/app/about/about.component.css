@@ -18,7 +18,9 @@
 }
 
 .author-subtitle {
-    margin-bottom: 1em;
+    margin-top: 0.4em;
+    font-size: 1em;
+    font-weight: normal;
 }
 
 .author-links {
