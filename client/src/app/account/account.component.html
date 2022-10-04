@@ -1,7 +1,10 @@
 <app-logo></app-logo>
 <h2>Welcome {{username}}!</h2>
 <form class="form" (ngSubmit)="modifyPwd(form)" #form="ngForm">
-  <label [class.required]="submitted && currentPwd.errors?.['required']">Current
+  <label>
+    <span [class.required]="submitted && currentPwd.errors?.['required']">
+      Current
+    </span>
     <app-password class="password first-password"
         (toggleEvent)="pwd1.type = $event ? 'password' : 'text'">
       <input name="currentPwd" type="password" autocomplete="current-password"
@@ -9,34 +12,33 @@
           #currentPwd="ngModel">
     </app-password>
   </label>
-  <label [class.required]="submitted && newPwd.errors?.['required']">New
-    <app-password class="password"
+  <label>
+    <span [class.required]="submitted && newPwd.errors?.['required']">New</span>
+    <app-password class="password field"
         (toggleEvent)="pwd2.type = $event ? 'password' : 'text'">
       <input name="newPwd" type="password" autocomplete="new-password"
           pattern="[!-~]*" appPasswordValidator minlength="11" maxlength="128"
           required [(ngModel)]="credentials.newPwd" #newPwd="ngModel" #pwd2>
     </app-password>
-  </label>
-  <div class="validation">
-    <p *ngIf="newPwd.errors?.['minlength']">
+    <p class="validation" *ngIf="newPwd.errors?.['minlength']">
       <strong>Min length: 11</strong>
     </p>
-    <p *ngIf="newPwd.errors?.['pattern']">
+    <p class="validation" *ngIf="newPwd.errors?.['pattern']">
       <strong>No spaces, non-ascii or control characters</strong>
     </p>
-    <p *ngIf="newPwd.errors?.['digit']">
+    <p class="validation" *ngIf="newPwd.errors?.['digit']">
       <strong>One digit</strong>
     </p>
-    <p *ngIf="newPwd.errors?.['lowercase']">
+    <p class="validation" *ngIf="newPwd.errors?.['lowercase']">
       <strong>One small letter</strong>
     </p>
-    <p *ngIf="newPwd.errors?.['uppercase']">
+    <p class="validation" *ngIf="newPwd.errors?.['uppercase']">
       <strong>One capital letter</strong>
     </p>
-    <p *ngIf="newPwd.errors?.['symbol']">
+    <p class="validation" *ngIf="newPwd.errors?.['symbol']">
       <strong>One symbol</strong>
     </p>
-  </div>
+  </label>
   <button class="update-pwd">Change password</button>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
   <p class="successMessage" *ngIf="successMessage">

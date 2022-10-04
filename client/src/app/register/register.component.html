@@ -7,11 +7,11 @@
     <input class="register-field" name="username" autocomplete="username"
         required maxlength="128" pattern="[!-~]*"
         [(ngModel)]="credentials.username" #username="ngModel" appAutofocus>
+    <p class="validation" *ngIf="username.errors?.['pattern']">
+      <strong>No spaces, non-ascii or control characters</strong>
+    </p>
   </label>
 
-  <p *ngIf="username.errors?.['pattern']" class="validation">
-    <strong>No spaces, non-ascii or control characters</strong>
-  </p>
   <label class="register-form-label">
     <span [class.required]="form.submitted && password.errors?.['required']">
       Password
@@ -22,27 +22,25 @@
           minlength="11" appPasswordValidator maxlength="128" pattern="[!-~]*"
           required [(ngModel)]="credentials.password" #password="ngModel">
     </app-password>
-  </label>
-  <div class="validation">
-    <p *ngIf="password.errors?.['minlength']">
+    <p class="validation" *ngIf="password.errors?.['minlength']">
       <strong>Min length: 11</strong>
     </p>
-    <p *ngIf="password.errors?.['pattern']">
+    <p class="validation" *ngIf="password.errors?.['pattern']">
       <strong>No spaces, non-ascii or control characters</strong>
     </p>
-    <p *ngIf="password.errors?.['digit']">
+    <p class="validation" *ngIf="password.errors?.['digit']">
       <strong>One digit</strong>
     </p>
-    <p *ngIf="password.errors?.['lowercase']">
+    <p class="validation" *ngIf="password.errors?.['lowercase']">
       <strong>One small letter</strong>
     </p>
-    <p *ngIf="password.errors?.['uppercase']">
+    <p class="validation" *ngIf="password.errors?.['uppercase']">
       <strong>One capital letter</strong>
     </p>
-    <p *ngIf="password.errors?.['symbol']">
+    <p class="validation" *ngIf="password.errors?.['symbol']">
       <strong>One symbol</strong>
     </p>
-  </div>
+  </label>
   <button class="register positiveAction">Create account</button>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
   <p class="login-link">Already registered? <a routerLink>Log in</a></p>

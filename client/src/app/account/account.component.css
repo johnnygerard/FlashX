@@ -4,6 +4,10 @@
     margin-bottom: 1em;
 }
 
+.field {
+    margin-bottom: 0.8em;   
+}
+
 .password {
     display: block;
     margin-top: 0.5em;
