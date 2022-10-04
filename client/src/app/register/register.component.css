@@ -3,8 +3,8 @@
     flex-direction: column;
 }
 
-.first.register-form-label {
-    margin-bottom: 2em;
+.second.register-form-label {
+    margin-top: 2em;
 }
 
 .register-form-label {
@@ -14,7 +14,7 @@
 
 .register-field {
     display: block;
-    margin: 0.5em 0 0.8em 0;
+    margin-top: 0.5em;
 }
 
 .register {

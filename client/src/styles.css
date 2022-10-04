@@ -115,6 +115,10 @@ hgroup>p {
     margin: 0;
 }
 
+.validationContainer {
+    margin-top: 0.8em;
+}
+
 .required {
     color: red;
 }
