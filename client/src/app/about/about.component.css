@@ -3,7 +3,9 @@
 }
 
 .author-img {
-    margin-right: 1em;
+    margin-right: 1.5em;
+    height: 8em;
+    border-radius: 50%;
 }
 
 .author-details {
