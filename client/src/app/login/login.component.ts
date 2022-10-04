@@ -1,22 +1,22 @@
+import { Component, EventEmitter, Output } from '@angular/core';
 import {
     HttpClient, HttpErrorResponse, HttpParams
 } from '@angular/common/http';
-import { Component, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Component({
-    selector: 'app-register',
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
-export class RegisterComponent {
+export class LoginComponent {
     protected message = '';
     protected locked = false;
     protected readonly credentials = {
         username: '',
-        password: '',
+        password: ''
     }
     @Output() toggleFormEvent = new EventEmitter<undefined>();
 
@@ -30,7 +30,7 @@ export class RegisterComponent {
         this.toggleFormEvent.emit();
     }
 
-    protected register(form: NgForm): void {
+    protected logIn(form: NgForm): void {
         if (this.locked || form.invalid) return;
         this.locked = true;
 
@@ -38,7 +38,7 @@ export class RegisterComponent {
 
         const complete = () => {
             this.auth.authenticated = true;
-            this.router.navigateByUrl('/collections');
+            this.router.navigateByUrl('/training');
         };
 
         const error = (err: HttpErrorResponse) => {
@@ -51,7 +51,7 @@ export class RegisterComponent {
             this.locked = false;
         };
 
-        this.http.post('/api/register', params, {
+        this.http.post('/api/logIn', params, {
             responseType: 'text'
         }).subscribe({ complete, error });
     }

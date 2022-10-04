@@ -11,28 +11,9 @@
   <li class="ability">Train your memory with active recall</li>
 </ul>
 
-<form class="login form" *ngIf="!auth.authenticated" #form="ngForm"
-    (ngSubmit)="logIn(form)">
-  <label class="login-label">
-    <span [class.required]="form.submitted && username.errors?.['required']">
-      Username
-    </span>
-    <input class="login-field" name="username" autocomplete="username" required
-        [(ngModel)]="credentials.username" #username="ngModel" appAutofocus>
-  </label>
-
-  <label class="login-label">
-    <span [class.required]="form.submitted && password.errors?.['required']">
-      Password
-    </span>
-    <app-password class="login-field"
-        (toggleEvent)="pwd.type = $event ? 'password' : 'text'">
-      <input type="password" name="password" [(ngModel)]="credentials.password"
-          #pwd autocomplete="current-password" required #password="ngModel">
-    </app-password>
-  </label>
-
-  <button class="link">Log in</button>
-  <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
-  <p class="register-link">No account? <a routerLink="register">Register</a></p>
-</form>
+<app-login class="forms" (toggleFormEvent)="toggle = !toggle"
+    *ngIf="toggle; else register"></app-login>
+<ng-template #register>
+  <app-register class="forms" (toggleFormEvent)="toggle = !toggle">
+  </app-register>
+</ng-template>

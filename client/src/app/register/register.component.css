@@ -1,6 +1,4 @@
 .register-form {
-    margin: auto;
-    width: fit-content;
     display: flex;
     flex-direction: column;
 }

@@ -42,12 +42,6 @@ const routes: Routes = [
         title: 'Account'
     },
     {
-        path: 'register',
-        pathMatch: 'full',
-        component: RegisterComponent,
-        title: 'Register'
-    },
-    {
         path: 'about',
         pathMatch: 'full',
         component: AboutComponent,

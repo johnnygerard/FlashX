@@ -122,3 +122,14 @@ hgroup>p {
 .required::after {
     content: ' (required)';
 }
+
+.form-link {
+    all: unset;
+    color: #00E;
+    cursor: pointer;
+}
+
+.form-link:hover {
+    text-decoration: underline;
+    outline: none;
+}

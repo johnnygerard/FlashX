@@ -1,4 +1,3 @@
-<app-logo></app-logo>
 <form class="register-form form" #form="ngForm" (ngSubmit)="register(form)">
   <label class="first register-form-label">
     <span [class.required]="form.submitted && username.errors?.['required']">
@@ -43,5 +42,6 @@
   </label>
   <button class="register positiveAction">Create account</button>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
-  <p class="login-link">Already registered? <a routerLink>Log in</a></p>
+  <p class="login-link">Already registered? <button class="form-link"
+        (click)="toggleForm()" type="button">Log in</button></p>
 </form>
