@@ -14,7 +14,7 @@ export class TrainingComponent implements OnInit {
     protected fsetNames: string[] = [];
     protected fset: FlashcardSet = new FlashcardSet('');
     protected started = false;
-    protected isQuestion = true;
+    protected frontSide = true;
     protected question = '';
     protected answer = '';
     protected score = 0;
@@ -85,11 +85,11 @@ export class TrainingComponent implements OnInit {
             return;
         }
         this.question = this.next.value.question;
-        this.isQuestion = true;
+        this.frontSide = true;
     }
 
     protected getAnswer(): void {
         this.answer = this.next.value.answer;
-        this.isQuestion = false;
+        this.frontSide = false;
     }
 }

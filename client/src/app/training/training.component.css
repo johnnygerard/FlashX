@@ -7,7 +7,7 @@
 }
 
 .options {
-    margin-right: 1em;
+    margin-bottom: 1em;
     padding: 0.5em;
     border-radius: 0.4em;
     border: none;
@@ -24,6 +24,8 @@
 
 .flashcard-side {
     text-align: center;
+    min-width: 10em;
+    max-width: 15em;
 }
 
 .flashcard-side-content,
@@ -45,7 +47,16 @@
     border-radius: 0.5em;
 }
 
-.success-button {
+.score-buttons {
+    display: flex;
+}
+
+.success-button,
+.fail-button {
+    flex: 1;
+}
+
+.fail-button {
     margin-right: 1em;
 }
 
