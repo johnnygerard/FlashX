@@ -4,17 +4,9 @@
     margin-bottom: 1em;
 }
 
-.field {
-    margin-bottom: 0.8em;   
-}
-
 .password {
     display: block;
     margin-top: 0.5em;
-}
-
-.first-password {
-    margin-bottom: 2em;
 }
 
 .update-pwd {
@@ -23,4 +15,8 @@
 
 .delete-account {
     display: block;
+}
+
+.second-label {
+    margin-top: 2em;
 }
