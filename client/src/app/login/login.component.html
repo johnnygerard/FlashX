@@ -1,5 +1,4 @@
-<form class="form" *ngIf="!auth.authenticated" #form="ngForm"
-    (ngSubmit)="logIn(form)">
+<form *ngIf="!auth.authenticated" #form="ngForm" (ngSubmit)="logIn(form)">
   <label class="login-label">
     <span [class.required]="form.submitted && username.errors?.['required']">
       Username

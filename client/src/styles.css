@@ -57,7 +57,7 @@ hgroup>p {
     margin: 0.67em 0;
 }
 
-.form {
+form, .form {
     background-color: lightgray;
     width: fit-content;
     padding: 1em;

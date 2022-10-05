@@ -3,7 +3,7 @@
   <p>Collections</p>
 </hgroup>
 <div class="forms">
-  <form class="add-fset form" (ngSubmit)="addFSet()" #f1="ngForm">
+  <form class="add-fset" (ngSubmit)="addFSet()" #f1="ngForm">
     <label>
       Name
       <input class="fset-name" required maxlength="256" name="name" appAutofocus
@@ -13,8 +13,7 @@
       Add collection
     </button>
   </form>
-  <form class="form" (ngSubmit)="renameFSet(nameUpdate.value, s.selectedIndex)"
-      #f2="ngForm">
+  <form (ngSubmit)="renameFSet(nameUpdate.value, s.selectedIndex)" #f2="ngForm">
     <select class="options" #s>
       <option label="{{fsetName}}" *ngFor="let fsetName of fsetNames"></option>
     </select>

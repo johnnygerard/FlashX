@@ -1,6 +1,6 @@
 <app-logo></app-logo>
 <h2>Welcome {{username}}!</h2>
-<form class="form" (ngSubmit)="modifyPwd(form)" #form="ngForm">
+<form (ngSubmit)="modifyPwd(form)" #form="ngForm">
   <label>
     <span [class.required]="submitted && currentPwd.errors?.['required']">
       Current

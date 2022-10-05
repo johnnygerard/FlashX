@@ -3,7 +3,7 @@
   <p>Flashcard collection "{{fset.name}}"</p>
 </hgroup>
 
-<form class="add-flashcard form" (ngSubmit)="addFlashcard()" #f="ngForm">
+<form class="add-flashcard" (ngSubmit)="addFlashcard()" #f="ngForm">
   <label>Question
     <input class="add-flashcard-input" name="question" required maxlength="256"
         appAutofocus [(ngModel)]="flashcard.question">
