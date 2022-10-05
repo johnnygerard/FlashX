@@ -24,6 +24,10 @@ input:focus {
     background-color: white;
 }
 
+label>input {
+    margin-top: 0.5em;
+}
+
 button {
     all: unset;
     background-color: var(--accent-secondary);

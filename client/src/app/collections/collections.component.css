@@ -1,6 +1,25 @@
+.forms {
+    display: flex;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    margin: 1em 0;
+}
+
+.rename-button {
+    margin-top: 1em;
+}
+
 .add-fset {
     display: flex;
     flex-direction: column;
+    margin-right: 1em;
+}
+
+.add-fset-button {
+    margin-top: auto;
 }
 
 .fset-name {
@@ -11,31 +30,24 @@
 .fsets {
     padding: 0;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-direction: column;
 }
 
 .fset {
     display: block;
-    margin-bottom: 0.5em;
+    width: max-content;
+    margin: 0.5em 0;
 }
 
-.fset-link {
-    all: unset;
-    padding: 1em;
-    cursor: pointer;
+.link {
     display: block;
-    background-color: var(--accent-primary);
-    color: var(--accent-secondary);
+    padding: 1em;
     border-radius: 0.4em;
-    margin-bottom: 0.5em;
-    width: fit-content;
+    text-decoration: none;
 }
 
-.fset-link:hover,
-.fset-link:focus-visible {
-    background-color: var(--accent-secondary);
-    color: var(--accent-primary);
-    outline: 2px solid var(--accent-primary);
-    outline-offset: -2px;
+.options {
+    padding: 0.5em;
+    border-radius: 0.4em;
+    border: none;
 }
