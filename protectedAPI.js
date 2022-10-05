@@ -163,32 +163,6 @@ router.patch('/flashcard/question', async (req, res, next) => {
     }
 });
 
-// Update answer
-router.patch('/flashcard/answer', async (req, res, next) => {
-    const { answer } = req.body;
-    const fset = +req.body.fset;
-    const index = +req.body.index;
-
-    if (!Number.isInteger(fset) || fset < 0 ||
-        !Number.isInteger(index) || index < 0 ||
-        typeof answer !== 'string') {
-        handleValidationFailure(req, res);
-        return;
-    }
-
-    try {
-        await users.updateOne({ _id: req.user }, {
-            $set: {
-                [`fsets.${fset}.flashcards.${index}.answer`]: answer,
-            }
-        });
-
-        res.status(NO_CONTENT).end();
-    } catch (err) {
-        next(err);
-    }
-});
-
 // Update password
 router.put('/password', async (req, res, next) => {
     const { currentPwd, newPwd } = req.body;
