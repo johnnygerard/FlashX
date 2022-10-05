@@ -14,7 +14,7 @@
     </button>
   </form>
   <form (ngSubmit)="renameFSet(nameUpdate.value, s.selectedIndex)" #f2="ngForm">
-    <select class="options" #s>
+    <select #s>
       <option label="{{fsetName}}" *ngFor="let fsetName of fsetNames"></option>
     </select>
     <label class="label">

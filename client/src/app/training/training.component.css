@@ -6,15 +6,8 @@
     margin: auto;
 }
 
-.options {
-    margin-bottom: 1em;
-    padding: 0.5em;
-    border-radius: 0.4em;
-    border: none;
-}
-
-.options:focus-visible {
-    outline: 1px solid black;
+.start-button {
+    margin-top: 1em;
 }
 
 .flashcard {

@@ -15,10 +15,10 @@
 
 <ng-template #start>
   <div class="session-start form">
-    <select class="options" #s appAutofocus>
+    <select #s appAutofocus>
       <option label="{{fsetName}}" *ngFor="let fsetName of fsetNames"></option>
     </select>
-    <button type="button" class="positiveAction"
+    <button class="start-button positiveAction" type="button"
         (click)="init(s.selectedIndex)">
       Start session</button>
   </div>

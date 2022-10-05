@@ -24,6 +24,16 @@ input:focus {
     background-color: white;
 }
 
+select {
+    padding: 0.5em;
+    border-radius: 0.4em;
+    border: none;
+}
+
+select:focus-visible {
+    outline: 1px solid black;
+}
+
 label>input {
     margin-top: 0.5em;
 }
@@ -57,7 +67,8 @@ hgroup>p {
     margin: 0.67em 0;
 }
 
-form, .form {
+form,
+.form {
     background-color: lightgray;
     width: fit-content;
     padding: 1em;
