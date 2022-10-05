@@ -12,7 +12,7 @@ import { Flashcard, FlashcardSet } from '../types';
 })
 export class CollectionComponent implements OnInit {
     protected fset: FlashcardSet;
-    protected flashcard: Flashcard;
+    protected newFlashcard: Flashcard;
     private fsetIndex: number;
     private locked = false;
 
@@ -23,7 +23,7 @@ export class CollectionComponent implements OnInit {
         route: ActivatedRoute
     ) {
         this.fset = new FlashcardSet('');
-        this.flashcard = new Flashcard('', '');
+        this.newFlashcard = new Flashcard('', '');
         this.fsetIndex = route.snapshot.params['index'];
     }
 
@@ -73,14 +73,14 @@ export class CollectionComponent implements OnInit {
         this.locked = true;
 
         const clone = new Flashcard(
-            this.flashcard.question,
-            this.flashcard.answer
+            this.newFlashcard.question,
+            this.newFlashcard.answer
         );
 
         const complete = () => {
             this.fset.flashcards.push(clone);
-            this.flashcard.question = '';
-            this.flashcard.answer = '';
+            this.newFlashcard.question = '';
+            this.newFlashcard.answer = '';
             this.locked = false;
         }
 
@@ -99,12 +99,13 @@ export class CollectionComponent implements OnInit {
             .pipe(retry(2)).subscribe({ complete, error });
     }
 
-    protected updateQuestion(question: string, index: number) {
-        if (this.locked) return;
+    protected updateFlashcard(question: string, answer: string, index: number) {
+        if (this.locked || (!question && !answer)) return;
         this.locked = true;
 
         const complete = () => {
-            this.fset.flashcards[index].question = question;
+            if (question) this.fset.flashcards[index].question = question;
+            if (answer) this.fset.flashcards[index].answer = answer;
             this.locked = false;
         }
 
@@ -119,33 +120,9 @@ export class CollectionComponent implements OnInit {
             }
         }
 
-        this.http.patch('/api/flashcard/question', {
-            fset: this.fsetIndex, index, question
+        this.http.patch('/api/flashcard', {
+            fset: this.fsetIndex, index, question, answer
         }).pipe(retry(2)).subscribe({ complete, error });
     }
 
-    protected updateAnswer(answer: string, index: number) {
-        if (this.locked) return;
-        this.locked = true;
-
-        const complete = () => {
-            this.fset.flashcards[index].answer = answer;
-            this.locked = false;
-        }
-
-        const error = (err: HttpErrorResponse) => {
-            if (err.status === 403) {
-                this.auth.authenticated = false;
-                this.router.navigateByUrl('/');
-            } else {
-                console.error(err);
-                alert('Unexpected error');
-                this.locked = false;
-            }
-        }
-
-        this.http.patch('/api/flashcard/answer', {
-            fset: this.fsetIndex, index, answer
-        }).pipe(retry(2)).subscribe({ complete, error });
-    }
 }

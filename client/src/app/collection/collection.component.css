@@ -1,6 +1,11 @@
+.forms {
+    display: flex;
+}
+
 .add-flashcard {
     display: flex;
     flex-direction: column;
+    margin-right: 1em;
 }
 
 .add-flashcard-input {
@@ -10,10 +15,6 @@
 
 .flashcard {
     margin-bottom: 1em;
-}
-
-.flashcard-input {
-    margin: 0 1em;
 }
 
 .flashcard-question,
@@ -31,6 +32,16 @@
     padding-top: 1em;
 }
 
-.flashcard-delete {
-    margin-left: 1em;
+.update-fcard-button {
+    margin: 1em 0;
+}
+
+.add-fcard-button {
+    margin-top: auto;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
 }

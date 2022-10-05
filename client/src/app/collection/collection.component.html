@@ -3,34 +3,44 @@
   <p>Flashcard collection "{{fset.name}}"</p>
 </hgroup>
 
-<form class="add-flashcard" (ngSubmit)="addFlashcard()" #f="ngForm">
-  <label>Question
-    <input class="add-flashcard-input" name="question" required maxlength="256"
-        appAutofocus [(ngModel)]="flashcard.question">
-  </label>
-  <label>Answer
-    <input class="add-flashcard-input" name="answer" required maxlength="256"
-        [(ngModel)]="flashcard.answer">
-  </label>
-  <button class="positiveAction" [disabled]="f.invalid">Add flashcard</button>
-</form>
+<div class="forms">
+  <form class="add-flashcard" (ngSubmit)="addFlashcard()" #f="ngForm">
+    <label>Question
+      <input class="add-flashcard-input" name="question" required
+          maxlength="256" appAutofocus [(ngModel)]="newFlashcard.question">
+    </label>
+    <label>Answer
+      <input class="add-flashcard-input" name="answer" required maxlength="256"
+          [(ngModel)]="newFlashcard.answer">
+    </label>
+    <button class="add-fcard-button positiveAction" [disabled]="f.invalid">Add
+      flashcard</button>
+  </form>
+  <form #updateForm
+      (ngSubmit)="updateFlashcard(question.value, answer.value, s.selectedIndex); updateForm.reset()">
+    <select #s>
+      <option label="{{flashcard.question}}"
+          *ngFor="let flashcard of fset.flashcards">
+      </option>
+    </select>
+    <label class="label">
+      Question
+      <input maxlength="256" name="question" #question>
+    </label>
+    <label class="label">
+      Answer
+      <input maxlength="256" name="answer" #answer>
+    </label>
+    <button class="update-fcard-button">Update</button>
+    <button class="delete" type="button"
+        (click)="deleteFlashcard(s.selectedIndex)">Delete</button>
+  </form>
+</div>
 
 <dl *ngIf="fset.flashcards.length">
   <div class="flashcard form"
       *ngFor="let flashcard of fset.flashcards; index as i">
-    <dt class="flashcard-question">{{flashcard.question}}
-      <input class="flashcard-input" required maxlength="256" name="question"
-          #question>
-      <button type="button" (click)="updateQuestion(question.value, i)">
-        Update Q</button>
-      <button class="flashcard-delete delete" type="button"
-          (click)="deleteFlashcard(i)">Delete</button>
-    </dt>
-    <dd class="flashcard-answer">{{flashcard.answer}}
-      <input class="flashcard-input" required maxlength="256" name="answer"
-          #answer>
-      <button type="button" (click)="updateAnswer(answer.value, i)">Update
-        A</button>
-    </dd>
+    <dt class="flashcard-question">{{flashcard.question}}</dt>
+    <dd class="flashcard-answer">{{flashcard.answer}}</dd>
   </div>
 </dl>
