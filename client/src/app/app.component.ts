@@ -25,6 +25,7 @@ export class AppComponent {
         const complete = () => {
             this.auth.authenticated = false;
             this.router.navigateByUrl('/');
+            this.locked = false;
         };
 
         const error = (err: HttpErrorResponse) => {
