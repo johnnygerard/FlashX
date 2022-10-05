@@ -135,27 +135,30 @@ router.route('/flashcard').post(async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-});
-
-// Update question
-router.patch('/flashcard/question', async (req, res, next) => {
-    const { question } = req.body;
+    // Update flashcard
+}).patch(async (req, res, next) => {
+    const { question, answer } = req.body;
     const fset = +req.body.fset;
     const index = +req.body.index;
 
     if (!Number.isInteger(fset) || fset < 0 ||
         !Number.isInteger(index) || index < 0 ||
-        typeof question !== 'string') {
+        typeof question !== 'string' ||
+        typeof answer !== 'string' ||
+        (!question && !answer)) {
         handleValidationFailure(req, res);
         return;
     }
 
     try {
-        await users.updateOne({ _id: req.user }, {
-            $set: {
-                [`fsets.${fset}.flashcards.${index}.question`]: question,
-            }
-        });
+        const key = `fsets.${fset}.flashcards.${index}`;
+        const doc = {};
+
+        if (question && answer) doc[key] = { question, answer };
+        else if (question) doc[key + '.question'] = question;
+        else doc[key + '.answer'] = answer;
+
+        await users.updateOne({ _id: req.user }, { $set: doc });
 
         res.status(NO_CONTENT).end();
     } catch (err) {
