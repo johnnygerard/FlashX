@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, ContentChild, ElementRef } from '@angular/core';
 
 @Component({
     selector: 'app-password',
@@ -6,10 +6,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
     styleUrls: ['./password.component.css']
 })
 export class PasswordComponent {
-    @Output() toggleEvent = new EventEmitter<boolean>();
+    @ContentChild('pwd') input!: ElementRef<HTMLInputElement>;
     protected hidden = true;
 
     protected toggle(): void {
-        this.toggleEvent.emit(this.hidden = !this.hidden);
+        this.input.nativeElement.type = (this.hidden = !this.hidden)
+            ? 'password' : 'text';
     }
 }

@@ -5,20 +5,18 @@
     <span [class.required]="submitted && currentPwd.errors?.['required']">
       Current
     </span>
-    <app-password class="password"
-        (toggleEvent)="pwd1.type = $event ? 'password' : 'text'">
+    <app-password class="password">
       <input name="currentPwd" type="password" autocomplete="current-password"
-          required #pwd1 appAutofocus [(ngModel)]="credentials.currentPwd"
+          required #pwd appAutofocus [(ngModel)]="credentials.currentPwd"
           #currentPwd="ngModel">
     </app-password>
   </label>
   <label class="second-label">
     <span [class.required]="submitted && newPwd.errors?.['required']">New</span>
-    <app-password class="password field"
-        (toggleEvent)="pwd2.type = $event ? 'password' : 'text'">
+    <app-password class="password field">
       <input name="newPwd" type="password" autocomplete="new-password"
           pattern="[!-~]*" appPasswordValidator minlength="11" maxlength="128"
-          required [(ngModel)]="credentials.newPwd" #newPwd="ngModel" #pwd2>
+          required [(ngModel)]="credentials.newPwd" #newPwd="ngModel" #pwd>
     </app-password>
     <div class="validationContainer" *ngIf="newPwd.value && newPwd.errors">
       <p class="validation" *ngIf="newPwd.errors?.['minlength']">

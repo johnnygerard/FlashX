@@ -11,8 +11,7 @@
     <span [class.required]="form.submitted && password.errors?.['required']">
       Password
     </span>
-    <app-password class="login-field"
-        (toggleEvent)="pwd.type = $event ? 'password' : 'text'">
+    <app-password class="login-field">
       <input type="password" name="password" [(ngModel)]="credentials.password"
           #pwd autocomplete="current-password" required #password="ngModel">
     </app-password>
