@@ -14,7 +14,8 @@ main {
     display: inline;
 }
 
-.nav>li>* {
+.nav>li>a,
+.nav>li>button {
     padding: 1em;
     color: var(--accent-secondary);
 }
@@ -65,6 +66,10 @@ footer {
 .footer-nav>li {
     display: inline;
     margin-right: 1em;
+}
+
+.footer-nav>li:last-child {
+    margin: 0;
 }
 
 .copyright {
