@@ -45,3 +45,27 @@
     border-radius: 0.4em;
     text-decoration: none;
 }
+
+@media (max-width: 40em) {
+    :host, .forms {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .forms>form {
+        margin: 0;
+    }
+
+    .forms>form:first-child {
+        margin-bottom: 1.6em;
+    }
+
+    hgroup>p {
+        text-align: center;
+    }
+
+    .fsets {
+        align-items: center;
+    }
+}
