@@ -12,3 +12,16 @@
     top: 10em;
     left: 32em;
 }
+
+@media (max-width: 920px) {
+    .forms {
+        position: static;
+        align-self: center;
+        margin-top: 2em;
+    }
+
+    :host {
+        display: flex;
+        flex-direction: column;
+    }
+}
