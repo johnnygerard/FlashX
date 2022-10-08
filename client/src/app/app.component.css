@@ -3,45 +3,45 @@ main {
 }
 
 /* Navigation bar */
-#nav {
+.nav {
     display: flex;
     background-color: var(--accent-primary);
     padding: 0;
     margin: 0;
 }
 
-#nav>li {
+.nav>li {
     display: inline;
 }
 
-#nav>li>* {
+.nav>li>* {
     padding: 1em;
     color: var(--accent-secondary);
 }
 
-#nav>li>a {
+.nav>li>a {
     display: inline-block;
     text-decoration: none;
 }
 
-#nav>li>a:hover,
-#nav>li>a:focus-visible {
+.nav>li>a:hover,
+.nav>li>a:focus-visible {
     background-color: var(--accent-secondary);
     color: var(--accent-primary);
     outline: none;
 }
 
-#logout {
+.logout {
     margin-left: auto;
 }
 
-#logout>button {
+.logout>button {
     border-radius: 0;
     background-color: var(--accent-primary);
 }
 
-#logout>button:hover,
-#logout>button:focus-visible {
+.logout>button:hover,
+.logout>button:focus-visible {
     background-color: #C00;
     color: white;
     outline: none;
@@ -56,18 +56,18 @@ footer {
     background-color: lightgray;
 }
 
-#footerNav {
+.footerNav {
     display: flex;
     justify-content: center;
     padding: 0;
 }
 
-#footerNav>li {
+.footerNav>li {
     display: inline;
     margin-right: 1em;
 }
 
-#copyright {
+.copyright {
     text-align: center;
     margin-bottom: 0;
 }
