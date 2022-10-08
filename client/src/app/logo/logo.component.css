@@ -1,15 +1,15 @@
-.heading {
+h1 {
     display: flex;
     align-items: center;
 }
 
-.logo {
+img {
     height: 1.5em;
     margin-right: 0.4em;
 }
 
 @media (max-width: 40em) {
-    .heading {
+    h1 {
         margin: 0;
     }
 }
