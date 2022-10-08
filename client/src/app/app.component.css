@@ -48,6 +48,27 @@ main {
     outline: none;
 }
 
+@media (max-width: 40em) {
+    .nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav>li>a,
+    .nav>li>button {
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+    }
+
+    .nav {
+        padding: 0.5em 0;
+    }
+
+    .logout {
+        margin: 0;
+    }
+}
+
 /* Footer */
 footer {
     position: sticky;
