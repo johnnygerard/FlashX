@@ -56,13 +56,13 @@ footer {
     background-color: lightgray;
 }
 
-.footerNav {
+.footer-nav {
     display: flex;
     justify-content: center;
     padding: 0;
 }
 
-.footerNav>li {
+.footer-nav>li {
     display: inline;
     margin-right: 1em;
 }
