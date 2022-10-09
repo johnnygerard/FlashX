@@ -1,14 +1,14 @@
 <app-logo></app-logo>
 <ng-container *ngIf="started; else start">
-  <h2>{{fset.name}}</h2>
+  <h2 class="fsetName">{{fset.name}}</h2>
   <div class="flashcard">
     <div class="flashcard-side form" *ngIf="frontSide; else backSide">
       <label class="flashcard-side-label">Question</label>
       <p class="flashcard-side-content">{{question}}</p>
       <button type="button" class="link" (click)="getAnswer()">Answer</button>
     </div>
-    <button class="cancel" type="button" (click)="cancel()">Cancel</button>
   </div>
+  <button class="cancel" type="button" (click)="cancel()">Cancel</button>
 </ng-container>
 <p class="score" *ngIf="!scoreHidden">
   Score: {{score}}/{{fset.flashcards.length}}</p>

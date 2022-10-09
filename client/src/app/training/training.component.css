@@ -71,3 +71,25 @@
     margin: 1em auto;
     width: fit-content;
 }
+
+@media (max-width: 40em) {
+    :host {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    app-logo {
+        margin-bottom: 1em;
+    }
+
+    .fsetName {
+        margin-top: 0;
+    }
+
+    .cancel {
+        top: 0.5em;
+        right: 0;
+        padding: 0.5em;
+    }
+}
