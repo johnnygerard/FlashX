@@ -33,11 +33,6 @@ class FlashcardSet {
 router.route('/fset').post(async (req, res, next) => {
     const { name } = req.body;
 
-    if (typeof name !== 'string') {
-        handleValidationFailure(req, res);
-        return;
-    }
-
     try {
         await users.updateOne({ _id: req.user }, {
             $push: { fsets: new FlashcardSet(name) }
@@ -51,12 +46,6 @@ router.route('/fset').post(async (req, res, next) => {
     const { name } = req.body;
     const index = +req.body.index;
 
-    if (typeof name !== 'string' ||
-        !Number.isInteger(index) || index < 0) {
-        handleValidationFailure(req, res);
-        return;
-    }
-
     try {
         await users.updateOne({ _id: req.user }, {
             $set: { [`fsets.${index}.name`]: name }
@@ -69,11 +58,6 @@ router.route('/fset').post(async (req, res, next) => {
 }).delete(async (req, res, next) => {
     const index = +req.body.index;
     const filter = { _id: req.user };
-
-    if (!Number.isInteger(index) || index < 0) {
-        handleValidationFailure(req, res);
-        return;
-    }
 
     try {
         await users.updateOne(filter, { $unset: { [`fsets.${index}`]: 0 } });
@@ -89,13 +73,6 @@ router.route('/fset').post(async (req, res, next) => {
 router.route('/flashcard').post(async (req, res, next) => {
     const { question, answer } = req.body;
     const fset = +req.body.fset;
-
-    if (!Number.isInteger(fset) || fset < 0 ||
-        typeof question !== 'string' ||
-        typeof answer !== 'string') {
-        handleValidationFailure(req, res);
-        return;
-    }
 
     try {
         await users.updateOne({ _id: req.user }, {
@@ -116,12 +93,6 @@ router.route('/flashcard').post(async (req, res, next) => {
     const flashcards = `fsets.${fset}.flashcards`;
     const filter = { _id: req.user };
 
-    if (!Number.isInteger(fset) || fset < 0 ||
-        !Number.isInteger(index) || index < 0) {
-        handleValidationFailure(req, res);
-        return;
-    }
-
     try {
         await users.updateOne(filter, {
             $unset: { [`${flashcards}.${index}`]: 0 }
@@ -140,15 +111,6 @@ router.route('/flashcard').post(async (req, res, next) => {
     const { question, answer } = req.body;
     const fset = +req.body.fset;
     const index = +req.body.index;
-
-    if (!Number.isInteger(fset) || fset < 0 ||
-        !Number.isInteger(index) || index < 0 ||
-        typeof question !== 'string' ||
-        typeof answer !== 'string' ||
-        (!question && !answer)) {
-        handleValidationFailure(req, res);
-        return;
-    }
 
     try {
         const key = `fsets.${fset}.flashcards.${index}`;
@@ -231,11 +193,6 @@ router.get('/collections', async (req, res, next) => {
 
 router.get('/collections/:index', async (req, res, next) => {
     const index = +req.params.index;
-
-    if (!Number.isInteger(index) || index < 0) {
-        handleValidationFailure(req, res);
-        return;
-    }
 
     const pipeline = [
         { $match: { _id: req.user } },
