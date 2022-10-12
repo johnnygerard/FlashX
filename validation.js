@@ -1,11 +1,11 @@
 export { handleValidationFailure, usernameIsValid, passwordIsValid };
-import { BAD_REQUEST } from './httpStatusCodes.js';
+import { UNPROCESSABLE_CONTENT } from './httpStatusCodes.js';
 
 const handleValidationFailure = (req, res) => {
     console.error('Server side validation failure');
     console.error(req.method, req.originalUrl);
     console.error(req.body);
-    res.status(BAD_REQUEST).end();
+    res.status(UNPROCESSABLE_CONTENT).end();
 };
 
 const usernameRegExp = /^[!-~]{1,128}$/;
