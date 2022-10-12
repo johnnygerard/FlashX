@@ -1,4 +1,5 @@
 import { env, cwd } from 'node:process';
+import { inspect } from 'node:util';
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
@@ -76,7 +77,7 @@ app.get(/^/, (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    console.error(err);
+    console.error(inspect(err, { depth: 100 }));
     res.status(INTERNAL_SERVER_ERROR).end();
 });
 
