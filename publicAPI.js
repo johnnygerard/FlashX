@@ -21,6 +21,11 @@ router.post('/register', async (req, res, next) => {
     }
 
     try {
+        if (await users.countDocuments() >= 128) {
+            res.status(FORBIDDEN).send('Server limit reached');
+            return;
+        }
+
         if (await users.findOne({ _id })) {
             res.status(FORBIDDEN).send('Username unavailable');
             return;
