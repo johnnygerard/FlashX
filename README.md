@@ -33,6 +33,7 @@ More authentication strategies will be added later.
 
 | version | description |
 | --- | --- |
+| 2.2.0 | Schema validation |
 | 2.1.0 | Responsive mobile design |
 | 2.0.0 | Angular migration |
 | 1.0.0 | First release using [EJS](https://ejs.co/) for the front-end |
