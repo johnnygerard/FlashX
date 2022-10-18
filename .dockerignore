@@ -1,0 +1,10 @@
+.dockerignore
+.env
+.git
+.gitignore
+Dockerfile
+LICENSE
+README.md
+TODO
+dbSchema.js
+node_modules
