@@ -27,7 +27,8 @@ if (PRODUCTION) {
     app.use((req, res, next) => {
         if (req.secure) next();
         else {
-            console.error('unencrypted request forwarded by proxy');
+            console.error('Unencrypted request forwarded by proxy:');
+            console.error(req.method, req.originalUrl);
             res.status(FORBIDDEN).end('HTTPS required');
         }
     });
