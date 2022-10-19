@@ -1,8 +1,8 @@
-.ability {
+.abilities>li {
     margin-top: 0.4em;
 }
 
-.ability::after {
+.abilities>li::after {
     content: ' \2714';
     color: green;
 }
