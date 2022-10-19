@@ -2,6 +2,7 @@
   <app-logo></app-logo>
   <p>Privacy policy</p>
 </hgroup>
+<p>Last updated October 20, 2022</p>
 <h3>Means of data storage</h3>
 <p>This website uses MongoDB Atlas to store user data.<br>
   The database infrastructure is supplied by Microsoft Azure.</p>
@@ -19,13 +20,10 @@
 <p>All user data is stored in a GDPR-compliant database located in the
   Netherlands.</p>
 <h3>Backup and data replication</h3>
-<p>There is no data backup, neither automated nor manual.<br>
-  This means previous data cannot be recovered if it was accidentally deleted
-  or modified by the user.</p>
-<p>The database is replicated 3 times. It is a feature of MongoDB Atlas.<br>
-  Data replication might seem similar to data backup but has different
-  purposes.<br>
-  It mainly provides server availibility and data disaster recovery.<br>
+<p>Database backup is automated: up to 2 snapshots, one every 6 hours.</p>
+<p>Another feature of MongoDB Atlas is data replication.<br>
+  Similar to data backup but instead provides server availability and data
+  disaster recovery.<br>
   For example if a database server is unavailable or damaged, the replicated
   servers can be used as a fallback.</p>
 <h3>Additional notes</h3>
