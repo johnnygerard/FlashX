@@ -1,4 +1,4 @@
-export { users, sessionStore, SESSION_LIFETIME };
+export { users, sessions, sessionStore, SESSION_LIFETIME };
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import { env } from 'process';
 import session from 'express-session';
@@ -17,6 +17,7 @@ const client = await MongoClient.connect(URI, {
 });
 
 const users = client.db('user').collection('users');
+const sessions = client.db('user').collection('sessions');
 const MongoDBStore = connectMongodbSession(session);
 const SESSION_LIFETIME = 1000 * 60 * 60 * 24 * 10; // 10 days in ms
 const sessionStore = new MongoDBStore({
