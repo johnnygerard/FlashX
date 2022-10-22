@@ -2,7 +2,7 @@
   "name": "flashx",
   "version": "2.3.0",
   "description": "Flashcard web application",
-  "main": "server.js",
+  "main": "server/index.js",
   "scripts": {
     "start": "nodemon -r dotenv/config"
   },
