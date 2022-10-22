@@ -1,7 +1,7 @@
 export { router as default };
 import express from 'express';
 import { FORBIDDEN, NO_CONTENT, OK } from './httpStatusCodes.js';
-import { users } from './mongoDB.js';
+import { sessions, users } from './mongoDB.js';
 import { handleValidationFailure, passwordIsValid } from './validation.js';
 import { hash } from './password.js';
 
@@ -165,6 +165,9 @@ router.delete('/logOut', (req, res, next) => {
 router.delete('/account', async (req, res, next) => {
     try {
         await users.deleteOne({ _id: req.user });
+        await sessions.deleteMany({
+            'session.passport.user': req.user
+        });
         res.status(NO_CONTENT).end();
     } catch (err) {
         next(err);
