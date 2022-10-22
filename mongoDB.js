@@ -1,3 +1,4 @@
+export { users, sessionStore, SESSION_LIFETIME };
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import { env } from 'process';
 import session from 'express-session';
@@ -30,5 +31,3 @@ const sessionStore = new MongoDBStore({
 });
 
 sessionStore.on('error', console.error);
-
-export { users, sessionStore, SESSION_LIFETIME };
