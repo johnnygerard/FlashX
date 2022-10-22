@@ -1,6 +1,6 @@
 <form *ngIf="!auth.authenticated" #form="ngForm" (ngSubmit)="logIn(form)">
   <label class="login-label">
-    <span [class.required]="form.submitted && username.errors?.['required']">
+    <span [class.required]="username.errors?.['required'] && username.touched">
       Username
     </span>
     <input class="login-field" name="username" autocomplete="username" required
@@ -8,7 +8,7 @@
   </label>
 
   <label class="login-label">
-    <span [class.required]="form.submitted && password.errors?.['required']">
+    <span [class.required]="password.errors?.['required'] && password.touched">
       Password
     </span>
     <app-password class="login-field">
@@ -17,7 +17,9 @@
     </app-password>
   </label>
 
-  <button class="link">Log in</button>
+  <button class="link" [disabled]="form.invalid || form.submitted">
+    Log in
+  </button>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
   <p class="register-link">No account? <button class="form-link"
         (click)="toggleForm()" type="button">Register</button></p>

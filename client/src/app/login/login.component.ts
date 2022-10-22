@@ -5,6 +5,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { finalize } from 'rxjs';
 
 @Component({
     selector: 'app-login',
@@ -13,7 +14,6 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent {
     protected message = '';
-    protected locked = false;
     protected readonly credentials = {
         username: '',
         password: ''
@@ -31,14 +31,13 @@ export class LoginComponent {
     }
 
     protected logIn(form: NgForm): void {
-        if (this.locked || form.invalid) return;
-        this.locked = true;
-
         const params = new HttpParams().appendAll(this.credentials);
 
         this.http.post('/api/logIn', params, {
             responseType: 'text'
-        }).subscribe({
+        }).pipe(
+            finalize(() => form.resetForm())
+        ).subscribe({
             complete: () => {
                 this.auth.authenticated = true;
                 this.router.navigateByUrl('/training');
@@ -50,7 +49,6 @@ export class LoginComponent {
                     console.error(err);
                     alert('Unexpected error');
                 }
-                this.locked = false;
             }
         });
     }
