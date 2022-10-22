@@ -6,7 +6,7 @@
   <form class="add-fset" (ngSubmit)="addFSet()" #f1="ngForm">
     <label>
       Name
-      <input class="fset-name" required maxlength="256" name="name" appAutofocus
+      <input class="fset-name" required maxlength="256" name="name"
           [(ngModel)]="newFSetName">
     </label>
     <button class="add-fset-button positiveAction" [disabled]="f1.invalid">
