@@ -12,7 +12,7 @@ EXPOSE 8080
 RUN npm i -g pm2@5.2.2
 COPY package*.json ./
 RUN npm ci && rm package-lock.json
-COPY *.js ./
+COPY server server
 COPY --from=0 Angular/dist client/dist
 USER node
-ENTRYPOINT [ "pm2", "start", "server.js", "--no-daemon" ]
+ENTRYPOINT [ "pm2", "start", "server/index.js", "--no-daemon" ]
