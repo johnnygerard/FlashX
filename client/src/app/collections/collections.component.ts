@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { ErrorService } from '../error.service';
 
@@ -12,7 +13,6 @@ export class CollectionsComponent implements OnInit {
     protected fsetNames: string[] = [];
     protected newFSetName = '';
     protected FSetNameUpdate = '';
-    private locked = false;
 
     constructor(
         private readonly http: HttpClient,
@@ -27,49 +27,40 @@ export class CollectionsComponent implements OnInit {
             });
     }
 
-    protected addFSet(): void {
-        if (this.locked) return;
-        this.locked = true;
+    protected addFSet(form: NgForm): void {
         const name = this.newFSetName;
 
         const param = new HttpParams().set('name', name);
 
         this.http.post('/api/fset', param).pipe(
-            finalize(() => this.locked = false)
+            finalize(() => form.resetForm())
         ).subscribe({
             error: err => this.error.defaultHandler(err),
-            complete: () => {
-                this.fsetNames.push(name);
-                this.newFSetName = '';
-            }
+            complete: () => this.fsetNames.push(name)
         });
     }
 
-    protected renameFSet(name: string, index: number): void {
-        if (this.locked) return;
-        this.locked = true;
-
+    protected renameFSet(index: number, form: NgForm): void {
+        const name = this.FSetNameUpdate;
         const params = new HttpParams().appendAll({ name, index });
 
         this.http.patch('/api/fset', params).pipe(
-            finalize(() => this.locked = false)
+            finalize(() => form.resetForm())
         ).subscribe({
             error: err => this.error.defaultHandler(err),
             complete: () => {
                 this.fsetNames[index] = name;
-                this.FSetNameUpdate = '';
             }
         });
     }
 
-    protected deleteFSet(index: number) {
-        if (this.locked) return;
-        this.locked = true;
+    protected deleteFSet(index: number, button: HTMLButtonElement) {
+        button.disabled = true;
 
         const params = new HttpParams().set('index', index);
 
         this.http.request('DELETE', '/api/fset', { body: params }).pipe(
-            finalize(() => this.locked = false)
+            finalize(() => button.disabled = false)
         ).subscribe({
             error: err => this.error.defaultHandler(err),
             complete: () => this.fsetNames.splice(index, 1)

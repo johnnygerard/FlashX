@@ -3,27 +3,30 @@
   <p>Collections</p>
 </hgroup>
 <div class="forms">
-  <form class="add-fset" (ngSubmit)="addFSet()" #f1="ngForm">
+  <form class="add-fset" (ngSubmit)="addFSet(f1)" #f1="ngForm">
     <label>
       Name
       <input class="fset-name" required maxlength="256" name="name"
           [(ngModel)]="newFSetName">
     </label>
-    <button class="add-fset-button positiveAction" [disabled]="f1.invalid">
+    <button class="add-fset-button positiveAction"
+        [disabled]="f1.invalid || f1.submitted">
       Add collection
     </button>
   </form>
-  <form (ngSubmit)="renameFSet(nameUpdate.value, s.selectedIndex)" #f2="ngForm">
+  <form (ngSubmit)="renameFSet(s.selectedIndex, f2)" #f2="ngForm">
     <select #s>
       <option label="{{fsetName}}" *ngFor="let fsetName of fsetNames"></option>
     </select>
     <label class="label">
       Name
-      <input required maxlength="256" name="name" [(ngModel)]="FSetNameUpdate"
-          #nameUpdate="ngModel">
-      <button class="rename-button" [disabled]="f2.invalid">Update</button>
+      <input required maxlength="256" name="name" [(ngModel)]="FSetNameUpdate">
+      <button class="rename-button" [disabled]="f2.invalid || f2.submitted">
+        Update
+      </button>
     </label>
-    <button class="delete" type="button" (click)="deleteFSet(s.selectedIndex)">
+    <button class="delete" type="button" #deleteFSetButton
+        (click)="deleteFSet(s.selectedIndex, deleteFSetButton)">
       Delete
     </button>
   </form>
