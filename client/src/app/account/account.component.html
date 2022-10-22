@@ -2,7 +2,8 @@
 <h2>Welcome {{username}}!</h2>
 <form (ngSubmit)="modifyPwd(form)" #form="ngForm">
   <label>
-    <span [class.required]="form.submitted && currentPwd.errors?.['required']">
+    <span
+        [class.required]="currentPwd.errors?.['required'] && currentPwd.touched">
       Current
     </span>
     <app-password>
@@ -12,7 +13,7 @@
     </app-password>
   </label>
   <label>
-    <span [class.required]="form.submitted && newPwd.errors?.['required']">
+    <span [class.required]="newPwd.errors?.['required'] && newPwd.touched">
       New
     </span>
     <app-password class="field">
@@ -41,11 +42,13 @@
       </p>
     </div>
   </label>
-  <button class="updatePwdButton">Change password</button>
+  <button class="updatePwdButton" [disabled]="form.invalid || form.submitted">
+    Change password
+  </button>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
   <p class="successMessage" *ngIf="successMessage">
     <strong>{{successMessage}}</strong>
   </p>
 </form>
-<button class="delete deleteAccountButton" type="button"
-    (click)="deleteAccount()">Delete account</button>
+<button class="delete deleteAccountButton" type="button" #deleteAccountButton
+    (click)="deleteAccount(deleteAccountButton)">Delete account</button>

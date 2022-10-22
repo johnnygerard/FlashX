@@ -12,7 +12,6 @@ import { ErrorService } from '../error.service';
     styleUrls: ['./account.component.css']
 })
 export class AccountComponent implements OnInit {
-    private locked = false;
     protected username = '';
     protected message = '';
     protected successMessage = '';
@@ -36,9 +35,6 @@ export class AccountComponent implements OnInit {
     }
 
     protected modifyPwd(form: NgForm): void {
-        if (this.locked || form.invalid) return;
-        this.locked = true;
-
         this.message = '';
         this.successMessage = '';
 
@@ -47,12 +43,9 @@ export class AccountComponent implements OnInit {
         this.http.put('/api/password', params, {
             responseType: 'text'
         }).pipe(
-            finalize(() => this.locked = false)
+            finalize(() => form.resetForm())
         ).subscribe({
-            next: (value: string) => {
-                this.successMessage = value;
-                form.resetForm();
-            },
+            next: (value: string) => this.successMessage = value,
             error: (err: HttpErrorResponse) => {
                 if (err.status === 403) {
                     this.message = err.error as string;
@@ -64,22 +57,23 @@ export class AccountComponent implements OnInit {
         });
     }
 
-    protected deleteAccount(): void {
-        if (this.locked) return;
-        this.locked = true;
+    protected deleteAccount(button: HTMLButtonElement): void {
+        button.disabled = true;
 
         const msg = 'Erase all my data now';
         const result = prompt(`This action is irreversible!
 To confirm enter this message: ${msg}`);
 
         if (result === msg) {
-            this.http.delete('/api/account').subscribe({
+            this.http.delete('/api/account').pipe(
+                finalize(() => button.disabled = false)
+            ).subscribe({
                 error: err => this.error.defaultHandler(err),
                 complete: () => {
                     this.auth.authenticated = false;
                     this.router.navigateByUrl('/');
                 }
             });
-        } else this.locked = false;
+        } else button.disabled = false;
     }
 }
