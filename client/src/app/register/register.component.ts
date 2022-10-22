@@ -36,23 +36,22 @@ export class RegisterComponent {
 
         const params = new HttpParams().appendAll(this.credentials);
 
-        const complete = () => {
-            this.auth.authenticated = true;
-            this.router.navigateByUrl('/collections');
-        };
-
-        const error = (err: HttpErrorResponse) => {
-            if (err.status === 403) {
-                this.message = err.error as string;
-            } else {
-                console.error(err);
-                alert('Unexpected error');
-            }
-            this.locked = false;
-        };
-
         this.http.post('/api/register', params, {
             responseType: 'text'
-        }).subscribe({ complete, error });
+        }).subscribe({
+            complete: () => {
+                this.auth.authenticated = true;
+                this.router.navigateByUrl('/collections');
+            },
+            error: (err: HttpErrorResponse) => {
+                if (err.status === 403) {
+                    this.message = err.error as string;
+                } else {
+                    console.error(err);
+                    alert('Unexpected error');
+                }
+                this.locked = false;
+            }
+        });
     }
 }

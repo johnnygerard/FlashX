@@ -36,23 +36,22 @@ export class LoginComponent {
 
         const params = new HttpParams().appendAll(this.credentials);
 
-        const complete = () => {
-            this.auth.authenticated = true;
-            this.router.navigateByUrl('/training');
-        };
-
-        const error = (err: HttpErrorResponse) => {
-            if (err.status === 403) {
-                this.message = err.error as string;
-            } else {
-                console.error(err);
-                alert('Unexpected error');
-            }
-            this.locked = false;
-        };
-
         this.http.post('/api/logIn', params, {
             responseType: 'text'
-        }).subscribe({ complete, error });
+        }).subscribe({
+            complete: () => {
+                this.auth.authenticated = true;
+                this.router.navigateByUrl('/training');
+            },
+            error: (err: HttpErrorResponse) => {
+                if (err.status === 403) {
+                    this.message = err.error as string;
+                } else {
+                    console.error(err);
+                    alert('Unexpected error');
+                }
+                this.locked = false;
+            }
+        });
     }
 }

@@ -1,8 +1,6 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { retry } from 'rxjs';
-import { AuthService } from '../auth.service';
+import { ErrorService } from '../error.service';
 import { Flashcard, FlashcardSet } from '../types';
 
 @Component({
@@ -24,43 +22,24 @@ export class TrainingComponent implements OnInit {
 
     constructor(
         private readonly http: HttpClient,
-        public auth: AuthService,
-        private readonly router: Router
+        private readonly error: ErrorService
     ) { }
 
     ngOnInit(): void {
-        const next = (value: string[]) => this.fsetNames = value;
-        const error = (err: HttpErrorResponse) => {
-            if (err.status === 403) {
-                this.auth.authenticated = false;
-                this.router.navigateByUrl('/');
-            } else {
-                console.error(err);
-                alert('Unexpected error');
-            }
-        }
-
-        this.http.get<string[]>('/api/training').pipe(retry(2))
-            .subscribe({ next, error });
+        this.http.get<string[]>('/api/training').subscribe({
+            next: (value: string[]) => this.fsetNames = value,
+            error: err => this.error.defaultHandler(err)
+        });
     }
 
     protected init(index: number): void {
-        const next = (value: FlashcardSet) => {
-            this.fset = value;
-            this.start();
-        }
-        const error = (err: HttpErrorResponse) => {
-            if (err.status === 403) {
-                this.auth.authenticated = false;
-                this.router.navigateByUrl('/');
-            } else {
-                console.error(err);
-                alert('Unexpected error');
-            }
-        }
-
-        this.http.get<FlashcardSet>('/api/collections/' + index)
-            .subscribe({ next, error });
+        this.http.get<FlashcardSet>('/api/collections/' + index).subscribe({
+            next: (value: FlashcardSet) => {
+                this.fset = value;
+                this.start();
+            },
+            error: err => this.error.defaultHandler(err)
+        });
     }
 
     private start() {

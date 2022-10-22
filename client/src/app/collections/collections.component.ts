@@ -1,8 +1,7 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { retry } from 'rxjs';
-import { AuthService } from '../auth.service';
+import { finalize } from 'rxjs';
+import { ErrorService } from '../error.service';
 
 @Component({
     selector: 'app-collections',
@@ -17,24 +16,15 @@ export class CollectionsComponent implements OnInit {
 
     constructor(
         private readonly http: HttpClient,
-        public auth: AuthService,
-        private readonly router: Router
+        private readonly error: ErrorService
     ) { }
 
     ngOnInit(): void {
-        const next = (value: string[]) => this.fsetNames = value;
-        const error = (err: HttpErrorResponse) => {
-            if (err.status === 403) {
-                this.auth.authenticated = false;
-                this.router.navigateByUrl('/');
-            } else {
-                console.error(err);
-                alert('Unexpected error');
-            }
-        }
-
-        this.http.get<string[]>('/api/collections').pipe(retry(2))
-            .subscribe({ next, error });
+        this.http.get<string[]>('/api/collections')
+            .subscribe({
+                next: (value: string[]) => this.fsetNames = value,
+                error: err => this.error.defaultHandler(err)
+            });
     }
 
     protected addFSet(): void {
@@ -44,24 +34,14 @@ export class CollectionsComponent implements OnInit {
 
         const param = new HttpParams().set('name', name);
 
-        const complete = () => {
-            this.fsetNames.push(name);
-            this.newFSetName = '';
-            this.locked = false;
-        };
-
-        const error = (err: HttpErrorResponse) => {
-            if (err.status === 403) {
-                this.auth.authenticated = false;
-                this.router.navigateByUrl('/');
-            } else {
-                console.error(err);
-                alert('Unexpected error');
+        this.http.post('/api/fset', param).pipe(
+            finalize(() => this.locked = false)
+        ).subscribe({
+            error: err => this.error.defaultHandler(err),
+            complete: () => {
+                this.fsetNames.push(name);
+                this.newFSetName = '';
             }
-        }
-
-        this.http.post('/api/fset', param).subscribe({
-            complete, error
         });
     }
 
@@ -71,24 +51,14 @@ export class CollectionsComponent implements OnInit {
 
         const params = new HttpParams().appendAll({ name, index });
 
-        const complete = () => {
-            this.fsetNames[index] = name;
-            this.FSetNameUpdate = '';
-            this.locked = false;
-        };
-
-        const error = (err: HttpErrorResponse) => {
-            if (err.status === 403) {
-                this.auth.authenticated = false;
-                this.router.navigateByUrl('/');
-            } else {
-                console.error(err);
-                alert('Unexpected error');
+        this.http.patch('/api/fset', params).pipe(
+            finalize(() => this.locked = false)
+        ).subscribe({
+            error: err => this.error.defaultHandler(err),
+            complete: () => {
+                this.fsetNames[index] = name;
+                this.FSetNameUpdate = '';
             }
-        }
-
-        this.http.patch('/api/fset', params).subscribe({
-            complete, error
         });
     }
 
@@ -98,23 +68,11 @@ export class CollectionsComponent implements OnInit {
 
         const params = new HttpParams().set('index', index);
 
-        const complete = () => {
-            this.fsetNames.splice(index, 1);
-            this.locked = false;
-        };
-
-        const error = (err: HttpErrorResponse) => {
-            if (err.status === 403) {
-                this.auth.authenticated = false;
-                this.router.navigateByUrl('/');
-            } else {
-                console.error(err);
-                alert('Unexpected error');
-            }
-        }
-
-        this.http.request('DELETE', '/api/fset', { body: params }).subscribe({
-            complete, error
+        this.http.request('DELETE', '/api/fset', { body: params }).pipe(
+            finalize(() => this.locked = false)
+        ).subscribe({
+            error: err => this.error.defaultHandler(err),
+            complete: () => this.fsetNames.splice(index, 1)
         });
     }
 }

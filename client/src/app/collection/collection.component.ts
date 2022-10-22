@@ -1,8 +1,8 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { retry } from 'rxjs';
-import { AuthService } from '../auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs';
+import { ErrorService } from '../error.service';
 import { Flashcard, FlashcardSet } from '../types';
 
 @Component({
@@ -18,8 +18,7 @@ export class CollectionComponent implements OnInit {
 
     constructor(
         private readonly http: HttpClient,
-        public auth: AuthService,
-        private readonly router: Router,
+        private readonly error: ErrorService,
         route: ActivatedRoute
     ) {
         this.fset = new FlashcardSet('');
@@ -28,44 +27,25 @@ export class CollectionComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const next = (value: FlashcardSet) => this.fset = value;
-        const error = (err: HttpErrorResponse) => {
-            if (err.status === 403) {
-                this.auth.authenticated = false;
-                this.router.navigateByUrl('/');
-            } else {
-                console.error(err);
-                alert('Unexpected error');
-            }
-        }
-
         this.http.get<FlashcardSet>('/api/collections/' + this.fsetIndex)
-            .subscribe({ next, error });
+            .subscribe({
+                next: (value: FlashcardSet) => this.fset = value,
+                error: err => this.error.defaultHandler(err)
+            });
     }
 
     protected deleteFlashcard(index: number) {
         if (this.locked) return;
         this.locked = true;
 
-        const complete = () => {
-            this.fset.flashcards.splice(index, 1);
-            this.locked = false;
-        }
-
-        const error = (err: HttpErrorResponse) => {
-            if (err.status === 403) {
-                this.auth.authenticated = false;
-                this.router.navigateByUrl('/');
-            } else {
-                console.error(err);
-                alert('Unexpected error');
-                this.locked = false;
-            }
-        }
-
         this.http.request('DELETE', '/api/flashcard', {
             body: { fset: this.fsetIndex, index }
-        }).pipe(retry(2)).subscribe({ complete, error });
+        }).pipe(
+            finalize(() => this.locked = false)
+        ).subscribe({
+            complete: () => this.fset.flashcards.splice(index, 1),
+            error: err => this.error.defaultHandler(err)
+        });
     }
 
     protected addFlashcard(): void {
@@ -77,52 +57,34 @@ export class CollectionComponent implements OnInit {
             this.newFlashcard.answer
         );
 
-        const complete = () => {
-            this.fset.flashcards.push(clone);
-            this.newFlashcard.question = '';
-            this.newFlashcard.answer = '';
-            this.locked = false;
-        }
-
-        const error = (err: HttpErrorResponse) => {
-            if (err.status === 403) {
-                this.auth.authenticated = false;
-                this.router.navigateByUrl('/');
-            } else {
-                console.error(err);
-                alert('Unexpected error');
-                this.locked = false;
-            }
-        }
-
         this.http.post('/api/flashcard', { ...clone, fset: this.fsetIndex })
-            .pipe(retry(2)).subscribe({ complete, error });
+            .pipe(
+                finalize(() => this.locked = false)
+            ).subscribe({
+                error: err => this.error.defaultHandler(err),
+                complete: () => {
+                    this.fset.flashcards.push(clone);
+                    this.newFlashcard.question = '';
+                    this.newFlashcard.answer = '';
+                }
+            });
     }
 
     protected updateFlashcard(question: string, answer: string, index: number) {
         if (this.locked || (!question && !answer)) return;
         this.locked = true;
 
-        const complete = () => {
-            if (question) this.fset.flashcards[index].question = question;
-            if (answer) this.fset.flashcards[index].answer = answer;
-            this.locked = false;
-        }
-
-        const error = (err: HttpErrorResponse) => {
-            if (err.status === 403) {
-                this.auth.authenticated = false;
-                this.router.navigateByUrl('/');
-            } else {
-                console.error(err);
-                alert('Unexpected error');
-                this.locked = false;
-            }
-        }
-
         this.http.patch('/api/flashcard', {
             fset: this.fsetIndex, index, question, answer
-        }).pipe(retry(2)).subscribe({ complete, error });
+        }).pipe(
+            finalize(() => this.locked = false)
+        ).subscribe({
+            error: err => this.error.defaultHandler(err),
+            complete: () => {
+                if (question) this.fset.flashcards[index].question = question;
+                if (answer) this.fset.flashcards[index].answer = answer;
+            }
+        });
     }
 
 }

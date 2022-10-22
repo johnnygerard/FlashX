@@ -1,6 +1,6 @@
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -20,6 +20,7 @@ import { PasswordComponent } from './password/password.component';
 import { PasswordValidatorDirective } from './password-validator.directive';
 import { AutofocusDirective } from './autofocus.directive';
 import { LoginComponent } from './login/login.component';
+import { ErrorInterceptor } from './error.interceptor';
 
 @NgModule({
     declarations: [
@@ -48,7 +49,9 @@ import { LoginComponent } from './login/login.component';
         FormsModule,
         AppRoutingModule
     ],
-    providers: [],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
