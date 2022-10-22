@@ -16,7 +16,6 @@ export class AccountComponent implements OnInit {
     protected username = '';
     protected message = '';
     protected successMessage = '';
-    protected submitted = false;
     protected readonly credentials = {
         currentPwd: '',
         newPwd: ''
@@ -37,7 +36,6 @@ export class AccountComponent implements OnInit {
     }
 
     protected modifyPwd(form: NgForm): void {
-        this.submitted = true;
         if (this.locked || form.invalid) return;
         this.locked = true;
 
@@ -53,9 +51,7 @@ export class AccountComponent implements OnInit {
         ).subscribe({
             next: (value: string) => {
                 this.successMessage = value;
-                this.credentials.currentPwd = '';
-                this.credentials.newPwd = '';
-                this.submitted = false;
+                form.resetForm();
             },
             error: (err: HttpErrorResponse) => {
                 if (err.status === 403) {

@@ -2,7 +2,7 @@
 <h2>Welcome {{username}}!</h2>
 <form (ngSubmit)="modifyPwd(form)" #form="ngForm">
   <label>
-    <span [class.required]="submitted && currentPwd.errors?.['required']">
+    <span [class.required]="form.submitted && currentPwd.errors?.['required']">
       Current
     </span>
     <app-password>
@@ -12,7 +12,9 @@
     </app-password>
   </label>
   <label>
-    <span [class.required]="submitted && newPwd.errors?.['required']">New</span>
+    <span [class.required]="form.submitted && newPwd.errors?.['required']">
+      New
+    </span>
     <app-password class="field">
       <input name="newPwd" type="password" autocomplete="new-password"
           pattern="[!-~]*" appPasswordValidator minlength="11" maxlength="128"
