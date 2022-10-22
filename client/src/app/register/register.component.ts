@@ -4,6 +4,7 @@ import {
 import { Component, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -13,7 +14,6 @@ import { AuthService } from '../auth.service';
 })
 export class RegisterComponent {
     protected message = '';
-    protected locked = false;
     protected readonly credentials = {
         username: '',
         password: '',
@@ -31,14 +31,13 @@ export class RegisterComponent {
     }
 
     protected register(form: NgForm): void {
-        if (this.locked || form.invalid) return;
-        this.locked = true;
-
         const params = new HttpParams().appendAll(this.credentials);
 
         this.http.post('/api/register', params, {
             responseType: 'text'
-        }).subscribe({
+        }).pipe(
+            finalize(() => form.resetForm())
+        ).subscribe({
             complete: () => {
                 this.auth.authenticated = true;
                 this.router.navigateByUrl('/collections');
@@ -50,7 +49,6 @@ export class RegisterComponent {
                     console.error(err);
                     alert('Unexpected error');
                 }
-                this.locked = false;
             }
         });
     }

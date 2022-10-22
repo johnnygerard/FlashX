@@ -1,6 +1,6 @@
 <form #form="ngForm" (ngSubmit)="register(form)">
   <label class="register-form-label">
-    <span [class.required]="form.submitted && username.errors?.['required']">
+    <span [class.required]="username.errors?.['required'] && username.touched">
       Username
     </span>
     <input class="register-field" name="username" autocomplete="username"
@@ -14,7 +14,7 @@
   </label>
 
   <label class="second register-form-label">
-    <span [class.required]="form.submitted && password.errors?.['required']">
+    <span [class.required]="password.errors?.['required'] && password.touched">
       Password
     </span>
     <app-password class="register-field">
@@ -43,7 +43,8 @@
       </p>
     </div>
   </label>
-  <button class="register positiveAction">Create account</button>
+  <button class="register positiveAction"
+      [disabled]="form.invalid || form.submitted">Create account</button>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
   <p class="login-link">Already registered? <button class="form-link"
         (click)="toggleForm()" type="button">Log in</button></p>
