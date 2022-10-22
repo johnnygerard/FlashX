@@ -79,13 +79,10 @@ To confirm enter this message: ${msg}`);
         if (result === msg) {
             this.http.delete('/api/account').subscribe({
                 error: err => this.error.defaultHandler(err),
-                complete: () => this.http.delete('/api/logOut').subscribe({
-                    complete: () => {
-                        this.auth.authenticated = false;
-                        this.router.navigateByUrl('/');
-                    },
-                    error: err => this.error.defaultHandler(err)
-                })
+                complete: () => {
+                    this.auth.authenticated = false;
+                    this.router.navigateByUrl('/');
+                }
             });
         } else this.locked = false;
     }
