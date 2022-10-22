@@ -5,15 +5,15 @@
     <span [class.required]="submitted && currentPwd.errors?.['required']">
       Current
     </span>
-    <app-password class="password">
+    <app-password>
       <input name="currentPwd" type="password" autocomplete="current-password"
           required #pwd appAutofocus [(ngModel)]="credentials.currentPwd"
           #currentPwd="ngModel">
     </app-password>
   </label>
-  <label class="second-label">
+  <label>
     <span [class.required]="submitted && newPwd.errors?.['required']">New</span>
-    <app-password class="password field">
+    <app-password class="field">
       <input name="newPwd" type="password" autocomplete="new-password"
           pattern="[!-~]*" appPasswordValidator minlength="11" maxlength="128"
           required [(ngModel)]="credentials.newPwd" #newPwd="ngModel" #pwd>
@@ -39,11 +39,11 @@
       </p>
     </div>
   </label>
-  <button class="update-pwd">Change password</button>
+  <button class="updatePwdButton">Change password</button>
   <p class="message" *ngIf="message"><strong>{{message}}</strong></p>
   <p class="successMessage" *ngIf="successMessage">
     <strong>{{successMessage}}</strong>
   </p>
 </form>
-<button class="delete delete-account" type="button"
+<button class="delete deleteAccountButton" type="button"
     (click)="deleteAccount()">Delete account</button>

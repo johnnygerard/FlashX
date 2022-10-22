@@ -1,18 +1,18 @@
-.password {
+app-password {
     display: block;
     margin-top: 0.5em;
 }
 
-.update-pwd {
+.updatePwdButton {
     margin-top: 2em;
 }
 
-.delete-account {
+.deleteAccountButton {
     margin: 2em 0;
     display: block;
 }
 
-.second-label {
+label:last-of-type {
     margin-top: 2em;
 }
 
