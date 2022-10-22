@@ -12,7 +12,9 @@
       <li><a routerLink="about">About</a></li>
 
       <li class="logout" *ngIf="auth.authenticated">
-        <button type="button" (click)="logOut()">Log out</button>
+        <button type="button" #logoutButton (click)="logOut(logoutButton)">
+          Log out
+        </button>
       </li>
 
     </ul>
