@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs';
+import { finalize, retry } from 'rxjs';
 import { ErrorService } from '../error.service';
 import { Flashcard, FlashcardSet } from '../types';
 
@@ -14,7 +15,8 @@ export class CollectionComponent implements OnInit {
     protected fset: FlashcardSet;
     protected newFlashcard: Flashcard;
     private fsetIndex: number;
-    private locked = false;
+    protected newQuestion = '';
+    protected newAnswer = '';
 
     constructor(
         private readonly http: HttpClient,
@@ -34,24 +36,20 @@ export class CollectionComponent implements OnInit {
             });
     }
 
-    protected deleteFlashcard(index: number) {
-        if (this.locked) return;
-        this.locked = true;
+    protected deleteFlashcard(index: number, button: HTMLButtonElement) {
+        button.disabled = true;
 
         this.http.request('DELETE', '/api/flashcard', {
             body: { fset: this.fsetIndex, index }
         }).pipe(
-            finalize(() => this.locked = false)
+            finalize(() => button.disabled = false)
         ).subscribe({
             complete: () => this.fset.flashcards.splice(index, 1),
             error: err => this.error.defaultHandler(err)
         });
     }
 
-    protected addFlashcard(): void {
-        if (this.locked) return;
-        this.locked = true;
-
+    protected addFlashcard(form: NgForm): void {
         const clone = new Flashcard(
             this.newFlashcard.question,
             this.newFlashcard.answer
@@ -59,25 +57,26 @@ export class CollectionComponent implements OnInit {
 
         this.http.post('/api/flashcard', { ...clone, fset: this.fsetIndex })
             .pipe(
-                finalize(() => this.locked = false)
+                finalize(() => form.resetForm())
             ).subscribe({
                 error: err => this.error.defaultHandler(err),
-                complete: () => {
-                    this.fset.flashcards.push(clone);
-                    this.newFlashcard.question = '';
-                    this.newFlashcard.answer = '';
-                }
+                complete: () => this.fset.flashcards.push(clone)
             });
     }
 
-    protected updateFlashcard(question: string, answer: string, index: number) {
-        if (this.locked || (!question && !answer)) return;
-        this.locked = true;
+    protected updateFlashcard(index: number, form: NgForm) {
+        const question = this.newQuestion;
+        const answer = this.newAnswer;
+
+        if (!question && !answer) {
+            form.resetForm();
+            return;
+        }
 
         this.http.patch('/api/flashcard', {
             fset: this.fsetIndex, index, question, answer
         }).pipe(
-            finalize(() => this.locked = false)
+            finalize(() => form.resetForm())
         ).subscribe({
             error: err => this.error.defaultHandler(err),
             complete: () => {

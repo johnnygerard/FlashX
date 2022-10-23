@@ -4,7 +4,7 @@
 </hgroup>
 
 <div class="forms">
-  <form class="add-flashcard" (ngSubmit)="addFlashcard()" #f="ngForm">
+  <form class="add-flashcard" (ngSubmit)="addFlashcard(f)" #f="ngForm">
     <label>Question
       <input class="add-flashcard-input" name="question" required
           maxlength="256" [(ngModel)]="newFlashcard.question">
@@ -13,11 +13,13 @@
       <input class="add-flashcard-input" name="answer" required maxlength="256"
           [(ngModel)]="newFlashcard.answer">
     </label>
-    <button class="add-fcard-button positiveAction" [disabled]="f.invalid">Add
-      flashcard</button>
+    <button class="add-fcard-button positiveAction"
+        [disabled]="f.invalid || f.submitted">
+      Add flashcard
+    </button>
   </form>
-  <form #updateForm
-      (ngSubmit)="updateFlashcard(question.value, answer.value, s.selectedIndex); updateForm.reset()">
+  <form #updateForm="ngForm"
+      (ngSubmit)="updateFlashcard(s.selectedIndex, updateForm)">
     <select #s>
       <option label="{{flashcard.question}}"
           *ngFor="let flashcard of fset.flashcards">
@@ -25,15 +27,18 @@
     </select>
     <label class="label">
       Question
-      <input maxlength="256" name="question" #question>
+      <input maxlength="256" name="question" [(ngModel)]="newQuestion">
     </label>
     <label class="label">
       Answer
-      <input maxlength="256" name="answer" #answer>
+      <input maxlength="256" name="answer" [(ngModel)]="newAnswer">
     </label>
-    <button class="update-fcard-button">Update</button>
-    <button class="delete" type="button"
-        (click)="deleteFlashcard(s.selectedIndex)">Delete</button>
+    <button class="update-fcard-button"
+        [disabled]="updateForm.submitted">
+      Update
+    </button>
+    <button (click)="deleteFlashcard(s.selectedIndex, deleteFCardButton)"
+        class="delete" type="button" #deleteFCardButton>Delete</button>
   </form>
 </div>
 
