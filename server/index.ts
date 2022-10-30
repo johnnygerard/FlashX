@@ -14,7 +14,7 @@ import {
 } from './httpStatusCodes.js';
 
 const app = express();
-const port = env.PORT || 3000;
+const port = Number(env.PORT) || 3000;
 const STATIC_DIR = 'client/dist/flash-x';
 const PRODUCTION = env.NODE_ENV === 'production';
 
