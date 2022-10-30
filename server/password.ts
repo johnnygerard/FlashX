@@ -1,5 +1,6 @@
 export { makeSalt, verify, hash };
 import crypto from 'node:crypto';
+import { VerifyFunction } from 'passport-local';
 import { users } from './mongoDB.js';
 
 // values based on NIST recommendations
@@ -8,14 +9,15 @@ const KEY_BYTE_LENGTH = 14;
 const KDF = 'sha3-256'; // key derivation function
 const SALT_BYTE_LENGTH = 16;
 
-const hash = (password, salt) => new Promise((resolve, reject) =>
-    crypto.pbkdf2(password, salt, ITERATIONS, KEY_BYTE_LENGTH, KDF,
-        (err, derivedKey) => {
-            if (err) reject(err); else resolve(derivedKey);
-        })
-);
+const hash = (password: string, salt: Buffer): Promise<Buffer> =>
+    new Promise((resolve, reject) =>
+        crypto.pbkdf2(password, salt, ITERATIONS, KEY_BYTE_LENGTH, KDF,
+            (err, derivedKey) => {
+                if (err) reject(err); else resolve(derivedKey);
+            })
+    );
 
-const verify = async (username, password, done) => {
+const verify: VerifyFunction = async (username, password, done) => {
     try {
         const user = await users.findOne({ _id: username });
 
@@ -33,7 +35,7 @@ const verify = async (username, password, done) => {
     }
 };
 
-const makeSalt = () => new Promise((resolve, reject) => {
+const makeSalt: () => Promise<Buffer> = () => new Promise((resolve, reject) => {
     crypto.randomBytes(SALT_BYTE_LENGTH, (err, salt) => {
         if (err) reject(err); else resolve(salt);
     });
