@@ -3,7 +3,7 @@ import { inspect } from 'node:util';
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
-import LocalStrategy from 'passport-local';
+import { Strategy as LocalStrategy } from 'passport-local';
 import protectedAPI from './protectedAPI.js';
 import publicAPI from './publicAPI.js';
 import { sessionStore, SESSION_LIFETIME } from './mongoDB.js';
