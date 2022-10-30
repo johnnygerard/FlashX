@@ -61,7 +61,9 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
-    secret: env.SESSION_SECRET
+    secret: env.SESSION_SECRET || (() => {
+        throw Error('Environment variable SESSION_SECRET is not set.');
+    })()
 }));
 app.use(passport.initialize());
 app.use(passport.session());
