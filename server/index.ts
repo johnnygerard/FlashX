@@ -14,7 +14,7 @@ import {
 } from './httpStatusCodes.js';
 
 const app = express();
-const PORT = env.PORT || 3000;
+const port = env.PORT || 3000;
 const STATIC_DIR = 'client/dist/flash-x';
 const PRODUCTION = env.NODE_ENV === 'production';
 
@@ -83,13 +83,13 @@ app.use((err, req, res, next) => {
 });
 
 if (PRODUCTION) {
-    app.listen(PORT, () => {
-        console.log(`Server listening on port ${PORT}`);
+    app.listen(port, () => {
+        console.log(`Server listening on port ${port}`);
     });
 } else {
     const HOST = 'localhost';
 
-    app.listen(PORT, HOST, () => {
-        console.log(`Server listening at http://${HOST}:${PORT}`);
+    app.listen(port, HOST, () => {
+        console.log(`Server listening at http://${HOST}:${port}`);
     });
 }
