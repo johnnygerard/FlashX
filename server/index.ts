@@ -34,9 +34,9 @@ if (PRODUCTION) {
     });
 }
 
-app.set('query parser', query => {
+app.set('query parser', (query: string) => {
     const parser = new URLSearchParams(query);
-    const params = {};
+    const params: { [key: string]: string } = {};
 
     for (const [key, value] of parser.entries())
         params[key] = value;
