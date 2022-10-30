@@ -1,7 +1,8 @@
 export { handleValidationFailure, usernameIsValid, passwordIsValid };
+import { Request, Response } from 'express-serve-static-core';
 import { UNPROCESSABLE_CONTENT } from './httpStatusCodes.js';
 
-const handleValidationFailure = (req, res) => {
+const handleValidationFailure = (req: Request, res: Response) => {
     console.error('Server side validation failure');
     console.error(req.method, req.originalUrl);
     console.error(req.body);
