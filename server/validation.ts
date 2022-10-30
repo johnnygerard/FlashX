@@ -18,8 +18,8 @@ const passwordRegExp = RegExp([
     /[!-~]{11,128}$/,
 ].reduce((previous, current) => previous + current.source, ''));
 
-const usernameIsValid = username =>
+const usernameIsValid = (username: any) =>
     typeof username === 'string' && usernameRegExp.test(username);
 
-const passwordIsValid = password =>
+const passwordIsValid = (password: any) =>
     typeof password === 'string' && passwordRegExp.test(password);
