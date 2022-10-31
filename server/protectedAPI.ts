@@ -10,7 +10,7 @@ const router = express.Router();
 const getFSetNames = async _id => {
     const options = { projection: { _id: 0, fsets: '$fsets.name' } };
     const doc = await users.findOne({ _id }, options);
-    
+
     if (doc) return doc.fsets;
     throw Error(`Document not found (_id: ${_id})`);
 };
@@ -140,6 +140,10 @@ router.put('/password', async (req, res, next) => {
 
     try {
         const user = await users.findOne({ _id: req.user });
+
+        if (user === null)
+            throw Error(`User "${req.user}" not found`);
+
         let derivedKey = await hash(currentPwd, user.salt.buffer);
 
         if (!derivedKey.equals(user.derivedKey.buffer)) {
