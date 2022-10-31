@@ -7,7 +7,7 @@ import { hash } from './password.js';
 
 const router = express.Router();
 
-const getFSetNames = async _id => {
+const getFSetNames = async (_id: Express.User) => {
     const options = { projection: { _id: 0, fsets: '$fsets.name' } };
     const doc = await users.findOne({ _id }, options);
 
@@ -183,7 +183,7 @@ router.get('/account', (req, res, next) => {
 
 router.get('/training', async (req, res, next) => {
     try {
-        res.send(await getFSetNames(req.user));
+        res.send(await getFSetNames(req.user!));
     } catch (err) {
         next(err);
     }
@@ -191,7 +191,7 @@ router.get('/training', async (req, res, next) => {
 
 router.get('/collections', async (req, res, next) => {
     try {
-        res.send(await getFSetNames(req.user));
+        res.send(await getFSetNames(req.user!));
     } catch (err) {
         next(err);
     }
