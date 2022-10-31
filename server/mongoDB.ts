@@ -1,13 +1,13 @@
 export { users, sessions, sessionStore, SESSION_LIFETIME };
 import { MongoClient, ServerApiVersion } from 'mongodb';
-import { env } from 'process';
 import session from 'express-session';
 import connectMongodbSession from 'connect-mongodb-session';
+import { getVar } from './env.js';
 
-const DB_PASSWORD = encodeURIComponent(env.DB_PASSWORD);
+const DB_PASSWORD = encodeURIComponent(getVar('DB_PASSWORD'));
 
 // defaults: admin database, port 27017
-const AUTHORITY = `express:${DB_PASSWORD}@${env.DB_HOST}`;
+const AUTHORITY = `express:${DB_PASSWORD}@${getVar('DB_HOST')}`;
 const URI = `mongodb+srv://${AUTHORITY}/?retryWrites=true&w=majority`;
 
 const client = await MongoClient.connect(URI, {

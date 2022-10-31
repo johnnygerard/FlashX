@@ -1,9 +1,10 @@
-import { env, cwd } from 'node:process';
+import { cwd } from 'node:process';
 import { inspect } from 'node:util';
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+import { getVar } from './env.js';
 import protectedAPI from './protectedAPI.js';
 import publicAPI from './publicAPI.js';
 import { sessionStore, SESSION_LIFETIME } from './mongoDB.js';
@@ -14,9 +15,9 @@ import {
 } from './httpStatusCodes.js';
 
 const app = express();
-const port = Number(env.PORT) || 3000;
+const port = Number(getVar('PORT')) || 3000;
 const STATIC_DIR = 'client/dist/flash-x';
-const PRODUCTION = env.NODE_ENV === 'production';
+const PRODUCTION = getVar('NODE_ENV') === 'production';
 
 passport.use(new LocalStrategy(verify));
 passport.serializeUser((user, done) => done(null, user._id));
@@ -61,9 +62,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
-    secret: env.SESSION_SECRET || (() => {
-        throw Error('Environment variable SESSION_SECRET is not set.');
-    })()
+    secret: getVar('SESSION_SECRET')
 }));
 app.use(passport.initialize());
 app.use(passport.session());

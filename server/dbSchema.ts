@@ -1,10 +1,10 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
-import { env } from 'process';
+import { getVar } from './env.js';
 
-const DB_SCHEMA_PWD = encodeURIComponent(env.DB_SCHEMA_PWD);
+const DB_SCHEMA_PWD = encodeURIComponent(getVar('DB_SCHEMA_PWD'));
 
 // defaults: admin database, port 27017
-const AUTHORITY = `schema:${DB_SCHEMA_PWD}@${env.DB_HOST}`;
+const AUTHORITY = `schema:${DB_SCHEMA_PWD}@${getVar('DB_HOST')}`;
 const URI = `mongodb+srv://${AUTHORITY}/?retryWrites=true&w=majority`;
 
 const flashcardSchema = {
