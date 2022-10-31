@@ -1,4 +1,5 @@
 import { cwd } from 'node:process';
+import { join } from 'node:path';
 import { inspect } from 'node:util';
 import express from 'express';
 import session from 'express-session';
@@ -16,7 +17,7 @@ import {
 
 const app = express();
 const port = Number(getVar('PORT')) || 3000;
-const STATIC_DIR = 'client/dist/flash-x';
+const STATIC_DIR = 'client';
 const PRODUCTION = getVar('NODE_ENV') === 'production';
 
 const defaultErrorHandler: express.ErrorRequestHandler =
@@ -81,7 +82,7 @@ app.use('/api', (req, res, next) => {
 app.use(express.static(STATIC_DIR));
 
 app.get(/^/, (req, res, next) => {
-    res.sendFile(STATIC_DIR + '/index.html', { root: cwd() });
+    res.sendFile(join(STATIC_DIR, 'index.html'), { root: cwd() });
 });
 
 app.use(defaultErrorHandler);
