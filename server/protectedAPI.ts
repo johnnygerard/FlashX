@@ -209,6 +209,8 @@ router.get('/collections/:index', async (req, res, next) => {
     try {
         const doc = await users.aggregate(pipeline).next();
 
+        if (doc === null)
+            throw Error(`Document not found. Pipeline:\n${pipeline}`);
         res.send(doc.fset);
     } catch (err) {
         next(err);
