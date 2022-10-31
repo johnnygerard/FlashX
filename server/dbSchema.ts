@@ -73,11 +73,7 @@ const userSchema = {
 let client;
 
 try {
-    client = await MongoClient.connect(URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        serverApi: ServerApiVersion.v1
-    });
+    client = await MongoClient.connect(URI, { serverApi: ServerApiVersion.v1 });
 
     const userDB = client.db('user');
     const filter = { $nor: [{ $jsonSchema: userSchema }] };
