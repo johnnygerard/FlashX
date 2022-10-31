@@ -19,6 +19,12 @@ const port = Number(getVar('PORT')) || 3000;
 const STATIC_DIR = 'client/dist/flash-x';
 const PRODUCTION = getVar('NODE_ENV') === 'production';
 
+const defaultErrorHandler: express.ErrorRequestHandler =
+    (err, req, res, next) => {
+        console.error(inspect(err, { depth: 100 }));
+        res.status(INTERNAL_SERVER_ERROR).end();
+    }
+
 passport.use(new LocalStrategy(verify));
 passport.serializeUser((user, done) => done(null, user._id));
 passport.deserializeUser((id, done) => done(null, id));
@@ -78,10 +84,7 @@ app.get(/^/, (req, res, next) => {
     res.sendFile(STATIC_DIR + '/index.html', { root: cwd() });
 });
 
-app.use((err, req, res, next) => {
-    console.error(inspect(err, { depth: 100 }));
-    res.status(INTERNAL_SERVER_ERROR).end();
-});
+app.use(defaultErrorHandler);
 
 if (PRODUCTION) {
     app.listen(port, () => {
