@@ -113,7 +113,7 @@ router.route('/flashcard').post(async (req, res, next) => {
 
     try {
         const key = `fsets.${fset}.flashcards.${index}`;
-        const doc = {};
+        const doc: any = {};
 
         if (question && answer) doc[key] = { question, answer };
         else if (question) doc[key + '.question'] = question;
