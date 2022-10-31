@@ -15,18 +15,16 @@ const getFSetNames = async _id => {
 };
 
 class Flashcard {
-    constructor(question, answer) {
-        this.question = question;
-        this.answer = answer;
-    }
+    constructor(
+        public question: string,
+        public answer: string
+    ) { }
 }
 
 class FlashcardSet {
-    flashcards = [];
+    flashcards: Flashcard[] = [];
 
-    constructor(name) {
-        this.name = name;
-    }
+    constructor(public name: string) { }
 }
 
 // Create a flashcard set
