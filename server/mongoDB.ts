@@ -11,8 +11,6 @@ const AUTHORITY = `express:${DB_PASSWORD}@${getVar('DB_HOST')}`;
 const URI = `mongodb+srv://${AUTHORITY}/?retryWrites=true&w=majority`;
 
 const client = await MongoClient.connect(URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
     serverApi: ServerApiVersion.v1
 });
 
