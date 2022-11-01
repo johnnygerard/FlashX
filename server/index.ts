@@ -1,4 +1,4 @@
-import { cwd } from 'node:process';
+import { cwd, env } from 'node:process';
 import { join } from 'node:path';
 import { inspect } from 'node:util';
 import express from 'express';
@@ -16,9 +16,9 @@ import {
 } from './httpStatusCodes.js';
 
 const app = express();
-const port = Number(getVar('PORT')) || 3000;
+const port = Number(env.PORT) || 3000;
 const STATIC_DIR = 'client';
-const PRODUCTION = getVar('NODE_ENV') === 'production';
+const PRODUCTION = env.NODE_ENV === 'production';
 
 const defaultErrorHandler: express.ErrorRequestHandler =
     (err, req, res, next) => {
