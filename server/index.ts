@@ -27,8 +27,8 @@ const defaultErrorHandler: express.ErrorRequestHandler =
     }
 
 passport.use(new LocalStrategy(verify));
-passport.serializeUser((user, done) => done(null, user._id));
-passport.deserializeUser((id, done) => done(null, id));
+passport.serializeUser<string>((user, done) => done(null, (user as any)._id));
+passport.deserializeUser<string>((id, done) => done(null, id));
 
 if (PRODUCTION) {
     app.set('trust proxy', 1);
