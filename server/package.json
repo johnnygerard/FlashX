@@ -1,7 +1,7 @@
 {
-  "main": "index.js",
   "scripts": {
-    "start": "nodemon -r dotenv/config"
+    "build": "tsc -w",
+    "start": "export DOTENV_CONFIG_PATH=$(pwd)/.env && cd ../dist && nodemon -r dotenv/config server/index.js"
   },
   "type": "module",
   "dependencies": {
