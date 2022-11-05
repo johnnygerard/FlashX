@@ -10,9 +10,5 @@
     "email": "mail@jgerard.dev"
   },
   "homepage": "https://github.com/johnnygerard/FlashX#readme",
-  "workspaces": [
-    "client",
-    "server"
-  ],
   "type": "module"
 }
