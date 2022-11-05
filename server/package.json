@@ -3,7 +3,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "start": "export DOTENV_CONFIG_PATH=$(pwd)/.env && cd ../dist && nodemon -r dotenv/config server/index.js"
+    "start": "export DOTENV_CONFIG_PATH=$(pwd)/.env && cd dist && nodemon -r dotenv/config server/index.js"
   },
   "type": "module",
   "dependencies": {
