@@ -16,8 +16,7 @@
       "isBackground": true,
       "problemMatcher": {
         "owner": "angular.ng-template",
-        // default pattern
-        "pattern":[
+        "pattern": [
           {
             "regexp": "^([^\\\\s].*)\\\\((\\\\d+,\\\\d+)\\\\):\\\\s*(.*)$",
             "file": 1,
@@ -45,7 +44,9 @@
       "type": "npm",
       "script": "watch",
       "path": "server",
-      "problemMatcher": [ "$tsc-watch" ],
+      "problemMatcher": [
+        "$tsc-watch"
+      ],
       "isBackground": true
     },
     {
@@ -55,8 +56,7 @@
       "path": "server",
       "isBackground": true,
       "problemMatcher": {
-        // default pattern
-        "pattern":[
+        "pattern": [
           {
             "regexp": "^([^\\\\s].*)\\\\((\\\\d+,\\\\d+)\\\\):\\\\s*(.*)$",
             "file": 1,
@@ -70,6 +70,31 @@
           "endsPattern": "^Server listening at http://localhost:3000$"
         }
       }
+    },
+    {
+      "label": "install",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "dependsOn": [
+        "install client",
+        "install server"
+      ]
+    },
+    {
+      "label": "install client",
+      "type": "npm",
+      "script": "install",
+      "path": "client",
+      "group": "build"
+    },
+    {
+      "label": "install server",
+      "type": "npm",
+      "script": "install",
+      "path": "server",
+      "group": "build"
     }
   ]
 }
