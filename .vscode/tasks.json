@@ -1,0 +1,75 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "start",
+      "dependsOn": [
+        "Angular",
+        "Express"
+      ]
+    },
+    {
+      "label": "Angular",
+      "type": "npm",
+      "script": "start",
+      "path": "client",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "angular.ng-template",
+        // default pattern
+        "pattern":[
+          {
+            "regexp": "^([^\\\\s].*)\\\\((\\\\d+,\\\\d+)\\\\):\\\\s*(.*)$",
+            "file": 1,
+            "location": 2,
+            "message": 3
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Generating browser application bundles",
+          "endsPattern": "^✔ Compiled successfully.$"
+        }
+      }
+    },
+    {
+      "label": "Express",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "build",
+        "serve"
+      ]
+    },
+    {
+      "label": "build",
+      "type": "npm",
+      "script": "build",
+      "path": "server",
+      "problemMatcher": [ "$tsc-watch" ],
+      "isBackground": true
+    },
+    {
+      "label": "serve",
+      "type": "npm",
+      "script": "start",
+      "path": "server",
+      "isBackground": true,
+      "problemMatcher": {
+        // default pattern
+        "pattern":[
+          {
+            "regexp": "^([^\\\\s].*)\\\\((\\\\d+,\\\\d+)\\\\):\\\\s*(.*)$",
+            "file": 1,
+            "location": 2,
+            "message": 3
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^[nodemon] starting",
+          "endsPattern": "^Server listening at http://localhost:3000$"
+        }
+      }
+    }
+  ]
+}
