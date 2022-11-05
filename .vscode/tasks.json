@@ -36,14 +36,14 @@
       "label": "Express",
       "dependsOrder": "sequence",
       "dependsOn": [
-        "build",
+        "watch",
         "serve"
       ]
     },
     {
-      "label": "build",
+      "label": "watch",
       "type": "npm",
-      "script": "build",
+      "script": "watch",
       "path": "server",
       "problemMatcher": [ "$tsc-watch" ],
       "isBackground": true
