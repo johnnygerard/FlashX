@@ -10,7 +10,7 @@ WORKDIR /FlashX
 COPY server server
 RUN cd server && npm ci && npm run build
 
-FROM node:16-alpine
+FROM node:16-alpine AS FlashX
 WORKDIR /home/node
 ENV NODE_ENV=production PORT=8080
 EXPOSE 8080
