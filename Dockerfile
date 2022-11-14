@@ -16,7 +16,7 @@ ENV NODE_ENV=production PORT=8080
 EXPOSE 8080
 RUN npm i -g pm2@5.2.2
 COPY --from=client FlashX/client/dist .
-COPY --from=server FlashX/server/dist .
+COPY --from=server FlashX/server/dist FlashX/server/node_modules ./
 RUN echo '{"type":"module"}' | cat >server/package.json
 USER node
 ENTRYPOINT [ "pm2", "start", "server/index.js", "--no-daemon" ]
