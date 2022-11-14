@@ -33,6 +33,7 @@ More authentication strategies will be added later.
 
 | version | description |
 | --- | --- |
+| 3.0.0 | TypeScript migration |
 | 2.3.0 | Containerization |
 | 2.2.0 | Schema validation |
 | 2.1.0 | Responsive mobile design |
