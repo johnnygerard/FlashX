@@ -8,7 +8,7 @@ As indicated by the domain name, the website is hosted on [Microsoft Azure](http
 
 ## Architecture
 FlashX is a [MEAN](https://www.mongodb.com/mean-stack) stack single-page application hosted with Azure [Web App for Containers](https://azure.microsoft.com/en-us/products/app-service/containers/#overview).  
-The container is stored on [Docker Hub](https://hub.docker.com/r/johnnygerard/flashx/tags).
+The container is stored on [Docker Hub](https://hub.docker.com/r/johnnygerard/flash-x/tags).
 
 ### Front-end
 HTML, CSS and TypeScript using the [Angular](https://angular.io/) web framework.
