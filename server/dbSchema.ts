@@ -57,7 +57,7 @@ const userSchema = {
     }
 };
 
-let client: MongoClient;
+let client: MongoClient | undefined;
 
 try {
     client = await MongoClient.connect(URI, { serverApi: ServerApiVersion.v1 });
