@@ -7,27 +7,6 @@ const DB_SCHEMA_PWD = encodeURIComponent(getVar('DB_SCHEMA_PWD'));
 const AUTHORITY = `schema:${DB_SCHEMA_PWD}@${getVar('DB_HOST')}`;
 const URI = `mongodb+srv://${AUTHORITY}/?retryWrites=true&w=majority`;
 
-const flashcardSchema = {
-    description: 'Flashcard',
-    bsonType: 'object',
-    required: ['question', 'answer'],
-    additionalProperties: false,
-    properties: {
-        question: {
-            description: 'flashcard question',
-            bsonType: 'string',
-            minLength: 1,
-            maxLength: 256
-        },
-        answer: {
-            description: 'flashcard answer',
-            bsonType: 'string',
-            minLength: 1,
-            maxLength: 256
-        }
-    }
-};
-
 const userSchema = {
     title: 'User',
     description: 'User account data',
@@ -53,10 +32,18 @@ const userSchema = {
                 required: ['flashcards', 'name'],
                 properties: {
                     flashcards: {
-                        description: 'Flashcards',
-                        bsonType: 'array',
-                        maxItems: 1024,
-                        items: flashcardSchema
+                        description: 'Flashcards (keyed by question)',
+                        bsonType: 'object',
+                        maxProperties: 1024,
+                        additionalProperties: false,
+                        patternProperties: {
+                            '^[^]{1,256}$': {
+                                description: 'answer',
+                                bsonType: 'string',
+                                minLength: 1,
+                                maxLength: 256
+                            }
+                        }
                     },
                     name: {
                         description: 'Flashcard collection name',
