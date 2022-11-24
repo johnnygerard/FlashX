@@ -23,33 +23,25 @@ const userSchema = {
         derivedKey: { bsonType: 'binData' },
         registrationDate: { bsonType: 'date' },
         fsets: {
-            description: 'List of flashcard collections',
-            bsonType: 'array',
-            maxItems: 128,
-            items: {
-                bsonType: 'object',
-                additionalProperties: false,
-                required: ['flashcards', 'name'],
-                properties: {
-                    flashcards: {
-                        description: 'Flashcards (keyed by question)',
-                        bsonType: 'object',
-                        maxProperties: 1024,
-                        additionalProperties: false,
-                        patternProperties: {
-                            '^[^]{1,256}$': {
-                                description: 'answer',
-                                bsonType: 'string',
-                                minLength: 1,
-                                maxLength: 256
-                            }
+            title: 'Set of flashcard collections',
+            description: 'Key: flashcard collection name',
+            bsonType: 'object',
+            maxProperties: 128,
+            additionalProperties: false,
+            patternProperties: {
+                '^[^]{1,256}$': {
+                    title: 'Flashcard collection',
+                    description: 'Key: flashcard question',
+                    bsonType: 'object',
+                    maxProperties: 1024,
+                    additionalProperties: false,
+                    patternProperties: {
+                        '^[^]{1,256}$': {
+                            title: 'Answer',
+                            bsonType: 'string',
+                            minLength: 1,
+                            maxLength: 256
                         }
-                    },
-                    name: {
-                        description: 'Flashcard collection name',
-                        bsonType: 'string',
-                        minLength: 1,
-                        maxLength: 256
                     }
                 }
             }
