@@ -37,7 +37,7 @@ router.post('/register', async (req, res, next) => {
             _id,
             salt,
             derivedKey,
-            fsets: [],
+            fsets: {},
             registrationDate: new Date
         };
 
