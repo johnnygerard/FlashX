@@ -15,26 +15,13 @@ const getFSetNames = async (_id: Express.User) => {
     throw Error(`Document not found (_id: ${_id})`);
 };
 
-class Flashcard {
-    constructor(
-        public question: string,
-        public answer: string
-    ) { }
-}
-
-class FlashcardSet {
-    flashcards: Flashcard[] = [];
-
-    constructor(public name: string) { }
-}
-
 // Create a flashcard set
 router.route('/fset').post(async (req, res, next) => {
     const { name } = req.body;
 
     try {
         await users.updateOne({ _id: req.user }, {
-            $push: { fsets: new FlashcardSet(name) }
+            $set: { ['fsets.' + name]: {} }
         });
         res.status(NO_CONTENT).end();
     } catch (err) {
@@ -42,12 +29,11 @@ router.route('/fset').post(async (req, res, next) => {
     }
     // Rename a flashcard set
 }).patch(async (req, res, next) => {
-    const { name } = req.body;
-    const index = +req.body.index;
+    const { name, newName } = req.body;
 
     try {
         await users.updateOne({ _id: req.user }, {
-            $set: { [`fsets.${index}.name`]: name }
+            $rename: { ['fsets.' + name]: 'fsets.' + newName }
         });
         res.status(NO_CONTENT).end();
     } catch (err) {
@@ -55,12 +41,12 @@ router.route('/fset').post(async (req, res, next) => {
     }
     // Delete a flashcard set
 }).delete(async (req, res, next) => {
-    const index = +req.body.index;
-    const filter = { _id: req.user };
+    const { name } = req.body;
 
     try {
-        await users.updateOne(filter, { $unset: { [`fsets.${index}`]: 0 } });
-        await users.updateOne(filter, { $pull: { fsets: null } });
+        await users.updateOne({ _id: req.user }, {
+            $unset: { ['fsets.' + name]: 0 }
+        });
 
         res.status(NO_CONTENT).end();
     } catch (err) {
@@ -70,14 +56,11 @@ router.route('/fset').post(async (req, res, next) => {
 
 // Create flashcard
 router.route('/flashcard').post(async (req, res, next) => {
-    const { question, answer } = req.body;
-    const fset = +req.body.fset;
+    const { fset, question, answer } = req.body;
 
     try {
         await users.updateOne({ _id: req.user }, {
-            $push: {
-                [`fsets.${fset}.flashcards`]: new Flashcard(question, answer)
-            }
+            $set: { [`fsets.${fset}.${question}`]: answer }
         });
 
         res.status(NO_CONTENT).end();
@@ -87,18 +70,11 @@ router.route('/flashcard').post(async (req, res, next) => {
 
     // Delete flashcard
 }).delete(async (req, res, next) => {
-    const fset = +req.body.fset;
-    const index = +req.body.index;
-    const flashcards = `fsets.${fset}.flashcards`;
-    const filter = { _id: req.user };
+    const { fset, question } = req.body;
 
     try {
-        await users.updateOne(filter, {
-            $unset: { [`${flashcards}.${index}`]: 0 }
-        });
-
-        await users.updateOne(filter, {
-            $pull: { [flashcards]: null }
+        await users.updateOne({ _id: req.user }, {
+            $unset: { [`fsets.${fset}.${question}`]: 0 }
         });
 
         res.status(NO_CONTENT).end();
@@ -107,19 +83,20 @@ router.route('/flashcard').post(async (req, res, next) => {
     }
     // Update flashcard
 }).patch(async (req, res, next) => {
-    const { question, answer } = req.body;
-    const fset = +req.body.fset;
-    const index = +req.body.index;
+    const { fset, question, newQuestion, answer } = req.body;
+    const prefix = `fsets.${fset}.`;
+    const filter = { _id: req.user };
 
     try {
-        const key = `fsets.${fset}.flashcards.${index}`;
-        const doc: any = {};
+        if (answer)
+            await users.updateOne(filter, {
+                $set: { [prefix + question]: answer }
+            });
 
-        if (question && answer) doc[key] = { question, answer };
-        else if (question) doc[key + '.question'] = question;
-        else doc[key + '.answer'] = answer;
-
-        await users.updateOne({ _id: req.user }, { $set: doc });
+        if (newQuestion)
+            await users.updateOne(filter, {
+                $rename: { [prefix + question]: prefix + newQuestion }
+            });
 
         res.status(NO_CONTENT).end();
     } catch (err) {
