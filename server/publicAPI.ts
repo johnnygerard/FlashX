@@ -13,9 +13,9 @@ import {
 const router = express.Router();
 
 router.post('/register', async (req, res, next) => {
-    const _id = req.body.username;
+    const name = req.body.username;
 
-    if (!usernameIsValid(_id) || !passwordIsValid(req.body.password)) {
+    if (!usernameIsValid(name) || !passwordIsValid(req.body.password)) {
         handleValidationFailure(req, res);
         return;
     }
@@ -26,7 +26,7 @@ router.post('/register', async (req, res, next) => {
             return;
         }
 
-        if (await users.findOne({ _id })) {
+        if (await users.findOne({ name })) {
             res.status(FORBIDDEN).send('Username unavailable');
             return;
         }
@@ -34,10 +34,9 @@ router.post('/register', async (req, res, next) => {
         const salt = await makeSalt();
         const derivedKey = await hash(req.body.password, salt);
         const user = {
-            _id,
+            name,
             salt,
             derivedKey,
-            fsets: {},
             registrationDate: new Date
         };
 
