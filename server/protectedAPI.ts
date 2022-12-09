@@ -15,7 +15,7 @@ const getFSetNames = async (_id: Express.User) => {
     throw Error(`Document not found (_id: ${_id})`);
 };
 
-// Create a flashcard set
+// Create a flashcard collection
 router.route('/fset').post(async (req, res, next) => {
     const { name } = req.body;
 
@@ -27,7 +27,7 @@ router.route('/fset').post(async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-    // Rename a flashcard set
+    // Rename a flashcard collection
 }).patch(async (req, res, next) => {
     const { name, newName } = req.body;
 
@@ -39,7 +39,7 @@ router.route('/fset').post(async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-    // Delete a flashcard set
+    // Delete a flashcard collection
 }).delete(async (req, res, next) => {
     const { name } = req.body;
 
