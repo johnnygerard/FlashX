@@ -154,8 +154,19 @@ router.delete('/account', async (req, res, next) => {
     }
 });
 
-router.get('/account', (req, res, next) => {
-    res.send(req.user);
+router.get('/account', async (req, res, next) => {
+    const projection = { name: 1, _id: 0 };
+
+    try {
+        const doc = await users.findOne({ _id: req.user }, { projection });
+
+        if (doc === null)
+            throw Error('User not found');
+
+        res.send(doc.name);
+    } catch (err) {
+        next(err);
+    }
 });
 
 router.get('/training', async (req, res, next) => {
