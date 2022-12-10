@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { inspect } from 'node:util';
 import express from 'express';
 import session from 'express-session';
+import { ObjectId } from 'mongodb';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { getVar } from './env.js';
@@ -27,8 +28,8 @@ const defaultErrorHandler: express.ErrorRequestHandler =
     }
 
 passport.use(new LocalStrategy(verify));
-passport.serializeUser<string>((user, done) => done(null, (user as any)._id));
-passport.deserializeUser<string>((id, done) => done(null, id));
+passport.serializeUser<ObjectId>((user, done) => done(null, (user as any)._id));
+passport.deserializeUser<ObjectId>((id, done) => done(null, id));
 
 if (PRODUCTION) {
     app.set('trust proxy', 1);
