@@ -1,28 +1,19 @@
 export { router as default };
 import express from 'express';
 import { FORBIDDEN, NO_CONTENT, OK } from './httpStatusCodes.js';
-import { sessions, users } from './mongoDB.js';
+import { fsets, sessions, users } from './mongoDB.js';
 import { handleValidationFailure, passwordIsValid } from './validation.js';
 import { hash } from './password.js';
 
 const router = express.Router();
-
-const getFSetNames = async (_id: Express.User) => {
-    const options = { projection: { _id: 0, fsets: '$fsets.name' } };
-    const doc = await users.findOne({ _id }, options);
-
-    if (doc) return doc.fsets;
-    throw Error(`Document not found (_id: ${_id})`);
-};
+const FCARD_PATH = 'flashcards.';
 
 // Create a flashcard collection
 router.route('/fset').post(async (req, res, next) => {
     const { name } = req.body;
 
     try {
-        await users.updateOne({ _id: req.user }, {
-            $set: { ['fsets.' + name]: {} }
-        });
+        await fsets.insertOne({ userID: req.user, name, flashcards: {} });
         res.status(NO_CONTENT).end();
     } catch (err) {
         next(err);
@@ -32,8 +23,8 @@ router.route('/fset').post(async (req, res, next) => {
     const { name, newName } = req.body;
 
     try {
-        await users.updateOne({ _id: req.user }, {
-            $rename: { ['fsets.' + name]: 'fsets.' + newName }
+        await fsets.updateOne({ userID: req.user, name }, {
+            $set: { name: newName }
         });
         res.status(NO_CONTENT).end();
     } catch (err) {
@@ -44,10 +35,7 @@ router.route('/fset').post(async (req, res, next) => {
     const { name } = req.body;
 
     try {
-        await users.updateOne({ _id: req.user }, {
-            $unset: { ['fsets.' + name]: 0 }
-        });
-
+        await fsets.deleteOne({ userID: req.user, name });
         res.status(NO_CONTENT).end();
     } catch (err) {
         next(err);
@@ -59,8 +47,8 @@ router.route('/flashcard').post(async (req, res, next) => {
     const { fset, question, answer } = req.body;
 
     try {
-        await users.updateOne({ _id: req.user }, {
-            $set: { [`fsets.${fset}.${question}`]: answer }
+        await fsets.updateOne({ userID: req.user, name: fset }, {
+            $set: { [FCARD_PATH + question]: answer }
         });
 
         res.status(NO_CONTENT).end();
@@ -73,8 +61,8 @@ router.route('/flashcard').post(async (req, res, next) => {
     const { fset, question } = req.body;
 
     try {
-        await users.updateOne({ _id: req.user }, {
-            $unset: { [`fsets.${fset}.${question}`]: 0 }
+        await fsets.updateOne({ userID: req.user, name: fset }, {
+            $unset: { [FCARD_PATH + question]: 0 }
         });
 
         res.status(NO_CONTENT).end();
@@ -84,19 +72,21 @@ router.route('/flashcard').post(async (req, res, next) => {
     // Update flashcard
 }).patch(async (req, res, next) => {
     const { fset, question, newQuestion, answer } = req.body;
-    const prefix = `fsets.${fset}.`;
-    const filter = { _id: req.user };
+    const filter = { userID: req.user, name: fset };
+    const key = FCARD_PATH + question;
 
     try {
-        if (answer)
-            await users.updateOne(filter, {
-                $set: { [prefix + question]: answer }
-            });
+        if (newQuestion) {
+            const newKey = FCARD_PATH + newQuestion;
 
-        if (newQuestion)
-            await users.updateOne(filter, {
-                $rename: { [prefix + question]: prefix + newQuestion }
-            });
+            if (answer)
+                await fsets.updateOne(filter, {
+                    $set: { [newKey]: answer },
+                    $unset: { [key]: 0 }
+                });
+            else await fsets.updateOne(filter, { $rename: { [key]: newKey } });
+        }
+        else await fsets.updateOne(filter, { $set: { [key]: answer } });
 
         res.status(NO_CONTENT).end();
     } catch (err) {
@@ -169,17 +159,21 @@ router.get('/account', async (req, res, next) => {
     }
 });
 
-router.get('/training', async (req, res, next) => {
+router.get(['/collections', '/training'], async (req, res, next) => {
     try {
-        res.send(await getFSetNames(req.user!));
-    } catch (err) {
-        next(err);
-    }
-});
+        const doc = await fsets.aggregate([
+            { $match: { userID: req.user } },
+            {
+                $group: {
+                    _id: null,
+                    names: { $push: '$name' }
+                }
+            }
+        ]).next();
 
-router.get('/collections', async (req, res, next) => {
-    try {
-        res.send(await getFSetNames(req.user!));
+        if (doc === null)
+            throw Error('Document not found');
+        res.send(doc.names);
     } catch (err) {
         next(err);
     }
