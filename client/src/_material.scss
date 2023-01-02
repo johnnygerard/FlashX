@@ -1,6 +1,11 @@
 @use '@angular/material' as mat;
 @include mat.core();
 
+$dark-primary-text: rgba(black, 0.87);
+$dark-secondary-text: rgba(black, 0.54);
+$light-primary-text: white;
+$light-secondary-text: rgba(white, 0.7);
+
 $client-primary: mat.define-palette((50: #e5f3fe,
             100: #bfe0fc,
             200: #98cdfb,
@@ -11,16 +16,16 @@ $client-primary: mat.define-palette((50: #e5f3fe,
             700: #377ad5,
             800: #3269c3,
             900: #294ba4,
-            contrast: (50: mat.$dark-primary-text,
-                100: mat.$dark-primary-text,
-                200: mat.$dark-primary-text,
-                300: mat.$dark-primary-text,
-                400: mat.$dark-primary-text,
-                500: mat.$light-primary-text,
-                600: mat.$light-primary-text,
-                700: mat.$light-primary-text,
-                800: mat.$light-primary-text,
-                900: mat.$light-primary-text,
+            contrast: (50: $dark-primary-text,
+                100: $dark-primary-text,
+                200: $dark-primary-text,
+                300: $dark-primary-text,
+                400: $dark-primary-text,
+                500: $light-primary-text,
+                600: $light-primary-text,
+                700: $light-primary-text,
+                800: $light-primary-text,
+                900: $light-primary-text,
             )));
 
 $client-accent: mat.define-palette((50: #fef1e5,
@@ -33,16 +38,16 @@ $client-accent: mat.define-palette((50: #fef1e5,
             700: #ee733e,
             800: #e6643a,
             900: #db4c35,
-            contrast: (50: mat.$dark-secondary-text,
-                100: mat.$dark-secondary-text,
-                200: mat.$dark-secondary-text,
-                300: mat.$dark-secondary-text,
-                400: mat.$dark-secondary-text,
-                500: mat.$light-secondary-text,
-                600: mat.$light-secondary-text,
-                700: mat.$light-secondary-text,
-                800: mat.$light-secondary-text,
-                900: mat.$light-secondary-text,
+            contrast: (50: $dark-secondary-text,
+                100: $dark-secondary-text,
+                200: $dark-secondary-text,
+                300: $dark-secondary-text,
+                400: $dark-secondary-text,
+                500: $light-secondary-text,
+                600: $light-secondary-text,
+                700: $light-secondary-text,
+                800: $light-secondary-text,
+                900: $light-secondary-text,
             )));
 
 $client-warn: mat.define-palette(mat.$red-palette);
