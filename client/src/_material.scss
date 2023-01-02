@@ -1,4 +1,4 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 @include mat.core();
 
 $dark-primary-text: rgba(black, 0.87);
@@ -6,72 +6,139 @@ $dark-secondary-text: rgba(black, 0.54);
 $light-primary-text: white;
 $light-secondary-text: rgba(white, 0.7);
 
-$client-primary: mat.define-palette((50: #e5f3fe,
-            100: #bfe0fc,
-            200: #98cdfb,
-            300: #71b9f9,
-            400: #55a9f8,
-            500: #409bf7,
-            600: #3c8de9,
-            700: #377ad5,
-            800: #3269c3,
-            900: #294ba4,
-            contrast: (50: $dark-primary-text,
-                100: $dark-primary-text,
-                200: $dark-primary-text,
-                300: $dark-primary-text,
-                400: $dark-primary-text,
-                500: $light-primary-text,
-                600: $light-primary-text,
-                700: $light-primary-text,
-                800: $light-primary-text,
-                900: $light-primary-text,
-            )));
+$client-primary: mat.define-palette(
+    (
+        50: #e5f3fe,
+        100: #bfe0fc,
+        200: #98cdfb,
+        300: #71b9f9,
+        400: #55a9f8,
+        500: #409bf7,
+        600: #3c8de9,
+        700: #377ad5,
+        800: #3269c3,
+        900: #294ba4,
+        contrast: (
+            50: $dark-primary-text,
+            100: $dark-primary-text,
+            200: $dark-primary-text,
+            300: $dark-primary-text,
+            400: $dark-primary-text,
+            500: $light-primary-text,
+            600: $light-primary-text,
+            700: $light-primary-text,
+            800: $light-primary-text,
+            900: $light-primary-text,
+        ),
+    )
+);
 
-$client-accent: mat.define-palette((50: #fef1e5,
-            100: #fddcbf,
-            200: #fbc698,
-            300: #fcaf6f,
-            400: #fd9d52,
-            500: #fc8c42,
-            600: #f68240,
-            700: #ee733e,
-            800: #e6643a,
-            900: #db4c35,
-            contrast: (50: $dark-secondary-text,
-                100: $dark-secondary-text,
-                200: $dark-secondary-text,
-                300: $dark-secondary-text,
-                400: $dark-secondary-text,
-                500: $light-secondary-text,
-                600: $light-secondary-text,
-                700: $light-secondary-text,
-                800: $light-secondary-text,
-                900: $light-secondary-text,
-            )));
+$client-accent: mat.define-palette(
+    (
+        50: #fef1e5,
+        100: #fddcbf,
+        200: #fbc698,
+        300: #fcaf6f,
+        400: #fd9d52,
+        500: #fc8c42,
+        600: #f68240,
+        700: #ee733e,
+        800: #e6643a,
+        900: #db4c35,
+        contrast: (
+            50: $dark-secondary-text,
+            100: $dark-secondary-text,
+            200: $dark-secondary-text,
+            300: $dark-secondary-text,
+            400: $dark-secondary-text,
+            500: $light-secondary-text,
+            600: $light-secondary-text,
+            700: $light-secondary-text,
+            800: $light-secondary-text,
+            900: $light-secondary-text,
+        ),
+    )
+);
 
 $client-warn: mat.define-palette(mat.$red-palette);
 
-$headline-level: mat.define-typography-level($font-family: Lato);
-$body-level: mat.define-typography-level($font-family: Merriweather);
+$typography: mat.define-typography-config(
+    $headline-1:
+        mat.define-typography-level(
+            $font-family: Lato,
+            $font-size: 101,
+        ),
+    $headline-2:
+        mat.define-typography-level(
+            $font-family: Lato,
+            $font-size: 63,
+        ),
+    $headline-3:
+        mat.define-typography-level(
+            $font-family: Lato,
+            $font-size: 50,
+        ),
+    $headline-4:
+        mat.define-typography-level(
+            $font-family: Lato,
+            $font-size: 36,
+        ),
+    $headline-5:
+        mat.define-typography-level(
+            $font-family: Lato,
+            $font-size: 25,
+        ),
+    $headline-6:
+        mat.define-typography-level(
+            $font-family: Lato,
+            $font-size: 21,
+        ),
+    $subtitle-1:
+        mat.define-typography-level(
+            $font-family: Lato,
+            $font-size: 17,
+        ),
+    $subtitle-2:
+        mat.define-typography-level(
+            $font-family: Lato,
+            $font-size: 15,
+        ),
+    $body-1:
+        mat.define-typography-level(
+            $font-family: Merriweather,
+            $font-size: 15,
+        ),
+    $body-2:
+        mat.define-typography-level(
+            $font-family: Merriweather,
+            $font-size: 13,
+        ),
+    $caption:
+        mat.define-typography-level(
+            $font-family: Merriweather,
+            $font-size: 11,
+        ),
+    $button:
+        mat.define-typography-level(
+            $font-family: Merriweather,
+            $font-size: 13,
+        ),
+    $overline:
+        mat.define-typography-level(
+            $font-family: Merriweather,
+            $font-size: 10,
+        ),
+);
 
-$client-theme: mat.define-light-theme((color: (primary: $client-primary,
-                accent: $client-accent,
-                warn: $client-warn,
-            ),
-            typography: mat.define-typography-config($headline-1: $headline-level,
-                $headline-2: $headline-level,
-                $headline-3: $headline-level,
-                $headline-4: $headline-level,
-                $headline-5: $headline-level,
-                $headline-6: $headline-level,
-                $subtitle-1: $headline-level,
-                $subtitle-2: $headline-level,
-                $body-1: $body-level,
-                $body-2: $body-level,
-                $caption: $body-level,
-                $button: $body-level,
-                $overline: $body-level,
-            )));
+$client-theme: mat.define-light-theme(
+    (
+        color: (
+            primary: $client-primary,
+            accent: $client-accent,
+            warn: $client-warn,
+        ),
+        typography: $typography,
+    )
+);
 
 @include mat.all-component-themes($client-theme);
