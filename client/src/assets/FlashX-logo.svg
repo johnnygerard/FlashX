@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 758.92 275.16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        font-family: Lato-Bold, Lato;
+        font-size: 240px;
+        font-weight: 700;
+      }
+
+      .cls-3 {
+        fill: #98ccfb;
+      }
+
+      .cls-4 {
+        letter-spacing: 0em;
+      }
+
+      .cls-5 {
+        letter-spacing: 0em;
+      }
+    </style>
+  </defs>
+  <text class="cls-2" transform="translate(0 206.76)"><tspan class="cls-4" x="0" y="0">F</tspan><tspan class="cls-5" x="133.92" y="0">lash</tspan></text>
+  <g>
+    <rect class="cls-3" x="573.84" y="15.31" width="185.08" height="242.77" rx="16" ry="16"/>
+    <path class="cls-1" d="m730.46,206.21h-25.77c-1.8,0-3.22-.45-4.28-1.35-1.06-.9-1.91-1.92-2.55-3.08l-32.21-53.36c-.51,1.6-1.12,2.98-1.83,4.13l-30.86,49.23c-.77,1.09-1.65,2.1-2.64,3.03-.99.93-2.29,1.39-3.89,1.39h-24.13l46.15-71.53-44.32-67.49h25.77c1.79,0,3.09.24,3.89.72.8.48,1.55,1.27,2.26,2.36l31.63,50.96c.64-1.6,1.41-3.2,2.31-4.81l29.04-45.67c.7-1.22,1.47-2.12,2.31-2.69.83-.58,1.89-.87,3.17-.87h24.71l-44.71,66.44,45.96,72.59Z"/>
+  </g>
+</svg>
