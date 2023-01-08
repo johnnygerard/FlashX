@@ -66,67 +66,67 @@ $typography: mat.define-typography-config(
     $headline-1:
         mat.define-typography-level(
             $font-family: Lato,
-            $font-size: 101,
+            $font-size: 101px,
         ),
     $headline-2:
         mat.define-typography-level(
             $font-family: Lato,
-            $font-size: 63,
+            $font-size: 63px,
         ),
     $headline-3:
         mat.define-typography-level(
             $font-family: Lato,
-            $font-size: 50,
+            $font-size: 50px,
         ),
     $headline-4:
         mat.define-typography-level(
             $font-family: Lato,
-            $font-size: 36,
+            $font-size: 36px,
         ),
     $headline-5:
         mat.define-typography-level(
             $font-family: Lato,
-            $font-size: 25,
+            $font-size: 25px,
         ),
     $headline-6:
         mat.define-typography-level(
             $font-family: Lato,
-            $font-size: 21,
+            $font-size: 21px,
         ),
     $subtitle-1:
         mat.define-typography-level(
             $font-family: Lato,
-            $font-size: 17,
+            $font-size: 17px,
         ),
     $subtitle-2:
         mat.define-typography-level(
             $font-family: Lato,
-            $font-size: 15,
+            $font-size: 15px,
         ),
     $body-1:
         mat.define-typography-level(
             $font-family: Merriweather,
-            $font-size: 15,
+            $font-size: 15px,
         ),
     $body-2:
         mat.define-typography-level(
             $font-family: Merriweather,
-            $font-size: 13,
+            $font-size: 13px,
         ),
     $caption:
         mat.define-typography-level(
             $font-family: Merriweather,
-            $font-size: 11,
+            $font-size: 11px,
         ),
     $button:
         mat.define-typography-level(
             $font-family: Merriweather,
-            $font-size: 13,
+            $font-size: 13px,
         ),
     $overline:
         mat.define-typography-level(
             $font-family: Merriweather,
-            $font-size: 10,
+            $font-size: 10px,
         ),
 );
 
