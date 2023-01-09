@@ -105,27 +105,27 @@ $typography: mat.define-typography-config(
         ),
     $body-1:
         mat.define-typography-level(
-            $font-family: Merriweather,
+            $font-family: Lato,
             $font-size: 15px,
         ),
     $body-2:
         mat.define-typography-level(
-            $font-family: Merriweather,
+            $font-family: Lato,
             $font-size: 13px,
         ),
     $caption:
         mat.define-typography-level(
-            $font-family: Merriweather,
+            $font-family: Lato,
             $font-size: 11px,
         ),
     $button:
         mat.define-typography-level(
-            $font-family: Merriweather,
+            $font-family: Lato,
             $font-size: 13px,
         ),
     $overline:
         mat.define-typography-level(
-            $font-family: Merriweather,
+            $font-family: Lato,
             $font-size: 10px,
         ),
 );
