@@ -13,3 +13,28 @@
 .uppercase {
     text-transform: uppercase;
 }
+
+/* Footer */
+.footer {
+    position: sticky;
+    top: 100vh;
+    margin-top: 4em;
+    padding: 1em 0;
+    background-color: whitesmoke;
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    gap: 1em;
+}
+
+.bottom-link {
+    display: inline;
+}
+
+.copyright {
+    text-align: center;
+    margin-bottom: 0;
+}
