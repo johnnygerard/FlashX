@@ -30,7 +30,7 @@ $client-primary: mat.define-palette(
             800: $light-primary-text,
             900: $light-primary-text,
         ),
-    )
+    ), $default: 200
 );
 
 $client-accent: mat.define-palette(
@@ -57,7 +57,7 @@ $client-accent: mat.define-palette(
             800: $light-secondary-text,
             900: $light-secondary-text,
         ),
-    )
+    ), $default: 200
 );
 
 $client-warn: mat.define-palette(mat.$red-palette);
